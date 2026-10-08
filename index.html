@@ -75,7 +75,7 @@
         <div class="dd-item" data-action="handleMenuAction('new-dossier')">Nouveau dossier</div>
         <div class="dd-item" data-action="handleMenuAction('open-dossier')">Ouvrir dossier</div>
         <div class="dd-sep"></div>
-        <div class="dd-item" data-action="window.print()">Imprimer <span class="shortcut">Ctrl+P</span></div>
+        <div class="dd-item" data-action="printPage()">Imprimer <span class="shortcut">Ctrl+P</span></div>
         <div class="dd-sep"></div>
         <div class="dd-item" data-action="handleMenuAction('quit')">Quitter</div>
       </div>
@@ -228,7 +228,7 @@
       <!-- TOP KPIs -->
       <div class="stats-4" style="grid-template-columns:repeat(5,1fr);">
         <div class="stat-card" style="cursor:pointer;" data-action="openAllClients()"><div class="lbl">Clients actifs</div><div class="val" id="kpi-clients-actifs">—</div><div class="sub" style="color:var(--success);" id="kpi-clients-sub">—</div></div>
-        <div class="stat-card" style="cursor:pointer;" data-action="document.getElementById('ocr-queue-card').scrollIntoView({behavior:'smooth',block:'start'})"><div class="lbl">Documents en attente</div><div class="val" style="color:var(--warning);" id="kpi-docs-pending">—</div><div class="sub">OCR non traités</div></div>
+        <div class="stat-card" style="cursor:pointer;" data-action="scrollToOcrQueue()"><div class="lbl">Documents en attente</div><div class="val" style="color:var(--warning);" id="kpi-docs-pending">—</div><div class="sub">OCR non traités</div></div>
         <div class="stat-card" style="cursor:pointer;" data-action="filterHomeClients('a-declarer')"><div class="lbl">TVA à déclarer</div><div class="val" style="color:var(--danger);" id="kpi-tva-declarer">—</div><div class="sub">Cliquer pour filtrer</div></div>
         <div class="stat-card" style="cursor:pointer;" data-action="filterHomeClients('erreur')"><div class="lbl">Erreurs de balance</div><div class="val" style="color:var(--danger);" id="kpi-erreurs-balance">—</div><div class="sub">Nécessite correction</div></div>
         <div class="stat-card" style="cursor:pointer;" data-action="filterHomeClients('en-cours')"><div class="lbl">Exercices en clôture</div><div class="val" style="color:var(--warning);" id="kpi-exercices-cloture">—</div><div class="sub">À finaliser</div></div>
@@ -288,7 +288,7 @@
         <div class="card">
           <div class="ch"><h3>⚠️ Alertes & Actions requises</h3></div>
           <div style="padding:0;">
-            <div style="padding:9px 12px;border-bottom:1px solid var(--border);font-size:12px;cursor:pointer;" data-action="showPanel('consultation');const v=document.getElementById('consult-view');if(v){v.value='balance';renderConsultation();}">
+            <div style="padding:9px 12px;border-bottom:1px solid var(--border);font-size:12px;cursor:pointer;" data-action="openBalanceConsultation()">
               <div style="display:flex;gap:6px;align-items:flex-start;">
                 <span style="color:var(--danger);font-weight:700;flex-shrink:0;">⚠</span>
                 <div><div style="font-weight:600;">Balance déséquilibrée</div><div style="font-size:11px;color:var(--muted);">SARL Brahim — écriture JA-014 — écart 200 MAD</div></div>
@@ -507,9 +507,9 @@
               <h4>Paramètres fiscaux</h4>
               <div class="tr-row"><div><div style="font-size:12px;font-weight:600;">Régime TVA</div><div style="font-size:11px;color:var(--muted);">Base de calcul TVA</div></div><select style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;"><option>Encaissement</option><option>Débit</option></select></div>
               <div class="tr-row"><div><div style="font-size:12px;font-weight:600;">Périodicité TVA</div></div><select style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;"><option>Mensuelle</option><option>Trimestrielle</option><option>Exonéré</option></select></div>
-              <div class="tr-row"><div><div style="font-size:12px;font-weight:600;">IS automatique</div></div><div class="toggle on" data-action="this.classList.toggle('on')"></div></div>
-              <div class="tr-row"><div><div style="font-size:12px;font-weight:600;">Retenue à la source (RAS)</div></div><div class="toggle on" data-action="this.classList.toggle('on')"></div></div>
-              <div class="tr-row"><div><div style="font-size:12px;font-weight:600;">Taxe Professionnelle</div></div><div class="toggle on" data-action="this.classList.toggle('on')"></div></div>
+              <div class="tr-row"><div><div style="font-size:12px;font-weight:600;">IS automatique</div></div><div class="toggle on" data-action="toggleSwitch(this)"></div></div>
+              <div class="tr-row"><div><div style="font-size:12px;font-weight:600;">Retenue à la source (RAS)</div></div><div class="toggle on" data-action="toggleSwitch(this)"></div></div>
+              <div class="tr-row"><div><div style="font-size:12px;font-weight:600;">Taxe Professionnelle</div></div><div class="toggle on" data-action="toggleSwitch(this)"></div></div>
             </div>
           </div>
         </div>
@@ -780,7 +780,7 @@
   <div class="md" style="width:900px;">
     <h3>Importer le Plan Comptable Complémentaire</h3>
     <p class="sub">Dossier actif : <strong id="aux-import-dossier">—</strong>. Les colonnes doivent respecter le modèle.</p>
-    <div id="aux-drop" class="import-drop" data-action="document.getElementById('aux-file').click()" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="handleAuxDrop(event)">
+    <div id="aux-drop" class="import-drop" data-action="openAuxFilePicker()" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="handleAuxDrop(event)">
       Déposez un fichier CSV ou XLSX ici, ou cliquez pour le sélectionner
       <input id="aux-file" type="file" accept=".csv,.xlsx" hidden onchange="handleAuxFile(this.files[0])">
     </div>
@@ -797,8 +797,8 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" integrity="sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw" crossorigin="anonymous" defer></script>
+<script src="app.js" defer></script>
 
 <!-- SHARED MENUBAR WORKFLOW MODAL -->
 <div class="mo" id="modalMenuWorkflow">
@@ -854,34 +854,6 @@
     </div>
   </div>
 </div>
-
-<script>
-// Centralized click handling keeps markup declarative and works on touch devices.
-document.addEventListener('click', event => {
-  const menuItem = event.target.closest('.mb-item');
-  const menuButton = event.target.closest('.mb-btn');
-  const actionTarget = event.target.closest('[data-action]');
-
-  if (menuButton && menuItem) {
-    event.preventDefault();
-    document.querySelectorAll('.mb-item.open').forEach(item => {
-      if (item !== menuItem) item.classList.remove('open');
-    });
-    menuItem.classList.toggle('open');
-  }
-
-  if (actionTarget && !actionTarget.disabled) {
-    Function('event', actionTarget.dataset.action).call(actionTarget, event);
-    if (!actionTarget.classList.contains('mb-btn')) {
-      actionTarget.closest('.mb-item')?.classList.remove('open');
-    }
-  }
-
-  if (!menuItem && !event.target.closest('.dropdown')) {
-    document.querySelectorAll('.mb-item.open').forEach(item => item.classList.remove('open'));
-  }
-});
-</script>
 
 </body>
 </html>

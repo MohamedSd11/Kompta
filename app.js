@@ -3267,3 +3267,91 @@ document.addEventListener('DOMContentLoaded', () => {
   renderPlanComptable();
   loadPersistedJournalEntries(currentClientId, currentYear);
 });
+
+// ===== DATA-ACTION DISPATCH =====
+function printPage() { window.print(); }
+function scrollToOcrQueue() { document.getElementById('ocr-queue-card').scrollIntoView({ behavior:'smooth', block:'start' }); }
+function openBalanceConsultation() {
+  showPanel('consultation');
+  const view = document.getElementById('consult-view');
+  if (view) { view.value = 'balance'; renderConsultation(); }
+}
+function toggleSwitch(element) { element.classList.toggle('on'); }
+function openAuxFilePicker() { document.getElementById('aux-file').click(); }
+
+const ACTION_THIS = Symbol('this');
+const ACTION_EVENT = Symbol('event');
+const ACTION_KEYWORDS = { true: true, false: false, null: null, this: ACTION_THIS, event: ACTION_EVENT };
+// Accepts only `fn(literal, ...)` calls separated by `;`, so markup can never evaluate arbitrary code.
+function parseActionCalls(source) {
+  const token = /\s*(?:([A-Za-z_$][\w$]*)|'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)"|(-?\d+(?:\.\d+)?)|([(),;]))\s*/y;
+  const unescape = text => text.replace(/\\(.)/g, (_, c) => ({ n:'\n', t:'\t' })[c] ?? c);
+  const tokens = [];
+  const text = source.trim();
+  while (token.lastIndex < text.length) {
+    const m = token.exec(text);
+    if (!m) return null;
+    if (m[1] !== undefined) tokens.push({ name: m[1] });
+    else if (m[5] !== undefined) tokens.push({ punct: m[5] });
+    else tokens.push({ value: m[2] !== undefined ? unescape(m[2]) : m[3] !== undefined ? unescape(m[3]) : Number(m[4]) });
+  }
+  const calls = [];
+  let i = 0;
+  while (i < tokens.length) {
+    const name = tokens[i++]?.name;
+    if (!name || tokens[i++]?.punct !== '(') return null;
+    const args = [];
+    while (tokens[i]?.punct !== ')') {
+      const arg = tokens[i++];
+      if (!arg) return null;
+      if ('value' in arg) args.push(arg.value);
+      else if (arg.name in ACTION_KEYWORDS) args.push(ACTION_KEYWORDS[arg.name]);
+      else return null;
+      if (tokens[i]?.punct === ',') i++;
+      else if (tokens[i]?.punct !== ')') return null;
+    }
+    i++;
+    calls.push({ name, args });
+    if (tokens[i]?.punct === ';') i++;
+    else if (i < tokens.length) return null;
+  }
+  return calls;
+}
+function runDataAction(target, event) {
+  const calls = parseActionCalls(target.dataset.action || '');
+  if (!calls) { console.error('data-action ignorée (syntaxe non prise en charge):', target.dataset.action); return; }
+  for (const { name, args } of calls) {
+    const fn = window[name];
+    if (typeof fn !== 'function' || /\[native code\]/.test(Function.prototype.toString.call(fn))) {
+      console.error('data-action ignorée (fonction inconnue):', name);
+      return;
+    }
+    fn(...args.map(arg => arg === ACTION_THIS ? target : arg === ACTION_EVENT ? event : arg));
+  }
+}
+
+// Centralized click handling keeps markup declarative and works on touch devices.
+document.addEventListener('click', event => {
+  const menuItem = event.target.closest('.mb-item');
+  const menuButton = event.target.closest('.mb-btn');
+  const actionTarget = event.target.closest('[data-action]');
+
+  if (menuButton && menuItem) {
+    event.preventDefault();
+    document.querySelectorAll('.mb-item.open').forEach(item => {
+      if (item !== menuItem) item.classList.remove('open');
+    });
+    menuItem.classList.toggle('open');
+  }
+
+  if (actionTarget && !actionTarget.disabled) {
+    runDataAction(actionTarget, event);
+    if (!actionTarget.classList.contains('mb-btn')) {
+      actionTarget.closest('.mb-item')?.classList.remove('open');
+    }
+  }
+
+  if (!menuItem && !event.target.closest('.dropdown')) {
+    document.querySelectorAll('.mb-item.open').forEach(item => item.classList.remove('open'));
+  }
+});
