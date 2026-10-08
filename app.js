@@ -1629,7 +1629,7 @@ document.addEventListener('mousedown', e => {
 let focusedAccount = '';
 let activeEntryRow = null;
 function setFocusedAccount(tr, input) {
-  const acct = input || tr.querySelector('.acct-debit-cell');
+  const acct = input || tr.querySelector('.account-cell');
   focusedAccount = acct ? acct.value.trim() : '';
   activeEntryRow = tr;
   computeTotals();
@@ -1638,13 +1638,11 @@ function setFocusedAccount(tr, input) {
 function computeTotals() {
   let jd = 0, jc = 0, cd = 0, cc = 0;
   document.querySelectorAll('#lines-body tr').forEach(tr => {
-    const debitAccount = tr.querySelector('.acct-debit-cell')?.value.trim() || '';
-    const creditAccount = tr.querySelector('.acct-credit-cell')?.value.trim() || '';
+    const account = tr.querySelector('.account-cell')?.value.trim() || '';
     const debit = parseAmount(tr.querySelector('.debit-input')?.value);
     const credit = parseAmount(tr.querySelector('.credit-input')?.value);
     jd += debit; jc += credit;
-    if (debitAccount === focusedAccount) cd += debit;
-    if (creditAccount === focusedAccount) cc += credit;
+    if (account === focusedAccount) { cd += debit; cc += credit; }
   });
   document.getElementById('j-debit').textContent = fmtFR(jd);
   document.getElementById('j-credit').textContent = fmtFR(jc);
@@ -1736,29 +1734,23 @@ async function validerEcriture() {
   const lines = [];
   const errors = [];
   document.querySelectorAll('#lines-body tr').forEach((tr) => {
-    const generalAccount = tr.querySelector('.acct-debit-cell').value.trim();
-    const thirdPartyAccount = tr.querySelector('.acct-credit-cell').value.trim();
-    const debitAccount = generalAccount || thirdPartyAccount;
-    const creditAccount = thirdPartyAccount || generalAccount;
+    const account = tr.querySelector('.account-cell').value.trim();
     const lib = tr.querySelector('.lib-cell').value.trim();
     const debit = parseAmount(tr.querySelector('.debit-input').value);
     const credit = parseAmount(tr.querySelector('.credit-input').value);
     const facture = tr.querySelector('.facture-cell').value.trim();
     const lettre = tr.querySelector('.lettre-cell')?.value.trim().toUpperCase() || '';
     const tva = parseFloat(tr.querySelector('.tva-cell').value) || 0;
-    const debitAux = tr.querySelector('.aux-debit-cell')?.value.trim() || (debitAccount.startsWith('3421') || debitAccount.startsWith('4411') ? debitAccount : '');
-    const creditAux = tr.querySelector('.aux-credit-cell')?.value.trim() || (creditAccount.startsWith('3421') || creditAccount.startsWith('4411') ? creditAccount : '');
-    if (!debitAccount && !creditAccount && debit === 0 && credit === 0) return;
-    if (debitAccount && !ACCOUNTS[debitAccount]) errors.push(`Compte débit inexistant: ${debitAccount}`);
-    if (creditAccount && !ACCOUNTS[creditAccount]) errors.push(`Compte crédit inexistant: ${creditAccount}`);
-    [[debitAccount, debitAux], [creditAccount, creditAux]].forEach(([account, auxiliary]) => {
-      if (account?.startsWith('3421') || account?.startsWith('4411')) {
-        const known = ACCOUNTS[auxiliary] || activeAuxiliaryAccounts().some(a => a.compte_auxiliaire === auxiliary);
-        if (!auxiliary || !known) errors.push(`Auxiliaire obligatoire et connu pour ${account}`);
-      }
-    });
-    if (debitAccount && debit > 0) lines.push({ compte:debitAccount, auxiliaire:debitAux || null, libelle:lib, dbcr:'D', montant:debit, tva, facture, lettre });
-    if (creditAccount && credit > 0) lines.push({ compte:creditAccount, auxiliaire:creditAux || null, libelle:lib, dbcr:'C', montant:credit, tva, facture, lettre });
+    const isTiers = account.startsWith('3421') || account.startsWith('4411');
+    const auxiliary = isTiers ? account : '';
+    if (!account && debit === 0 && credit === 0) return;
+    if (account && !ACCOUNTS[account]) errors.push(`Compte inexistant: ${account}`);
+    if (isTiers) {
+      const known = ACCOUNTS[auxiliary] || activeAuxiliaryAccounts().some(a => a.compte_auxiliaire === auxiliary);
+      if (!known) errors.push(`Auxiliaire obligatoire et connu pour ${account}`);
+    }
+    if (account && debit > 0) lines.push({ compte:account, auxiliaire:auxiliary || null, libelle:lib, dbcr:'D', montant:debit, tva, facture, lettre });
+    if (account && credit > 0) lines.push({ compte:account, auxiliaire:auxiliary || null, libelle:lib, dbcr:'C', montant:credit, tva, facture, lettre });
   });
   if (errors.length) { showToast(errors[0], 'error'); return; }
   let response;
@@ -1826,19 +1818,14 @@ function addLine() {
   const tvaOpts = TVA_OPTIONS.map(t => `<option value="${t}">${t === '0' ? '0%' : t + '%'}</option>`).join('');
   const tr = document.createElement('tr');
   tr.innerHTML =
-    `<td><input type="text" class="jour-cell" value="" style="text-align:center;" maxlength="2"></td>` +
-    `<td><input type="text" class="piece-cell" value=""></td>` +
     `<td><input type="text" class="facture-cell" value=""></td>` +
-    `<td><input type="text" class="reference-cell" value=""></td>` +
-    `<td><input type="text" class="acct-debit-cell account-general" value="" onblur="lookupAccount(this);updateGeneralAccountStyle(this)" onfocus="setFocusedAccount(this.closest('tr'), this)" oninput="updateGeneralAccountStyle(this)"></td>` +
-    `<td><input type="text" class="acct-credit-cell" value="" onblur="lookupAccount(this)" onfocus="setFocusedAccount(this, this)"></td>` +
-    `<td><input type="text" class="lib-cell" value=""></td>` +
+    `<td><input type="text" class="account-cell account-general" value="" onblur="lookupAccount(this);updateGeneralAccountStyle(this)" onfocus="setFocusedAccount(this.closest('tr'), this)" oninput="updateGeneralAccountStyle(this)"></td>` +
+    `<td><input type="text" class="lib-cell" value=""><select class="tva-cell" hidden>${tvaOpts}</select></td>` +
     `<td><input type="date" class="due-date-cell"></td>` +
-    `<td><input type="text" class="attachment-cell" value=""><select class="tva-cell" hidden>${tvaOpts}</select></td>` +
     `<td class="amount-cell"><input type="text" inputmode="decimal" class="debit-input" value="" oninput="computeTotals()" onblur="formatAmountInput(this)"></td>` +
     `<td class="amount-cell"><input type="text" inputmode="decimal" class="credit-input" value="" oninput="computeTotals()" onblur="formatAmountInput(this)"></td>`;
   tb.appendChild(tr);
-  tr.querySelector('.acct-debit-cell').focus();
+  tr.querySelector('.account-cell').focus();
   computeTotals();
 }
 
@@ -1870,14 +1857,14 @@ function calcHtTva() {
   addLine();
   const rows2 = document.querySelectorAll('#lines-body tr');
   const tvaRow = rows2[rows2.length - 1];
-  tvaRow.querySelector('.acct-debit-cell').value = tvaAcct.code;
+  tvaRow.querySelector('.account-cell').value = tvaAcct.code;
   tvaRow.querySelector('.lib-cell').value = tvaAcct.label;
   tvaRow.querySelector('.debit-input').value = tvaAmount;
   tvaRow.querySelector('.credit-input').value = '';
   // 3) Fournisseur credit line = TTC (update existing 44110* line or create one).
   let fourRow = null;
   document.querySelectorAll('#lines-body tr').forEach(tr => {
-    const code = (tr.querySelector('.acct-credit-cell').value || tr.querySelector('.acct-debit-cell').value).trim();
+    const code = tr.querySelector('.account-cell').value.trim();
     if (code.startsWith('44110')) fourRow = tr;
   });
   if (!fourRow) {
@@ -2432,7 +2419,7 @@ function loadCustomizationState() {
   }
 }
 
-const ENTRY_NAV_FIELDS = ['.acct-debit-cell', '.aux-debit-cell', '.acct-credit-cell', '.aux-credit-cell', '.lib-cell', '.debit-input', '.credit-input'];
+const ENTRY_NAV_FIELDS = ['.account-cell', '.lib-cell', '.debit-input', '.credit-input'];
 function moveEntryFocus(current, backwards = false) {
   const row = current.closest('tr');
   if (!backwards && current.matches('.debit-input') && row?.classList.contains('entry-debit-row') && parseAmount(current.value) > 0) {
@@ -2446,7 +2433,7 @@ function moveEntryFocus(current, backwards = false) {
   const index = fields.indexOf(current);
   const nextIndex = index + (backwards ? -1 : 1);
   if (nextIndex >= 0 && nextIndex < fields.length) { fields[nextIndex].focus(); fields[nextIndex].select?.(); return; }
-  if (!backwards) { addLine(); document.querySelector('#lines-body tr:last-child .acct-debit-cell')?.focus(); }
+  if (!backwards) { addLine(); document.querySelector('#lines-body tr:last-child .account-cell')?.focus(); }
 }
 function handleEntryGridKeydown(event) {
   if (event.altKey && event.key.toLowerCase() === 'n') { event.preventDefault(); addLine(); return; }
@@ -3212,7 +3199,7 @@ function createOcrEntry() {
   entryLines.forEach(([account, amount, credit]) => {
     addLine();
     const tr = tb.rows[tb.rows.length - 1];
-    const accountInput = tr.querySelector(credit ? '.acct-credit-cell' : '.acct-debit-cell');
+    const accountInput = tr.querySelector('.account-cell');
     accountInput.value = account;
     lookupAccount(accountInput);
     tr.querySelector('.lib-cell').value = `Facture ${supplier}`;

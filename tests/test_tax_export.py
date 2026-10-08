@@ -300,6 +300,76 @@ class TestAppendOnlyJournal:
         assert entries[0]["serverEntryId"] == 1
         assert entries[0]["year"] == 2026
 
+    @staticmethod
+    def _catalog_entry(client_id, supplier_code="44110002"):
+        catalog = [
+            {"code": "6125", "label": "Électricité et eau", "type": "parent"},
+            {"code": "4411", "label": "Fournisseurs", "type": "parent"},
+            {"code": supplier_code, "label": "Rédal Tétouan", "type": "divisionnaire", "parent": "4411",
+             "ice": "000123456789012", "identifiant_fiscal": "12345678"},
+        ]
+        return JournalEntryPost(
+            clientId=client_id, year=2026, journal="ACHATS", date="2026-06-01", accountCatalog=catalog,
+            lines=[
+                JournalLine(compte="6125", debit=6000),
+                JournalLine(compte=supplier_code, auxiliaire=supplier_code, credit=6000),
+            ],
+        )
+
+    def test_supplier_entry_auto_registers_auxiliary_from_catalog(self, tmp_path):
+        repository = JournalRepository(tmp_path / "journal.sqlite3")
+
+        posted = repository.post(self._catalog_entry("C001"))
+
+        assert posted.piece_number == "JA-000001"
+        with repository._connect() as db:
+            row = db.execute("SELECT root_code, client_id, ice, tax_id, account_type FROM auxiliary_accounts").fetchone()
+        assert tuple(row) == ("4411", "C001", "000123456789012", "12345678", "Fournisseur")
+
+    def test_shared_supplier_code_is_registered_per_dossier(self, tmp_path):
+        repository = JournalRepository(tmp_path / "journal.sqlite3")
+
+        repository.post(self._catalog_entry("C001"))
+        repository.post(self._catalog_entry("C002"))
+        repository.post(self._catalog_entry("C001"))
+
+        with repository._connect() as db:
+            clients = [row[0] for row in db.execute("SELECT client_id FROM auxiliary_accounts ORDER BY client_id")]
+        assert clients == ["C001", "C002"]
+
+    def test_unregistered_auxiliary_is_still_rejected(self, tmp_path):
+        repository = self._repository(tmp_path)
+        request = self._request().model_copy(update={"lines": [
+            JournalLine(compte="6125", debit=100),
+            JournalLine(compte="4411", auxiliaire="44119999", credit=100),
+        ]})
+
+        with pytest.raises(ValueError, match="Invalid auxiliary account"):
+            repository.post(request)
+
+    def test_legacy_auxiliary_table_is_migrated_to_per_dossier_key(self, tmp_path):
+        database = tmp_path / "legacy.sqlite3"
+        with sqlite3.connect(database) as db:
+            db.executescript(
+                """CREATE TABLE pcm_accounts (code TEXT PRIMARY KEY, label TEXT NOT NULL, parent TEXT,
+                       account_type TEXT NOT NULL DEFAULT 'parent', updated_at TEXT NOT NULL);
+                   INSERT INTO pcm_accounts(code, label, updated_at) VALUES ('4411', 'Fournisseurs', 'now');
+                   CREATE TABLE auxiliary_accounts (code TEXT PRIMARY KEY, label TEXT NOT NULL,
+                       root_code TEXT NOT NULL, client_id TEXT NOT NULL, ice TEXT, tax_id TEXT,
+                       account_type TEXT NOT NULL, updated_at TEXT NOT NULL,
+                       FOREIGN KEY(root_code) REFERENCES pcm_accounts(code));
+                   INSERT INTO auxiliary_accounts(code, label, root_code, client_id, account_type, updated_at)
+                       VALUES ('44110001', 'Fournisseur', '4411', 'C001', 'Fournisseur', 'now');"""
+            )
+
+        repository = JournalRepository(database)
+
+        with repository._connect() as db:
+            pk = [row[1] for row in sorted(db.execute("PRAGMA table_info(auxiliary_accounts)"), key=lambda r: r[5]) if row[5]]
+            rows = [tuple(row) for row in db.execute("SELECT code, client_id FROM auxiliary_accounts")]
+        assert pk == ["client_id", "code"]
+        assert rows == [("44110001", "C001")]
+
     def test_reversal_rejects_client_or_exercise_mismatch(self, tmp_path):
         repository = self._repository(tmp_path)
         original = repository.post(self._request())

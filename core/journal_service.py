@@ -18,6 +18,21 @@ from .pcge_import import preview_import, extract_pcge_general_accounts
 
 
 JOURNAL_PIECE_PREFIXES = {"ACHATS": "JA", "VENTES": "JV", "BANQUE": "JB", "CAISSE": "JC"}
+TIER_ROOT_TYPES = {"3421": "Client", "4411": "Fournisseur"}
+AUXILIARY_ACCOUNTS_DDL = """
+    CREATE TABLE IF NOT EXISTS auxiliary_accounts (
+        code TEXT NOT NULL,
+        label TEXT NOT NULL,
+        root_code TEXT NOT NULL,
+        client_id TEXT NOT NULL,
+        ice TEXT,
+        tax_id TEXT,
+        account_type TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+        PRIMARY KEY(client_id, code),
+        FOREIGN KEY(root_code) REFERENCES pcm_accounts(code)
+    );
+"""
 
 
 class JournalLine(BaseModel):
@@ -90,17 +105,6 @@ class JournalRepository:
                     catalog_source TEXT NOT NULL DEFAULT 'existing',
                     updated_at TEXT NOT NULL
                 );
-                CREATE TABLE IF NOT EXISTS auxiliary_accounts (
-                    code TEXT PRIMARY KEY,
-                    label TEXT NOT NULL,
-                    root_code TEXT NOT NULL,
-                    client_id TEXT NOT NULL,
-                    ice TEXT,
-                    tax_id TEXT,
-                    account_type TEXT NOT NULL,
-                    updated_at TEXT NOT NULL,
-                    FOREIGN KEY(root_code) REFERENCES pcm_accounts(code)
-                );
                 CREATE TABLE IF NOT EXISTS journal_entries (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     client_id TEXT NOT NULL,
@@ -160,6 +164,27 @@ class JournalRepository:
             columns = {row[1] for row in db.execute("PRAGMA table_info(pcm_accounts)").fetchall()}
             if "catalog_source" not in columns:
                 db.execute("ALTER TABLE pcm_accounts ADD COLUMN catalog_source TEXT NOT NULL DEFAULT 'existing'")
+            self._ensure_auxiliary_accounts_table(db)
+
+    @staticmethod
+    def _ensure_auxiliary_accounts_table(db: sqlite3.Connection) -> None:
+        info = db.execute("PRAGMA table_info(auxiliary_accounts)").fetchall()
+        if not info:
+            db.executescript(AUXILIARY_ACCOUNTS_DDL)
+            return
+        primary_key = [row[1] for row in sorted(info, key=lambda row: row[5]) if row[5]]
+        if primary_key == ["client_id", "code"]:
+            return
+        # Legacy schema keyed on code alone; shared supplier/client codes need per-dossier rows.
+        db.executescript(
+            "BEGIN IMMEDIATE;"
+            "ALTER TABLE auxiliary_accounts RENAME TO auxiliary_accounts_legacy;"
+            + AUXILIARY_ACCOUNTS_DDL
+            + "INSERT INTO auxiliary_accounts(code, label, root_code, client_id, ice, tax_id, account_type, updated_at)"
+            " SELECT code, label, root_code, client_id, ice, tax_id, account_type, updated_at FROM auxiliary_accounts_legacy;"
+            "DROP TABLE auxiliary_accounts_legacy;"
+            "COMMIT;"
+        )
 
     @staticmethod
     def _now() -> str:
@@ -179,6 +204,31 @@ class JournalRepository:
                      parent=excluded.parent, account_type=excluded.account_type,
                      updated_at=excluded.updated_at""",
                 (code, label, account.get("parent"), account.get("type", "parent"), now),
+            )
+
+    def _sync_auxiliary_accounts(self, db: sqlite3.Connection, client_id: str, catalog: list[dict[str, Any]]) -> None:
+        """Register client (3421...) and supplier (4411...) sub-accounts sent with the entry for this dossier."""
+        now = self._now()
+        for account in catalog:
+            code = str(account.get("code", "")).strip()
+            root = code[:4]
+            label = str(account.get("label", account.get("libelle", ""))).strip()
+            if root not in TIER_ROOT_TYPES or len(code) <= 4 or not code.isdigit() or not label:
+                continue
+            if db.execute("SELECT 1 FROM pcm_accounts WHERE code = ?", (root,)).fetchone() is None:
+                continue
+            db.execute(
+                """INSERT INTO auxiliary_accounts(code, label, root_code, client_id, ice, tax_id, account_type, updated_at)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                   ON CONFLICT(client_id, code) DO UPDATE SET label=excluded.label, ice=excluded.ice,
+                     tax_id=excluded.tax_id, account_type=excluded.account_type, updated_at=excluded.updated_at""",
+                (
+                    code, label, root, client_id,
+                    str(account.get("ice") or "").strip() or None,
+                    str(account.get("identifiant_fiscal") or "").strip() or None,
+                    str(account.get("type_tiers") or TIER_ROOT_TYPES[root]),
+                    now,
+                ),
             )
 
     def preview_pcge_general(self, source_path: str | Path | None = None, existing: list[dict[str, Any]] | None = None) -> dict[str, Any]:
@@ -230,6 +280,7 @@ class JournalRepository:
         try:
             db.execute("BEGIN IMMEDIATE")
             self._sync_catalog(db, request.account_catalog)
+            self._sync_auxiliary_accounts(db, request.client_id, request.account_catalog)
             result = self._post_in_transaction(db, request)
             db.commit()
             return result
