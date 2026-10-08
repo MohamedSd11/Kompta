@@ -297,12 +297,16 @@ class JournalRepository:
                 "SELECT * FROM journal_entries WHERE client_id=? AND year=? ORDER BY entry_number",
                 (client_id, year),
             ).fetchall()
+            lines_by_entry: dict[int, list[sqlite3.Row]] = {}
+            for line in db.execute(
+                """SELECT l.* FROM journal_lines l JOIN journal_entries e ON e.id = l.entry_id
+                   WHERE e.client_id=? AND e.year=? ORDER BY l.entry_id, l.line_number""",
+                (client_id, year),
+            ):
+                lines_by_entry.setdefault(line["entry_id"], []).append(line)
             result = []
             for entry in entries:
-                lines = db.execute(
-                    "SELECT * FROM journal_lines WHERE entry_id=? ORDER BY line_number",
-                    (entry["id"],),
-                ).fetchall()
+                lines = lines_by_entry.get(entry["id"], [])
                 entry_date = entry["entry_date"]
                 result.append({
                     "serverEntryId": entry["id"],

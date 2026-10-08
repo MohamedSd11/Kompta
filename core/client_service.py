@@ -94,21 +94,25 @@ class ClientRepository:
         }
 
     @staticmethod
-    def _fiscal_years(db: sqlite3.Connection, client_id: str) -> list[dict[str, object]]:
+    def _fiscal_year(item: sqlite3.Row) -> dict[str, object]:
+        return {"year": item["year"], "status": item["status"], "isDemo": bool(item["is_demo"])}
+
+    @classmethod
+    def _fiscal_years(cls, db: sqlite3.Connection, client_id: str) -> list[dict[str, object]]:
         rows = db.execute(
             "SELECT year, status, is_demo FROM fiscal_years WHERE client_id=? ORDER BY year DESC",
             (client_id,),
         ).fetchall()
-        return [
-            {"year": item["year"], "status": item["status"], "isDemo": bool(item["is_demo"])}
-            for item in rows
-        ]
+        return [cls._fiscal_year(item) for item in rows]
 
     def list_clients(self, *, include_demo: bool = True) -> list[dict[str, object]]:
         with closing(self._connect()) as db, db:
             where = "" if include_demo else "WHERE is_demo = 0"
             rows = db.execute(f"SELECT * FROM clients {where} ORDER BY is_demo DESC, name COLLATE NOCASE").fetchall()
-            return [self._client(row, self._fiscal_years(db, row["id"])) for row in rows]
+            years: dict[str, list[dict[str, object]]] = {}
+            for item in db.execute("SELECT client_id, year, status, is_demo FROM fiscal_years ORDER BY client_id, year DESC"):
+                years.setdefault(item["client_id"], []).append(self._fiscal_year(item))
+            return [self._client(row, years.get(row["id"], [])) for row in rows]
 
     def create_client(self, request: ClientUpsert) -> dict[str, object]:
         client_id = f"R{uuid4().hex[:10].upper()}"
