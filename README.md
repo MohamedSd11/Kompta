@@ -142,7 +142,7 @@ kompta_tax_export/
 │       ├── scripts/              # PCGE account extraction and comparison tools
 │       └── data/                 # Source snapshots and generated audit reports
 ├── archive/
-│   └── legacy-snapshots/         # Preserved ZIPs and original audit scripts
+│   └── legacy-snapshots/         # Preserved ZIPs and the 3 audit scripts that diverged from tools/
 ├── api.py                        # FastAPI routes
 ├── main.py                       # FastAPI app entrypoint
 ├── index.html                    # French interface structure
