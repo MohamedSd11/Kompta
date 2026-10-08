@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+from contextlib import closing
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -94,7 +95,7 @@ class JournalRepository:
         return connect_database(self.database, autocommit=True)
 
     def _initialize(self) -> None:
-        with self._connect() as db:
+        with closing(self._connect()) as db, db:
             db.executescript(
                 """
                 CREATE TABLE IF NOT EXISTS pcm_accounts (
@@ -232,7 +233,7 @@ class JournalRepository:
             )
 
     def preview_pcge_general(self, source_path: str | Path | None = None, existing: list[dict[str, Any]] | None = None) -> dict[str, Any]:
-        with self._connect() as db:
+        with closing(self._connect()) as db, db:
             catalog = existing
             if catalog is None:
                 catalog = [dict(row) for row in db.execute("SELECT code, label, parent, account_type AS type FROM pcm_accounts").fetchall()]
@@ -243,7 +244,7 @@ class JournalRepository:
         now = self._now()
         imported = []
         codes = {item["code"] for item in extract_pcge_general_accounts(source_path)}
-        with self._connect() as db:
+        with closing(self._connect()) as db, db:
             for account in report["added"]:
                 cursor = db.execute(
                     """INSERT OR IGNORE INTO pcm_accounts(code, label, parent, account_type, catalog_source, updated_at)
@@ -291,7 +292,7 @@ class JournalRepository:
             db.close()
 
     def list_entries(self, client_id: str, year: int) -> list[dict[str, Any]]:
-        with self._connect() as db:
+        with closing(self._connect()) as db, db:
             entries = db.execute(
                 "SELECT * FROM journal_entries WHERE client_id=? AND year=? ORDER BY entry_number",
                 (client_id, year),

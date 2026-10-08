@@ -13,6 +13,7 @@ from __future__ import annotations
 import hashlib
 import mimetypes
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 from typing import Optional
 
@@ -141,7 +142,7 @@ class OcrDocument(BaseModel):
 class OcrDocumentStore:
     def __init__(self, database: str | Path | None = None) -> None:
         self.database = str(resolve_database_path(database))
-        with self._connect() as db:
+        with closing(self._connect()) as db, db:
             db.execute(
                 """CREATE TABLE IF NOT EXISTS ocr_documents (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -234,7 +235,7 @@ class OcrDocumentStore:
             extracted_data.model_dump_json(by_alias=True) if extracted_data else None
         )
 
-        with self._connect() as db:
+        with closing(self._connect()) as db, db:
             db.execute("BEGIN IMMEDIATE")
             matches = [row[0] for row in db.execute(
                 "SELECT id FROM ocr_documents WHERE client_id=? AND checksum=? ORDER BY id",
@@ -323,7 +324,7 @@ class OcrDocumentStore:
         client_id: str | None = None,
         year: int | None = None,
     ) -> OcrDocument | None:
-        with self._connect() as db:
+        with closing(self._connect()) as db, db:
             if client_id is None or year is None:
                 row = db.execute(
                     "SELECT * FROM ocr_documents WHERE id=?", (document_id,)

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 from uuid import uuid4
 
@@ -51,7 +52,7 @@ class ClientRepository:
         return utc_now_iso()
 
     def _initialize(self) -> None:
-        with self._connect() as db:
+        with closing(self._connect()) as db, db:
             db.executescript(
                 """
                 CREATE TABLE IF NOT EXISTS clients (
@@ -104,7 +105,7 @@ class ClientRepository:
         ]
 
     def list_clients(self, *, include_demo: bool = True) -> list[dict[str, object]]:
-        with self._connect() as db:
+        with closing(self._connect()) as db, db:
             where = "" if include_demo else "WHERE is_demo = 0"
             rows = db.execute(f"SELECT * FROM clients {where} ORDER BY is_demo DESC, name COLLATE NOCASE").fetchall()
             return [self._client(row, self._fiscal_years(db, row["id"])) for row in rows]
@@ -112,7 +113,7 @@ class ClientRepository:
     def create_client(self, request: ClientUpsert) -> dict[str, object]:
         client_id = f"R{uuid4().hex[:10].upper()}"
         now = self._now()
-        with self._connect() as db:
+        with closing(self._connect()) as db, db:
             db.execute(
                 """INSERT INTO clients(id, name, ice, legal_form, tva_regime, tva_periodicite, is_demo, created_at, updated_at)
                    VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?)""",
@@ -122,7 +123,7 @@ class ClientRepository:
 
     def update_client(self, client_id: str, request: ClientUpsert) -> dict[str, object]:
         now = self._now()
-        with self._connect() as db:
+        with closing(self._connect()) as db, db:
             cursor = db.execute(
                 """UPDATE clients SET name=?, ice=?, legal_form=?, tva_regime=?, tva_periodicite=?, updated_at=?
                    WHERE id=? AND is_demo=0""",
@@ -133,7 +134,7 @@ class ClientRepository:
         return self.get_client(client_id)
 
     def get_client(self, client_id: str) -> dict[str, object]:
-        with self._connect() as db:
+        with closing(self._connect()) as db, db:
             row = db.execute("SELECT * FROM clients WHERE id=?", (client_id,)).fetchone()
             if row is None:
                 raise KeyError(client_id)
@@ -141,7 +142,7 @@ class ClientRepository:
 
     def save_fiscal_year(self, client_id: str, request: FiscalYearUpsert) -> dict[str, object]:
         now = self._now()
-        with self._connect() as db:
+        with closing(self._connect()) as db, db:
             client = db.execute("SELECT id, is_demo FROM clients WHERE id=?", (client_id,)).fetchone()
             if client is None:
                 raise KeyError(client_id)
