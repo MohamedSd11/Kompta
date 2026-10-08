@@ -65,8 +65,6 @@
 
 <main class="main">
 
-  <div class="warn" role="status" style="margin-bottom:10px;font-weight:700;">TEST ONLY — NOT VERIFIED BY DGI · SIMPL-TVA, SIMPL-IR et SIMPL-IS sont réservés aux exports de données fictives. Excel et les états internes restent disponibles.</div>
-
   <!-- MENUBAR -->
   <div class="menubar">
     <button id="sidebar-toggle" class="sidebar-toggle" data-action="toggleSidebar()" aria-label="Afficher ou masquer le panneau latéral">◀</button>
@@ -586,7 +584,6 @@
   <div class="md" style="width:640px;">
     <h3>Déclaration TVA — <span id="tva-modal-title">Exercice</span></h3>
     <p class="sub" id="tva-modal-sub">Régime — TVA calculée selon le régime du dossier.</p>
-    <div class="warn" style="margin-bottom:10px;font-weight:700;">TEST ONLY — NOT VERIFIED BY DGI · Export réservé aux données fictives de démonstration.</div>
     <div style="max-height:300px;overflow-y:auto;margin-bottom:10px;">
       <table>
         <thead><tr><th>Date</th><th>Journal</th><th>N° Facture</th><th>Libellé</th><th style="text-align:right;">Montant TVA</th><th>Taux</th><th>Statut</th></tr></thead>
@@ -600,7 +597,7 @@
         <tr style="background:var(--bg);font-weight:700;"><td>TVA nette à payer</td><td style="text-align:right;" id="tva-nette">0,00 MAD</td></tr>
       </tbody>
     </table>
-    <div class="mf"><button class="btn btn-s" data-action="closeModal('modalTVA')">Fermer</button><button class="btn btn-s" data-action="exportTvaExcel()">Exporter en Excel (.xlsx)</button><button class="btn btn-p" data-action="exportSimplTva()">TEST ONLY — Export SIMPL-TVA XML/ZIP</button></div>
+    <div class="mf"><button class="btn btn-s" data-action="closeModal('modalTVA')">Fermer</button><button class="btn btn-s" data-action="exportTvaExcel()">Exporter en Excel (.xlsx)</button><button class="btn btn-p" data-action="exportSimplTva()">Export SIMPL-TVA XML/ZIP</button></div>
   </div>
 </div>
 
@@ -642,7 +639,6 @@
   <div class="md" style="width:960px;max-width:96vw;">
     <h3>Liasse Fiscale — <span id="liasse-year-title"></span></h3>
     <p class="sub">Synthèse CGNC de la Balance Générale, passage au résultat fiscal et calcul IS / Cotisation Minimale.</p>
-    <div class="warn" style="margin-bottom:10px;font-weight:700;">TEST ONLY — NOT VERIFIED BY DGI · XML SIMPL-IS réservé aux données fictives de démonstration.</div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
       <button class="btn btn-s liasse-tab active" data-action="showLiasseTab('tables', this)">32 tableaux CGNC</button>
       <button class="btn btn-s liasse-tab" data-action="showLiasseTab('adjustments', this)">Tableau 03 — Résultat fiscal</button>
@@ -651,7 +647,7 @@
     <div id="liasse-tables-tab"></div>
     <div id="liasse-adjustments-tab" style="display:none;"></div>
     <div id="liasse-tax-tab" style="display:none;"></div>
-    <div class="mf"><button class="btn btn-s" data-action="closeModal('modalLiasse')">Fermer</button><button class="btn btn-s" data-action="saveLiasseState()">Enregistrer</button><button class="btn btn-p" data-action="exportLiasseXml()">TEST ONLY — Export SIMPL-IS XML</button></div>
+    <div class="mf"><button class="btn btn-s" data-action="closeModal('modalLiasse')">Fermer</button><button class="btn btn-s" data-action="saveLiasseState()">Enregistrer</button><button class="btn btn-p" data-action="exportLiasseXml()">Export SIMPL-IS XML</button></div>
   </div>
 </div>
 

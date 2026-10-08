@@ -864,6 +864,10 @@ function parseAmount(value) {
   const normalized = String(value ?? '').replace(/\s/g, '').replace(',', '.').replace(/[^\d.-]/g, '');
   return Number(normalized) || 0;
 }
+function dossierFileName(suffix) {
+  const name = DATA.dossiers.find(d => d.id === currentClientId)?.name || currentClientId || 'Dossier';
+  return `${String(name).replace(/[\\/:*?"<>|\u0000-\u001f]+/g, '_').trim()}_${suffix}`;
+}
 function formatAmountInput(input) {
   const amount = parseAmount(input.value);
   input.value = amount ? fmtFR(amount) : '';
@@ -1217,7 +1221,7 @@ function buildReleveDeductionsPayload(clientId = currentClientId, includeAllYear
   const dossier = DATA.dossiers.find(x => x.id === clientId);
   if (!dossier) return null;
   const data = DATA.clientData[clientId] || { journal_entries: [] };
-  const entries = (data.journal_entries || []).filter(e => !e.demoOnly && (includeAllYears || e.year === currentYear));
+  const entries = (data.journal_entries || []).filter(e => includeAllYears || e.year === currentYear);
   const lines = [];
   let ord = 1;
 
@@ -1270,7 +1274,7 @@ function buildReleveDeductionsPayload(clientId = currentClientId, includeAllYear
 
 function buildTvaCollecteePayload(clientId = currentClientId, includeAllYears = false) {
   const entries = (DATA.clientData[clientId]?.journal_entries || [])
-    .filter(e => !e.demoOnly && (includeAllYears || e.year === currentYear) && e.journal === 'VENTES');
+    .filter(e => (includeAllYears || e.year === currentYear) && e.journal === 'VENTES');
   const lines = [];
   let ord = 1;
 
@@ -1339,11 +1343,11 @@ async function exportSimplTva() {
       const filename = match ? match[1] : `SIMPL_TVA_${currentYear}.zip`;
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = url; a.download = `DEMO_${filename}`;
+      a.href = url; a.download = filename;
       document.body.appendChild(a); a.click(); a.remove();
       URL.revokeObjectURL(url);
       closeModal('modalTVA');
-      showToast('Archive SIMPL-TVA de démonstration exportée; ne pas déposer à la DGI.', 'success');
+      showToast('Archive SIMPL-TVA exportée.', 'success');
       return;
     }
 
@@ -1387,16 +1391,13 @@ async function exportTvaExcel() {
       return;
     }
     const blob = await res.blob();
-    const disposition = res.headers.get('Content-Disposition') || '';
-    const match = disposition.match(/filename="?([^";]+)"?/);
-    const filename = match ? match[1] : `TVA_${currentYear}.xlsx`;
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.href = url; link.download = `DEMO_${filename}`;
+    link.href = url; link.download = dossierFileName(`TVA_${currentYear}.xlsx`);
     document.body.appendChild(link); link.click(); link.remove();
     URL.revokeObjectURL(url);
     closeModal('modalTVA');
-    showToast('Synthèse TVA de démonstration exportée en Excel.', 'success');
+    showToast('Synthèse TVA exportée en Excel.', 'success');
   } catch (err) {
     showToast(apiConnectionErrorMessage(err, 'Export Excel TVA'), 'error');
   }
@@ -1404,7 +1405,7 @@ async function exportTvaExcel() {
 
 function portfolioClientPayload(dossier) {
   const clientId = dossier.id;
-  const entries = (DATA.clientData[clientId]?.journal_entries || []).filter(entry => !entry.demoOnly);
+  const entries = DATA.clientData[clientId]?.journal_entries || [];
   const purchases = [];
   const ventes = [];
   let purchaseOrd = 1;
@@ -1488,10 +1489,10 @@ async function exportPortfolioTvaExcel() {
     const filename = match ? match[1] : 'Recapitulatif_TVA_Portefeuille.xlsx';
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.href = url; link.download = `DEMO_${filename}`;
+    link.href = url; link.download = filename;
     document.body.appendChild(link); link.click(); link.remove();
     URL.revokeObjectURL(url);
-    showToast('Récapitulatif TVA portefeuille de démonstration exporté en Excel.', 'success');
+    showToast('Récapitulatif TVA portefeuille exporté en Excel.', 'success');
   } catch (err) {
     showToast(apiConnectionErrorMessage(err, 'Export Excel portefeuille'), 'error');
   }
@@ -2395,7 +2396,7 @@ function importValidAuxAccounts() {
   persistCustomizationState(); renderPlanComptable(); closeModal('modalAuxImport'); showToast(`${valid.length} compte(s) complémentaire(s) importé(s) ✓`, 'success');
 }
 function downloadAuxTemplate() { exportAuxRows([{ compte_auxiliaire:'44110004', libelle:'Nouveau fournisseur SARL', compte_racine:'4411', ice:'001234567890004', identifiant_fiscal:'40123456', type_tiers:'Fournisseur' }, { compte_auxiliaire:'34210003', libelle:'Nouveau client', compte_racine:'3421', ice:'001234567890005', identifiant_fiscal:'40123457', type_tiers:'Client' }], 'modele_plan_complementaire.xlsx'); }
-function exportAuxAccounts(format) { exportAuxRows(activeAuxiliaryAccounts(), `plan_complementaire_${currentClientId}.${format}`); }
+function exportAuxAccounts(format) { exportAuxRows(activeAuxiliaryAccounts(), dossierFileName(`plan_complementaire.${format}`)); }
 function exportAuxRows(rows, filename) {
   const values = [AUX_FIELDS, ...rows.map(row => AUX_FIELDS.map(field => row[field] || ''))];
   if (filename.endsWith('.xlsx') && window.XLSX) { const book = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(book, XLSX.utils.aoa_to_sheet(values), 'Tiers'); XLSX.writeFile(book, filename); return; }
@@ -2654,7 +2655,7 @@ async function exportLiasseXml() {
   try {
     const response = await fetch(`${KOMPTA_API_BASE}/api/liasse/simpl-is.xml`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(request) });
     if (!response.ok) { showToast(await responseErrorMessage(response, 'Échec de l’export SIMPL-IS.'), 'error'); return; }
-    const blob = await response.blob(); const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = `DEMO_SIMPL_IS_${currentYear}.xml`; link.click(); URL.revokeObjectURL(url); saveLiasseState(); showToast('XML SIMPL-IS de démonstration exporté; ne pas déposer à la DGI.', 'success');
+    const blob = await response.blob(); const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = `SIMPL_IS_${currentYear}.xml`; link.click(); URL.revokeObjectURL(url); saveLiasseState(); showToast('XML SIMPL-IS exporté.', 'success');
   } catch (error) { showToast(apiConnectionErrorMessage(error, 'Export SIMPL-IS'), 'error'); }
 }
 let cgncReportState = { type:'', headers:[], exportRows:[] };
@@ -2720,11 +2721,11 @@ function renderClientInvoicesCgncReport() { const rows=[]; clientEntries().filte
 function openHonorairesCgncReport() { cgncReportState.type='fees'; cgncFilterBar('<div class="fg"><label>Taux RAS</label><select id="cgnc-ras-rate" onchange="renderHonorairesCgncReport()"><option value="10">10 %</option><option value="15">15 %</option></select></div>'); cgncSet('Honoraires — Retenue à la Source','Avocats, experts-comptables et consultants',[],[],renderHonorairesCgncReport); }
 function renderHonorairesCgncReport() { const rate=Number(document.getElementById('cgnc-ras-rate')?.value||10)/100; const rows=reportEntryLines().filter(x=>/^6136/.test(x.l.compte)||/honoraire|avocat|expert|consultant/i.test(x.l.libelle||'')).map(x=>{const gross=round2(x.debit);return [entryDate(x.e),x.l.libelle||ACCOUNTS[x.l.compte]||'',gross,round2(gross*rate),round2(gross*(1-rate))];}); document.getElementById('cgnc-report-body').innerHTML=cgncTable(['Date','Bénéficiaire','Brut','RAS','Net payé'],rows); cgncReportState.exportRows=rows; }
 function openCgncReport(type) { if(type==='balance-generale')return openGeneralBalanceReport(); if(type==='aged-balance')return openAgedBalanceReport(); if(type==='journals')return openJournalCgncReport(false); if(type==='journal-central')return openJournalCgncReport(true); if(type==='bilan')return openBilanCgncReport(); if(type==='payment-delays')return openPaymentDelayCgncReport(); if(type==='professional-tax')return openProfessionalTaxCgncReport(); if(type==='client-invoices')return openClientInvoicesCgncReport(); if(type==='fees')return openHonorairesCgncReport(); }
-function exportCgncReport(format) { const values=[cgncReportState.headers,...(cgncReportState.exportRows||[])].map(row=>row.map(v=>String(v).replace(/<[^>]*>/g,''))); if(format==='xlsx'&&window.XLSX){const book=XLSX.utils.book_new();XLSX.utils.book_append_sheet(book,XLSX.utils.aoa_to_sheet(values),'Etat CGNC');XLSX.writeFile(book,'etat_cgnc_'+currentYear+'.xlsx');}else{const csv=values.map(row=>row.map(v=>`"${v.replace(/"/g,'""')}"`).join(';')).join('\r\n');const link=document.createElement('a');link.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));link.download='etat_cgnc_'+currentYear+'.csv';link.click();URL.revokeObjectURL(link.href);}showToast('Etat CGNC exporté ✓','success'); }
+function exportCgncReport(format) { const values=[cgncReportState.headers,...(cgncReportState.exportRows||[])].map(row=>row.map(v=>String(v).replace(/<[^>]*>/g,''))); if(format==='xlsx'&&window.XLSX){const book=XLSX.utils.book_new();XLSX.utils.book_append_sheet(book,XLSX.utils.aoa_to_sheet(values),'Etat CGNC');XLSX.writeFile(book,dossierFileName('etat_cgnc_'+currentYear+'.xlsx'));}else{const csv=values.map(row=>row.map(v=>`"${v.replace(/"/g,'""')}"`).join(';')).join('\r\n');const link=document.createElement('a');link.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));link.download=dossierFileName('etat_cgnc_'+currentYear+'.csv');link.click();URL.revokeObjectURL(link.href);}showToast('Etat CGNC exporté ✓','success'); }
 function exportMenuReport() {
   const values = Array.isArray(menuReportRows[0]) ? menuReportRows : [['Date','Journal','Piece','Libelle','Debit','Credit'], ...menuReportRows.map(r => [r.date,r.journal,r.piece,r.libelle,r.debit,r.credit])];
-  if (window.XLSX) { const book = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(book, XLSX.utils.aoa_to_sheet(values), 'Rapport'); XLSX.writeFile(book, 'rapport_' + currentYear + '.xlsx'); }
-  else { const csv = values.map(row => row.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(';')).join('\r\n'); const link = document.createElement('a'); link.href = URL.createObjectURL(new Blob(['\uFEFF' + csv], {type:'text/csv;charset=utf-8'})); link.download = 'rapport_' + currentYear + '.csv'; link.click(); URL.revokeObjectURL(link.href); }
+  if (window.XLSX) { const book = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(book, XLSX.utils.aoa_to_sheet(values), 'Rapport'); XLSX.writeFile(book, dossierFileName('rapport_' + currentYear + '.xlsx')); }
+  else { const csv = values.map(row => row.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(';')).join('\r\n'); const link = document.createElement('a'); link.href = URL.createObjectURL(new Blob(['\uFEFF' + csv], {type:'text/csv;charset=utf-8'})); link.download = dossierFileName('rapport_' + currentYear + '.csv'); link.click(); URL.revokeObjectURL(link.href); }
   showToast('Rapport exporté ✓', 'success');
 }
 function showJournalReport() { renderMenuReport('Journal des écritures', reportRowsFromEntries().sort((a, b) => a.journal.localeCompare(b.journal) || a.date.localeCompare(b.date))); }

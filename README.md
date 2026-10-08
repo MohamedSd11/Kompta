@@ -24,7 +24,7 @@ and output formats have not been verified against official DGI materials.
 5. **Open `index.html`** (double-click it, or drag it into your browser).
    Go to **Traitements → Déclaration TVA + RAS**, then click
    **"Exporter déclaration"**. The page calls the local Python engine.
-   Generated demo XML files are labelled `DEMO_`; they are not DGI-ready.
+   Generated XML files are not DGI-ready.
 
 ### VS Code Live Server
 
@@ -59,9 +59,9 @@ button again.
 ### Heads up about the demo data
 
 The built-in clients and journal entries are fictitious examples. They are
-marked as demonstration data in the French interface and excluded from the
-SIMPL-TVA and SIMPL-IS XML payload calculations. XML files produced through
-the demo UI are prefixed `DEMO_` and must not be submitted to the DGI.
+marked as demonstration data in the French interface and are included in
+the TVA exports so the demo dossiers produce populated files. Generated XML
+files must not be submitted to the DGI.
 Some sample identifiers resemble real identifiers; that does not make them
 valid taxpayer data. The app does not yet provide a complete production
 client/exercise onboarding workflow.
@@ -221,8 +221,8 @@ Persistence boundaries:
    `localStorage`; they are not included in the SQLite database or its backup.
 - Built-in demo clients, demo journal rows, opening balances, and most other
    interface state are JavaScript fixtures/in-memory state. They are not
-   durable production records. Demo rows are excluded from SIMPL-TVA/SIMPL-IS
-   XML calculations; demo XML filenames carry the `DEMO_` prefix.
+   durable production records. Demo rows are included in TVA exports and
+   excluded from SIMPL-IS liasse calculations.
 
 Back up the SQLite database while the app is stopped. Use a new destination
 filename for each backup so an earlier backup is not overwritten. For the

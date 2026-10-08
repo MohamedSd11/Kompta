@@ -832,13 +832,13 @@ class TestSimplExportSafetyGate:
         )
 
         for export, payload, expected in (
-            (api.export_simpl_tva, tva, "TEST_ONLY_SIMPL_TVA_2026-08.zip"),
-            (api.export_simpl_ir, ir, "TEST_ONLY_ETAT_9421_2026.zip"),
-            (api.export_simpl_is, is_request, "TEST_ONLY_SIMPL_IS_2026.xml"),
+            (api.export_simpl_tva, tva, "SIMPL_TVA_2026-08.zip"),
+            (api.export_simpl_ir, ir, "ETAT_9421_2026.zip"),
+            (api.export_simpl_is, is_request, "SIMPL_IS_2026.xml"),
         ):
             response = export(payload)
             assert response.headers["x-kompta-export-status"] == EXPORT_SAFETY_HEADER
-            assert expected in response.headers["content-disposition"]
+            assert f'filename="{expected}"' in response.headers["content-disposition"]
 
     def test_excel_route_remains_available_without_simpl_demo_marker(self):
         import api
@@ -851,3 +851,23 @@ class TestSimplExportSafetyGate:
             ),
         ))
         assert response.media_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+    def test_excel_export_keeps_lines_with_incomplete_supplier_identifiers(self):
+        line = {
+            "ord": 1, "numFacture": "F1", "designation": "Achat", "montantHT": "100",
+            "tauxTVA": "20", "montantTVA": "20", "montantTTC": "120",
+            "identifiantFiscal": "IF001", "ice": "001234567", "modePaiement": "VIREMENT",
+            "datePaiement": "2025-01-02", "dateFacture": "2025-01-02",
+        }
+        request = ExcelExportRequest.model_validate({
+            "dossierId": "C001", "companyName": "SARL Test", "regime": "Débit",
+            "releve": {"periode": "2025", "lines": [line]},
+        })
+
+        workbook = load_workbook(BytesIO(build_tva_excel(request)))
+        assert workbook["TVA_Déductible_Achats"]["E2"].value == "IF001"
+        with pytest.raises(ValidationError):
+            ReleveDeductions.model_validate({
+                "ice_declarant": "000111222333444", "if_declarant": "12345678",
+                "periode": "2025", "lines": [line],
+            })
