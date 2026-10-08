@@ -675,6 +675,21 @@ class TestXsdValidation:
         result = validate_against_schema(xml_bytes, SCHEMA_IR)
         assert result.valid, result.diagnostics
 
+    def test_cached_schema_is_recompiled_when_file_changes(self, tmp_path):
+        import os
+
+        schema = tmp_path / "doc.xsd"
+        template = ('<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">'
+                    '<xs:element name="doc" type="xs:{}"/></xs:schema>')
+        schema.write_text(template.format("integer"))
+        assert validate_against_schema(b"<doc>12</doc>", schema).valid
+        assert not validate_against_schema(b"<doc>abc</doc>", schema).valid
+
+        schema.write_text(template.format("string"))
+        stat = schema.stat()
+        os.utime(schema, ns=(stat.st_atime_ns, stat.st_mtime_ns + 1_000_000_000))
+        assert validate_against_schema(b"<doc>abc</doc>", schema).valid
+
 
 # --------------------------------------------------------------------------
 # Full pipeline (service layer)
