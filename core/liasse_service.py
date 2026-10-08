@@ -5,6 +5,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from typing import Any, Iterable
 from xml.etree.ElementTree import Element, SubElement, fromstring, tostring
 
+from .cgnc import CHARGES_CLASS, PRODUCTS_CLASS
 from .liasse_models import (
     BalanceAmountBasis, BalanceLine, IsRateBracket, LiasseComputeRequest, LiasseMappingCatalog,
     LiasseTable,
@@ -57,8 +58,8 @@ def compute_liasse(request: LiasseComputeRequest, catalog: LiasseMappingCatalog 
             "label": rule.label, "amount": _money(amount), "table": rule.table.value,
         }
 
-    charges = sum((line.movement_debit for line in request.balance if line.account_code.startswith("6")), Decimal("0"))
-    products = sum((line.movement_credit for line in request.balance if line.account_code.startswith("7")), Decimal("0"))
+    charges = sum((line.movement_debit for line in request.balance if line.account_code.startswith(CHARGES_CLASS)), Decimal("0"))
+    products = sum((line.movement_credit for line in request.balance if line.account_code.startswith(PRODUCTS_CLASS)), Decimal("0"))
     accounting_result = _money(products - charges)
     reintegrations = _money(sum(item.amount for item in request.adjustments if item.direction == "reintegrations"))
     deductions = _money(sum(item.amount for item in request.adjustments if item.direction == "deductions"))

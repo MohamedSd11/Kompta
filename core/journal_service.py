@@ -16,10 +16,10 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from .storage import connect_database, resolve_database_path, utc_now_iso
 from .pcge_import import preview_import, extract_pcge_general_accounts
+from .cgnc import TIER_ROOT_TYPES, TIER_ROOTS
 
 
 JOURNAL_PIECE_PREFIXES = {"ACHATS": "JA", "VENTES": "JV", "BANQUE": "JB", "CAISSE": "JC"}
-TIER_ROOT_TYPES = {"3421": "Client", "4411": "Fournisseur"}
 AUXILIARY_ACCOUNTS_DDL = """
     CREATE TABLE IF NOT EXISTS auxiliary_accounts (
         code TEXT NOT NULL,
@@ -266,7 +266,7 @@ class JournalRepository:
             account = db.execute("SELECT code FROM pcm_accounts WHERE code = ?", (line.account.strip(),)).fetchone()
             if account is None:
                 raise ValueError(f"Unknown PCM account: {line.account}")
-            if line.account.startswith(("3421", "4411")):
+            if line.account.startswith(TIER_ROOTS):
                 if not line.auxiliary:
                     raise ValueError(f"Auxiliary account is required for tier account {line.account}")
                 auxiliary = db.execute(

@@ -3,6 +3,9 @@
 // Start the backend first: `python run.py` inside kompta_tax_export/
 // It must be running at this address for export buttons to work.
 const KOMPTA_API_BASE = 'http://127.0.0.1:8000';
+// CGNC account roots shared by every prefix check in the UI.
+const CGNC = Object.freeze({ CLIENTS:'3421', FOURNISSEURS:'4411', TVA_RECUPERABLE:'3455', TVA_FACTUREE:'4455', CHARGES:'6', PRODUITS:'7', CAISSE:'516' });
+function isAccount(code, ...roots) { const value = String(code); return roots.some(root => value.startsWith(root)); }
 function apiConnectionErrorMessage(error, action) {
   if (error instanceof TypeError) {
     return `${action} : le navigateur ne peut pas lire ${KOMPTA_API_BASE} depuis ${window.location.origin} (serveur arrêté ou réponse CORS bloquée). Redémarrez avec python run.py; Live Server est autorisé par défaut sur http://127.0.0.1:5500.`;
@@ -875,8 +878,8 @@ function formatAmountInput(input) {
 }
 function updateGeneralAccountStyle(input) {
   const code = input.value.trim();
-  input.classList.toggle('account-class-6', code.startsWith('6'));
-  input.classList.toggle('account-class-7', code.startsWith('7'));
+  input.classList.toggle('account-class-6', isAccount(code, CGNC.CHARGES));
+  input.classList.toggle('account-class-7', isAccount(code, CGNC.PRODUITS));
 }
 
 // Currently active exercise year — drives which data is shown.
@@ -981,14 +984,14 @@ function renderHome() {
     const code = String(a.code);
     if (code.charAt(0) === '5') {
       const bal = (a.debit || 0) - (a.credit || 0);
-      if (code.startsWith('516')) caisse += bal; else banque += bal;
+      if (isAccount(code, CGNC.CAISSE)) caisse += bal; else banque += bal;
     }
   });
   entries.forEach(e => e.lines.forEach(l => {
     const code = String(l.compte);
     if (code.charAt(0) === '5') {
       const bal = lineDebit(l) - lineCredit(l);
-      if (code.startsWith('516')) caisse += bal; else banque += bal;
+      if (isAccount(code, CGNC.CAISSE)) caisse += bal; else banque += bal;
     }
   }));
   banque = round2(banque);
@@ -1005,8 +1008,8 @@ function renderHome() {
   let tvaFact = 0, tvaRec = 0;
   entries.forEach(e => e.lines.forEach(l => {
     const code = String(l.compte);
-    if (code.startsWith('4455') || code.startsWith('44552')) tvaFact += lineCredit(l);
-    if (code.startsWith('3455')) tvaRec += lineDebit(l);
+    if (isAccount(code, CGNC.TVA_FACTUREE)) tvaFact += lineCredit(l);
+    if (isAccount(code, CGNC.TVA_RECUPERABLE)) tvaRec += lineDebit(l);
   }));
   tvaFact = round2(tvaFact);
   tvaRec = round2(tvaRec);
@@ -1226,9 +1229,9 @@ function buildReleveDeductionsPayload(clientId = currentClientId, includeAllYear
   let ord = 1;
 
   entries.forEach(e => {
-    const tvaLine = e.lines.find(l => /^3455/.test(String(l.compte)));
+    const tvaLine = e.lines.find(l => isAccount(l.compte, CGNC.TVA_RECUPERABLE));
     if (!tvaLine) return;
-    const htLine = e.lines.find(l => /^6/.test(String(l.compte)));
+    const htLine = e.lines.find(l => isAccount(l.compte, CGNC.CHARGES));
     const ttcLine = e.lines.find(l => l !== tvaLine && /^(34|44)/.test(String(l.compte)));
     if (!htLine || !ttcLine) return;
 
@@ -1279,9 +1282,9 @@ function buildTvaCollecteePayload(clientId = currentClientId, includeAllYears = 
   let ord = 1;
 
   entries.forEach(e => {
-    const tvaLine = e.lines.find(l => /^4455/.test(String(l.compte)));
-    const htLine = e.lines.find(l => /^7/.test(String(l.compte)));
-    const clientLine = e.lines.find(l => /^3421/.test(String(l.compte)));
+    const tvaLine = e.lines.find(l => isAccount(l.compte, CGNC.TVA_FACTUREE));
+    const htLine = e.lines.find(l => isAccount(l.compte, CGNC.PRODUITS));
+    const clientLine = e.lines.find(l => isAccount(l.compte, CGNC.CLIENTS));
     if (!tvaLine || !htLine || !clientLine) return;
 
     const client = DATA.accounts.find(a => a.code === String(clientLine.compte).trim());
@@ -1414,9 +1417,9 @@ function portfolioClientPayload(dossier) {
   entries.forEach(e => {
     const dateFacture = `${e.year}-${String(e.mois).padStart(2, '0')}-${String(e.jour).padStart(2, '0')}`;
     if (e.journal === 'ACHATS') {
-      const tvaLine = e.lines.find(l => /^3455/.test(String(l.compte)));
-      const htLine = e.lines.find(l => /^6/.test(String(l.compte)));
-      const supplierLine = e.lines.find(l => /^4411/.test(String(l.compte)));
+      const tvaLine = e.lines.find(l => isAccount(l.compte, CGNC.TVA_RECUPERABLE));
+      const htLine = e.lines.find(l => isAccount(l.compte, CGNC.CHARGES));
+      const supplierLine = e.lines.find(l => isAccount(l.compte, CGNC.FOURNISSEURS));
       if (tvaLine && htLine && supplierLine) {
         const supplier = DATA.accounts.find(a => a.code === String(supplierLine.compte).trim());
         purchases.push({
@@ -1439,9 +1442,9 @@ function portfolioClientPayload(dossier) {
       }
     }
     if (e.journal === 'VENTES') {
-      const tvaLine = e.lines.find(l => /^4455/.test(String(l.compte)));
-      const htLine = e.lines.find(l => /^7/.test(String(l.compte)));
-      const clientLine = e.lines.find(l => /^3421/.test(String(l.compte)));
+      const tvaLine = e.lines.find(l => isAccount(l.compte, CGNC.TVA_FACTUREE));
+      const htLine = e.lines.find(l => isAccount(l.compte, CGNC.PRODUITS));
+      const clientLine = e.lines.find(l => isAccount(l.compte, CGNC.CLIENTS));
       if (tvaLine && htLine && clientLine) {
         const client = DATA.accounts.find(a => a.code === String(clientLine.compte).trim());
         ventes.push({
@@ -1741,7 +1744,7 @@ async function validerEcriture() {
     const facture = tr.querySelector('.facture-cell').value.trim();
     const lettre = tr.querySelector('.lettre-cell')?.value.trim().toUpperCase() || '';
     const tva = parseFloat(tr.querySelector('.tva-cell').value) || 0;
-    const isTiers = account.startsWith('3421') || account.startsWith('4411');
+    const isTiers = isAccount(account, CGNC.CLIENTS, CGNC.FOURNISSEURS);
     const auxiliary = isTiers ? account : '';
     if (!account && debit === 0 && credit === 0) return;
     if (account && !ACCOUNTS[account]) errors.push(`Compte inexistant: ${account}`);
@@ -1930,8 +1933,8 @@ function computeQuickStatsFor(clientId, year) {
     const d = lineDebit(l), c = lineCredit(l);
     if (code.charAt(0) === '5') banque += d - c;
     if (code.charAt(0) === '7') ca += c;
-    if (code.startsWith('4455')) tvaFact += c;
-    if (code.startsWith('3455')) tvaRec += d;
+    if (isAccount(code, CGNC.TVA_FACTUREE)) tvaFact += c;
+    if (isAccount(code, CGNC.TVA_RECUPERABLE)) tvaRec += d;
   }));
   if (ca === 0) ca = dossier?.demoChiffreAffaires || 0;
   if (tvaFact === 0 && dossier?.demoChiffreAffaires) {
@@ -2189,8 +2192,8 @@ function renderBalance() {
     e.lines.forEach(l => { const t = touch(l.compte); t.mvD += lineDebit(l); t.mvC += lineCredit(l); });
   });
   let accounts = Object.keys(totals).sort();
-  if (balanceMode === 'clients') accounts = accounts.filter(a => a.startsWith('3421'));
-  else if (balanceMode === 'fournisseurs') accounts = accounts.filter(a => a.startsWith('4411'));
+  if (balanceMode === 'clients') accounts = accounts.filter(a => isAccount(a, CGNC.CLIENTS));
+  else if (balanceMode === 'fournisseurs') accounts = accounts.filter(a => isAccount(a, CGNC.FOURNISSEURS));
   if (!accounts.length) {
     const msg = balanceMode === 'clients' ? 'Aucun compte client (3421...) pour l\'exercice ' + currentYear
       : balanceMode === 'fournisseurs' ? 'Aucun compte fournisseur (4411...) pour l\'exercice ' + currentYear
@@ -2485,7 +2488,7 @@ function renderMenuReportBody() {
 function reportEntryLines() { return menuRows().flatMap(e => e.lines.map(l => ({e, l, debit:lineDebit(l), credit:lineCredit(l)}))); }
 function showAgedBalanceReport() {
   const groups = {};
-  reportEntryLines().filter(x => /^(3421|4411)/.test(String(x.l.compte))).forEach(x => { const code = x.l.compte; const g = groups[code] || (groups[code] = {code, label:ACCOUNTS[code] || x.l.libelle || '', amount:0}); g.amount += x.debit - x.credit; });
+  reportEntryLines().filter(x => isAccount(x.l.compte, CGNC.CLIENTS, CGNC.FOURNISSEURS)).forEach(x => { const code = x.l.compte; const g = groups[code] || (groups[code] = {code, label:ACCOUNTS[code] || x.l.libelle || '', amount:0}); g.amount += x.debit - x.credit; });
   const rows = Object.values(groups).map(g => { const age = Math.max(0, Math.floor((Date.now() - new Date(currentYear, Number(menuRows()[0]?.mois || 1) - 1, Number(menuRows()[0]?.jour || 1))) / 86400000)); const bucket = age > 90 ? '+90 jours' : age > 60 ? '61–90 jours' : age > 30 ? '31–60 jours' : '0–30 jours'; return [g.code, g.label, bucket, round2(Math.abs(g.amount))]; });
   renderStructuredReport('Balance Âgée', ['Compte','Tiers','Ancienneté','Solde'], rows);
 }
@@ -2496,7 +2499,7 @@ function showCentralJournalReport() {
 }
 function showClientInvoicesReport() {
   const groups = {};
-  reportEntryLines().filter(x => /^3421/.test(String(x.l.compte)) || x.e.n_facture).forEach(x => { const ref = x.l.facture || x.e.n_facture || 'Sans référence'; const g = groups[ref] || (groups[ref] = {ref, date:entryDate(x.e), client:ACCOUNTS[x.l.compte] || x.l.libelle || 'Client', amount:0}); g.amount += x.credit || x.debit; });
+  reportEntryLines().filter(x => isAccount(x.l.compte, CGNC.CLIENTS) || x.e.n_facture).forEach(x => { const ref = x.l.facture || x.e.n_facture || 'Sans référence'; const g = groups[ref] || (groups[ref] = {ref, date:entryDate(x.e), client:ACCOUNTS[x.l.compte] || x.l.libelle || 'Client', amount:0}); g.amount += x.credit || x.debit; });
   renderStructuredReport('Factures Clients', ['Facture','Date','Client','Montant','Statut'], Object.values(groups).map(g => [g.ref, g.date, g.client, round2(g.amount), 'À suivre']));
 }
 function showBalanceSheetReport() {
@@ -2506,8 +2509,8 @@ function showBalanceSheetReport() {
   renderStructuredReport('Bilan Actif / Passif', ['Rubrique','Classe','Débit','Crédit','Solde'], rows);
 }
 function showTaxReport() {
-  const charges = reportEntryLines().filter(x => /^6/.test(String(x.l.compte))).reduce((s, x) => s + x.debit, 0);
-  const products = reportEntryLines().filter(x => /^7/.test(String(x.l.compte))).reduce((s, x) => s + x.credit, 0);
+  const charges = reportEntryLines().filter(x => isAccount(x.l.compte, CGNC.CHARGES)).reduce((s, x) => s + x.debit, 0);
+  const products = reportEntryLines().filter(x => isAccount(x.l.compte, CGNC.PRODUITS)).reduce((s, x) => s + x.credit, 0);
   const result = products - charges; const tax = Math.max(0, result * 0.20);
   renderStructuredReport("Détermination d'impôt", ['Indicateur','Montant'], [['Produits imposables', round2(products)], ['Charges déductibles', round2(charges)], ['Résultat fiscal estimé', round2(result)], ['IS estimé (20%)', round2(tax)]]);
 }
@@ -2516,7 +2519,7 @@ function showPaymentDelaysReport() {
   renderStructuredReport('Délais de Paiement', ['Facture','Date','Tiers','Jours écoulés','Statut'], rows);
 }
 function showProfessionalTaxReport() {
-  const turnover = reportEntryLines().filter(x => /^7/.test(String(x.l.compte))).reduce((s, x) => s + x.credit, 0);
+  const turnover = reportEntryLines().filter(x => isAccount(x.l.compte, CGNC.PRODUITS)).reduce((s, x) => s + x.credit, 0);
   renderStructuredReport('Taxe Professionnelle', ['Base taxable','Taux appliqué','Taxe estimée'], [[round2(turnover), '0,25 %', round2(turnover * 0.0025)]]);
 }
 function showFeesReport() {
@@ -2613,8 +2616,8 @@ function updateLiasseTable(code, key, value) {
 function renderLiasseAdjustments() {
   const body = document.getElementById('liasse-adjustments-tab');
   const balance = liasseBalanceRows();
-  const charges = balance.filter(row => String(row.accountCode).startsWith('6')).reduce((s, row) => s + Number(row.movementDebit || 0), 0);
-  const products = balance.filter(row => String(row.accountCode).startsWith('7')).reduce((s, row) => s + Number(row.movementCredit || 0), 0);
+  const charges = balance.filter(row => isAccount(row.accountCode, CGNC.CHARGES)).reduce((s, row) => s + Number(row.movementDebit || 0), 0);
+  const products = balance.filter(row => isAccount(row.accountCode, CGNC.PRODUITS)).reduce((s, row) => s + Number(row.movementCredit || 0), 0);
   const accounting = round2(products - charges);
   const rows = liasseState.adjustments.map((item, index) => `<tr><td>${item.direction === 'reintegrations' ? 'Réintégration' : 'Déduction'}</td><td>${item.label}</td><td><input type="number" step="0.01" value="${item.amount}" onchange="updateLiasseAdjustment(${index},this.value)" style="width:130px;text-align:right;"></td></tr>`).join('');
   body.innerHTML = `<div class="card"><div class="ch"><h3>Tableau 03 — Passage au résultat fiscal</h3><span class="badge">Année ${currentYear}</span></div><table><thead><tr><th>Type</th><th>Motif</th><th>Montant</th></tr></thead><tbody><tr><td colspan="2"><strong>Résultat comptable</strong></td><td style="text-align:right;"><strong>${fmtFR(accounting)} MAD</strong></td></tr>${rows}<tr class="total-row"><td colspan="2"><strong>Résultat fiscal</strong></td><td style="text-align:right;"><strong id="liasse-fiscal-result">${fmtFR(accounting)} MAD</strong></td></tr></tbody></table></div>`;
@@ -2689,7 +2692,7 @@ function openAgedBalanceReport() {
 }
 function renderAgedBalanceReport() {
   const type = document.getElementById('cgnc-aging-type')?.value || 'all'; const asOf = new Date(document.getElementById('cgnc-aging-date')?.value || new Date()); const groups = {};
-  clientEntries().filter(e => e.year === currentYear).forEach(e => { const invoice = e.n_facture || e.lines.find(l => l.facture)?.facture; if (!invoice) return; e.lines.filter(l => /^(3421|4411)/.test(l.compte)).forEach(l => { const client = l.compte.startsWith('3421'); if ((type === 'client' && !client) || (type === 'supplier' && client)) return; const g=groups[l.compte] || (groups[l.compte]={code:l.compte,name:ACCOUNTS[l.compte] || l.libelle || '',amount:0,due:invoiceDate(e)}); g.amount += lineDebit(l)-lineCredit(l); }); });
+  clientEntries().filter(e => e.year === currentYear).forEach(e => { const invoice = e.n_facture || e.lines.find(l => l.facture)?.facture; if (!invoice) return; e.lines.filter(l => isAccount(l.compte, CGNC.CLIENTS, CGNC.FOURNISSEURS)).forEach(l => { const client = isAccount(l.compte, CGNC.CLIENTS); if ((type === 'client' && !client) || (type === 'supplier' && client)) return; const g=groups[l.compte] || (groups[l.compte]={code:l.compte,name:ACCOUNTS[l.compte] || l.libelle || '',amount:0,due:invoiceDate(e)}); g.amount += lineDebit(l)-lineCredit(l); }); });
   const rows=Object.values(groups).map(g => { const due=Math.floor((asOf-g.due)/86400000), amount=Math.abs(g.amount), bucket=due<0?[amount,0,0,0,0]:due<=30?[0,amount,0,0,0]:due<=60?[0,0,amount,0,0]:due<=90?[0,0,0,amount,0]:[0,0,0,0,amount]; return [g.code,g.name,...bucket,round2(amount)]; });
   document.getElementById('cgnc-report-body').innerHTML=cgncTable(['Code Tiers','Nom / Raison Sociale','Non Échu','0-30 Jours','31-60 Jours','61-90 Jours','+90 Jours','Total Dû'],rows); cgncReportState.exportRows=rows;
 }
@@ -2699,12 +2702,12 @@ function renderJournalCgncReport(central) { const code=document.getElementById('
 function openBilanCgncReport() { cgncReportState.type='bilan'; cgncFilterBar('<span class="badge">Calculé sur les soldes de l’exercice actif</span>'); cgncSet('Bilan CGNC Marocain','Actif / Passif',[],[],renderBilanCgncReport); }
 function renderBilanCgncReport() { const data=cgncAccounts(); const sum=(prefix,side)=>round2(data.filter(t=>t.code.startsWith(prefix)).reduce((s,t)=>s+Math.max(0,(t.anD+t.mvD)-(t.anC+t.mvC))*(side==='d'?1:0)+Math.max(0,(t.anC+t.mvC)-(t.anD+t.mvD))*(side==='c'?1:0),0)); const actif=[['Immobilisé — Classe 2',sum('2','d'),0],['Circulant — Classe 3',sum('3','d'),0],['Trésorerie-Actif — Classe 51',sum('51','d'),0]]; const passif=[['Financement Permanent — Classe 1',sum('1','c')],['Passif Circulant — Classe 4',sum('4','c')],['Trésorerie-Passif — Classe 55',sum('55','c')]]; document.getElementById('cgnc-report-body').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"><div class="card"><div class="ch"><h3>ACTIF</h3></div>${cgncTable(['Rubrique','Brut','Amort./Prov.','Net'],actif.map(r=>[r[0],r[1],r[2],round2(r[1]-r[2])]),`<tr class="total-row"><td>Total Actif</td><td colspan="2"></td><td style="text-align:right;">${cgncMoney(actif.reduce((s,r)=>s+r[1]-r[2],0))}</td></tr>`)}</div><div class="card"><div class="ch"><h3>PASSIF</h3></div>${cgncTable(['Rubrique','Net'],passif,`<tr class="total-row"><td>Total Passif</td><td style="text-align:right;">${cgncMoney(passif.reduce((s,r)=>s+r[1],0))}</td></tr>`)}</div></div>`; cgncReportState.exportRows=[...actif,...passif]; }
 function openPaymentDelayCgncReport() { cgncReportState.type='payment-delays'; cgncFilterBar('<span class="badge">Loi 69-21 — seuil de retard calculé sur la date d’échéance</span>'); cgncSet('Délais de Paiement — Loi 69-21','Factures échues non lettrées',[],[],renderPaymentDelayCgncReport); }
-function renderPaymentDelayCgncReport() { const today=new Date(); const rows=[]; clientEntries().filter(e=>e.year===currentYear && e.n_facture).forEach(e=>{const due=invoiceDate(e),days=Math.max(0,Math.floor((today-due)/86400000)); if(days<1)return; const client=e.lines.find(l=>/^(3421|4411)/.test(l.compte)); if(!client)return; const amount=Math.abs(e.lines.reduce((s,l)=>s+lineDebit(l)-lineCredit(l),0)); rows.push([e.n_facture,client.compte,entryDate(e),due.toLocaleDateString('fr-FR'),days,days>60?'1,5 %':'1 %',amount]);}); document.getElementById('cgnc-report-body').innerHTML=cgncTable(['Facture','Code Tiers','Date','Échéance','Jours retard','Pénalité Loi 69-21','Montant dû'],rows); cgncReportState.exportRows=rows; }
+function renderPaymentDelayCgncReport() { const today=new Date(); const rows=[]; clientEntries().filter(e=>e.year===currentYear && e.n_facture).forEach(e=>{const due=invoiceDate(e),days=Math.max(0,Math.floor((today-due)/86400000)); if(days<1)return; const client=e.lines.find(l=>isAccount(l.compte, CGNC.CLIENTS, CGNC.FOURNISSEURS)); if(!client)return; const amount=Math.abs(e.lines.reduce((s,l)=>s+lineDebit(l)-lineCredit(l),0)); rows.push([e.n_facture,client.compte,entryDate(e),due.toLocaleDateString('fr-FR'),days,days>60?'1,5 %':'1 %',amount]);}); document.getElementById('cgnc-report-body').innerHTML=cgncTable(['Facture','Code Tiers','Date','Échéance','Jours retard','Pénalité Loi 69-21','Montant dû'],rows); cgncReportState.exportRows=rows; }
 const cgncRentalValues = {};
 function openProfessionalTaxCgncReport() { cgncReportState.type='professional-tax'; cgncFilterBar('<span class="badge">Taux appliqué: 10 % de la valeur locative annuelle (simulation déclarative)</span>'); cgncSet('Taxe Professionnelle','Valeurs locatives et liquidation annuelle',[],[],renderProfessionalTaxCgncReport); }
 function renderProfessionalTaxCgncReport() { const key=currentClientId; if (cgncRentalValues[key] == null) cgncRentalValues[key]=100000; const value=cgncRentalValues[key]; document.getElementById('cgnc-report-body').innerHTML=`<table><thead><tr><th>Établissement</th><th>Valeur locative annuelle</th><th>Taux</th><th>Taxe professionnelle estimée</th></tr></thead><tbody><tr><td>${menuEscape(currentDossier?.name || key)}</td><td><input type="number" min="0" value="${value}" style="text-align:right;" oninput="cgncRentalValues['${key}']=Number(this.value)||0;renderProfessionalTaxCgncReport()"> MAD</td><td>10 %</td><td style="text-align:right;font-weight:700;">${cgncMoney(value*0.10)}</td></tr></tbody></table>`; cgncReportState.exportRows=[[currentDossier?.name||key,value,'10 %',round2(value*0.10)]]; }
 function openClientInvoicesCgncReport() { cgncReportState.type='client-invoices'; cgncFilterBar('<span class="badge">Ventes et comptes clients 3421 — statut calculé sur les règlements</span>'); cgncSet('Factures Clients','Suivi des ventes, règlements et remises',[],[],renderClientInvoicesCgncReport); }
-function renderClientInvoicesCgncReport() { const rows=[]; clientEntries().filter(e=>e.year===currentYear && e.n_facture && e.journal==='VENTES').forEach(e=>{const line=e.lines.find(l=>l.compte.startsWith('3421')); const gross=Math.abs(e.lines.reduce((s,l)=>s+lineDebit(l)-lineCredit(l),0)); const paid=clientEntries().filter(p=>p.year===currentYear && !p.n_facture && p.lines.some(l=>l.compte===line?.compte)).reduce((s,p)=>s+Math.abs(p.lines.reduce((a,l)=>a+lineCredit(l)-lineDebit(l),0)),0); const status=paid>=gross?'Payée':paid>0?'Partielle':'Non Payée'; rows.push([e.n_facture,entryDate(e),line?.compte||'',round2(gross),round2(Math.min(paid,gross)),status,`<button class="btn btn-xs btn-s" data-action="showToast('Remise préparée pour ${menuEscape(e.n_facture)}','success')">Remise</button>`]);}); document.getElementById('cgnc-report-body').innerHTML=cgncTable(['N° Facture','Date','Client','Montant TTC','Réglé','Statut','Action'],rows); cgncReportState.exportRows=rows.map(r=>r.slice(0,6)); }
+function renderClientInvoicesCgncReport() { const rows=[]; clientEntries().filter(e=>e.year===currentYear && e.n_facture && e.journal==='VENTES').forEach(e=>{const line=e.lines.find(l=>isAccount(l.compte, CGNC.CLIENTS)); const gross=Math.abs(e.lines.reduce((s,l)=>s+lineDebit(l)-lineCredit(l),0)); const paid=clientEntries().filter(p=>p.year===currentYear && !p.n_facture && p.lines.some(l=>l.compte===line?.compte)).reduce((s,p)=>s+Math.abs(p.lines.reduce((a,l)=>a+lineCredit(l)-lineDebit(l),0)),0); const status=paid>=gross?'Payée':paid>0?'Partielle':'Non Payée'; rows.push([e.n_facture,entryDate(e),line?.compte||'',round2(gross),round2(Math.min(paid,gross)),status,`<button class="btn btn-xs btn-s" data-action="showToast('Remise préparée pour ${menuEscape(e.n_facture)}','success')">Remise</button>`]);}); document.getElementById('cgnc-report-body').innerHTML=cgncTable(['N° Facture','Date','Client','Montant TTC','Réglé','Statut','Action'],rows); cgncReportState.exportRows=rows.map(r=>r.slice(0,6)); }
 function openHonorairesCgncReport() { cgncReportState.type='fees'; cgncFilterBar('<div class="fg"><label>Taux RAS</label><select id="cgnc-ras-rate" onchange="renderHonorairesCgncReport()"><option value="10">10 %</option><option value="15">15 %</option></select></div>'); cgncSet('Honoraires — Retenue à la Source','Avocats, experts-comptables et consultants',[],[],renderHonorairesCgncReport); }
 function renderHonorairesCgncReport() { const rate=Number(document.getElementById('cgnc-ras-rate')?.value||10)/100; const rows=reportEntryLines().filter(x=>/^6136/.test(x.l.compte)||/honoraire|avocat|expert|consultant/i.test(x.l.libelle||'')).map(x=>{const gross=round2(x.debit);return [entryDate(x.e),x.l.libelle||ACCOUNTS[x.l.compte]||'',gross,round2(gross*rate),round2(gross*(1-rate))];}); document.getElementById('cgnc-report-body').innerHTML=cgncTable(['Date','Bénéficiaire','Brut','RAS','Net payé'],rows); cgncReportState.exportRows=rows; }
 function openCgncReport(type) { if(type==='balance-generale')return openGeneralBalanceReport(); if(type==='aged-balance')return openAgedBalanceReport(); if(type==='journals')return openJournalCgncReport(false); if(type==='journal-central')return openJournalCgncReport(true); if(type==='bilan')return openBilanCgncReport(); if(type==='payment-delays')return openPaymentDelayCgncReport(); if(type==='professional-tax')return openProfessionalTaxCgncReport(); if(type==='client-invoices')return openClientInvoicesCgncReport(); if(type==='fees')return openHonorairesCgncReport(); }
@@ -2728,7 +2731,7 @@ function renderThirdPartyLedger() {
   const accounts = DATA.accounts
     .filter(account => {
       const code = String(account.code || '');
-      return code.startsWith('3421') || code.startsWith('4411') || Boolean(account.ice);
+      return isAccount(code, CGNC.CLIENTS, CGNC.FOURNISSEURS) || Boolean(account.ice);
     })
     .sort((a, b) => String(a.code).localeCompare(String(b.code)));
   document.getElementById('gl-title').textContent = 'Comptes Tiers — Clients et Fournisseurs';
@@ -2737,7 +2740,7 @@ function renderThirdPartyLedger() {
     ? accounts.map(account => {
       const code = menuEscape(account.code);
       const label = menuEscape(account.label || account.libelle || '');
-      const type = account.parent === '3421' || String(account.code).startsWith('3421') ? 'Client' : 'Fournisseur';
+      const type = account.parent === CGNC.CLIENTS || isAccount(account.code, CGNC.CLIENTS) ? 'Client' : 'Fournisseur';
       return `<tr><td>${code}</td><td>${label}</td><td>${type}</td><td>${menuEscape(account.ice || '—')}</td><td>${menuEscape(account.identifiant_fiscal || '—')}</td><td></td><td></td><td></td><td></td></tr>`;
     }).join('')
     : '<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:20px;">Aucun compte auxiliaire client ou fournisseur.</td></tr>';
@@ -2883,8 +2886,8 @@ function renderTVA() {
   entries.forEach(e => {
     e.lines.forEach(l => {
       const code = String(l.compte);
-      const isFact = code.startsWith('4455');
-      const isRec = code.startsWith('3455');
+      const isFact = isAccount(code, CGNC.TVA_FACTUREE);
+      const isRec = isAccount(code, CGNC.TVA_RECUPERABLE);
       if (!isFact && !isRec) return;
       const montant = isFact ? lineCredit(l) : lineDebit(l);
       if (montant === 0) return;
@@ -2934,7 +2937,7 @@ function renderLettrage() {
   clientEntries().filter(e => e.year === currentYear).forEach(e => {
     e.lines.forEach((l, li) => {
       const code = String(l.compte);
-      const isTiers = code.startsWith('3421') || code.startsWith('4411');
+      const isTiers = isAccount(code, CGNC.CLIENTS, CGNC.FOURNISSEURS);
       if (isTiers && !l.lettre) items.push({ e, l, key: e.piece + '#' + li });
     });
   });
@@ -3017,7 +3020,7 @@ function clotureChecks() {
   let unlettered = 0;
   entries.forEach(e => e.lines.forEach(l => {
     const code = String(l.compte);
-    if ((code.startsWith('3421') || code.startsWith('4411')) && !l.lettre) unlettered++;
+    if (isAccount(code, CGNC.CLIENTS, CGNC.FOURNISSEURS) && !l.lettre) unlettered++;
   }));
   const list = [
     { label: 'Balance équilibrée (Débit = Crédit)', ok: balanced, warn: false },
