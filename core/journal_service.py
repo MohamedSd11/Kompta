@@ -16,7 +16,7 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from .storage import connect_database, resolve_database_path, utc_now_iso
 from .pcge_import import preview_import, extract_pcge_general_accounts
-from .cgnc import TIER_ROOT_TYPES, TIER_ROOTS
+from .cgnc import TIER_ROOT_TYPES, TIER_ROOTS, is_cgnc_account, official_label
 
 
 JOURNAL_PIECE_PREFIXES = {"ACHATS": "JA", "VENTES": "JV", "BANQUE": "JB", "CAISSE": "JC"}
@@ -192,11 +192,12 @@ class JournalRepository:
         return utc_now_iso()
 
     def _sync_catalog(self, db: sqlite3.Connection, catalog: list[dict[str, Any]]) -> None:
+        """Mirror catalog accounts accepted by the CGNC chart; listed codes keep their official label."""
         now = self._now()
         for account in catalog:
             code = str(account.get("code", "")).strip()
-            label = str(account.get("label", account.get("libelle", ""))).strip()
-            if not code or not label or not code.isdigit():
+            label = official_label(code) or str(account.get("label", account.get("libelle", ""))).strip()
+            if not code or not label or not is_cgnc_account(code):
                 continue
             db.execute(
                 """INSERT INTO pcm_accounts(code, label, parent, account_type, updated_at)
@@ -216,8 +217,10 @@ class JournalRepository:
             label = str(account.get("label", account.get("libelle", ""))).strip()
             if root not in TIER_ROOT_TYPES or len(code) <= 4 or not code.isdigit() or not label:
                 continue
-            if db.execute("SELECT 1 FROM pcm_accounts WHERE code = ?", (root,)).fetchone() is None:
-                continue
+            db.execute(
+                "INSERT OR IGNORE INTO pcm_accounts(code, label, account_type, catalog_source, updated_at) VALUES (?, ?, 'parent', 'cgnc_standard', ?)",
+                (root, official_label(root), now),
+            )
             db.execute(
                 """INSERT INTO auxiliary_accounts(code, label, root_code, client_id, ice, tax_id, account_type, updated_at)
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -248,7 +251,7 @@ class JournalRepository:
             for account in report["added"]:
                 cursor = db.execute(
                     """INSERT OR IGNORE INTO pcm_accounts(code, label, parent, account_type, catalog_source, updated_at)
-                       VALUES (?, ?, ?, ?, 'pcge_general', ?)""",
+                       VALUES (?, ?, ?, ?, 'cgnc_standard', ?)""",
                     (account["code"], account["label"], account.get("parent"), "parent" if any(code.startswith(account["code"]) and code != account["code"] for code in codes) else "account", now),
                 )
                 if cursor.rowcount:
@@ -263,9 +266,8 @@ class JournalRepository:
         if round(debit - credit, 2) != 0 or debit <= 0:
             raise ValueError("Journal entry must be balanced and have a positive total")
         for line in request.lines:
-            account = db.execute("SELECT code FROM pcm_accounts WHERE code = ?", (line.account.strip(),)).fetchone()
-            if account is None:
-                raise ValueError(f"Unknown PCM account: {line.account}")
+            if not is_cgnc_account(line.account):
+                raise ValueError(f"Unknown PCM account: {line.account} (absent du référentiel CGNC)")
             if line.account.startswith(TIER_ROOTS):
                 if not line.auxiliary:
                     raise ValueError(f"Auxiliary account is required for tier account {line.account}")

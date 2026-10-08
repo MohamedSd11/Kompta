@@ -129,7 +129,8 @@ kompta_tax_export/
 │   ├── journal_service.py        # Atomic append-only journal persistence
 │   ├── invoice_extractor.py      # PDF/image invoice extraction and parsing
 │   ├── ocr_service.py            # OCR document intake and persistence
-│   ├── pcge_import.py            # Source-backed PCGE catalog import
+│   ├── pcge_import.py            # Chart import/preview sourced from the CGNC dataset
+│   ├── cgnc.py                   # CGNC chart loader, account validation, shared account roots
 │   ├── liasse_models.py          # SIMPL-IS request and mapping models
 │   ├── liasse_service.py         # SIMPL-IS calculation and XML validation
 │   └── storage.py                # Shared SQLite location/connection policy
@@ -148,16 +149,37 @@ kompta_tax_export/
 ├── index.html                    # French interface structure
 ├── styles.css                    # Extracted interface styles
 ├── app.js                        # Extracted interface behavior
+├── cgnc_standard_accounts.json   # Official CGNC chart — single source of truth
+├── cgnc_supplement_accounts.json # Documented additions missing from the dataset (3455, 4455)
 ├── kompta.sqlite3                # Local accounting database; keep private
 ├── requirements.txt              # Runtime dependencies
 └── requirements-dev.txt          # Runtime + pytest/pyflakes
 ```
+
+### Chart of accounts (CGNC)
+
+`cgnc_standard_accounts.json` is the single source of truth for the chart of
+accounts. `cgnc_supplement_accounts.json` adds only the roots the app posts to
+that are missing from that dataset (3455 TVA récupérable, 4455 TVA facturée),
+each with the reason it is needed.
+
+- An account code is valid when it is listed, or extends a listed code
+  (e.g. `44110002` under `4411`, `3455220` under `34552`). Journal posting
+  rejects any other code.
+- The interface loads the chart from `GET /api/accounts/cgnc`; official
+  accounts cannot be relabeled, renumbered or deleted in the UI. Local
+  sub-accounts (clients, suppliers, TVA rates) remain editable and are saved
+  in the browser.
+- The PCGE import/preview reads the same dataset; entries whose `status` is
+  `needs_review` are listed for review instead of being imported.
 
 ### PCGE account audit tools
 
 The standalone account-catalog analysis scripts are grouped under
 `tools/pcge_audit/scripts/`; their JSON inputs and reports are in
 `tools/pcge_audit/data/`. They are not imported by the running application.
+`extract_existing.py` and `parse_app_js.py` audited the chart formerly
+hard-coded in `app.js`, which now comes from the CGNC dataset.
 Run them from any working directory with paths relative to each script:
 
 ```powershell
@@ -218,7 +240,7 @@ Persistence boundaries:
 - Posted journal entries and retained OCR source files are stored in SQLite.
    The selected client/exercise's posted entries are reloaded from SQLite when
    the interface starts or opens that dossier.
-- Liasse state and chart/auxiliary-account customizations use this browser's
+- Liasse state and local sub-account/auxiliary-account customizations use this browser's
    `localStorage`; they are not included in the SQLite database or its backup.
 - Built-in demo clients, demo journal rows, opening balances, and most other
    interface state are JavaScript fixtures/in-memory state. They are not
