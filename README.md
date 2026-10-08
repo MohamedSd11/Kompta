@@ -149,7 +149,8 @@ kompta_tax_export/
 ├── styles.css                    # Extracted interface styles
 ├── app.js                        # Extracted interface behavior
 ├── kompta.sqlite3                # Local accounting database; keep private
-└── requirements.txt
+├── requirements.txt              # Runtime dependencies
+└── requirements-dev.txt          # Runtime + pytest/pyflakes
 ```
 
 ### PCGE account audit tools
@@ -187,7 +188,7 @@ project rules, not an official DGI validation service.
 ## Running
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-dev.txt   # runtime + test/lint tools
 python -m pytest tests/ -v
 python run.py             # binds to 127.0.0.1:8000
 ```
