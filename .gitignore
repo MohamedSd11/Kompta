@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+
+# Local accounting data and SQLite journal files
+kompta.sqlite3
+kompta.sqlite3-shm
+kompta.sqlite3-wal

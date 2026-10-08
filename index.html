@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kompta — Vue Comptable</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- DOSSIER SELECTION SCREEN -->
+<div id="dossier-screen">
+  <div class="ds-head">
+    <h1>Kompta</h1>
+    <p>Recherchez un client, ou faites défiler la liste pour ouvrir son dossier</p>
+    <div class="demo-notice" role="status">Mode démonstration : les clients et écritures d’exemple ne sont pas des données fiscales valides.</div>
+  </div>
+  <div class="ds-search-wrap">
+    <div class="ds-search-row">
+      <input type="text" id="dossier-search" class="ds-search-input" placeholder="🔍 Rechercher un client ou une société..." oninput="renderDossierScreen()" autocomplete="off">
+      <button class="ds-all-btn" data-action="openAllClients()">📋 Tous les clients</button>
+    </div>
+    <div class="ds-results" id="dossier-grid"></div>
+  </div>
+</div>
+
+<!-- ACCOUNT LOOKUP POPUP -->
+<div id="acct-popup">
+  <div class="ap-head">Comptes divisionnaires — sélectionnez un tiers</div>
+  <div id="acct-popup-body"></div>
+</div>
+
+<aside class="sidebar">
+  <div class="logo"><h1>Kompta</h1><span>Espace Comptable</span><div class="demo-notice" role="status">Données d’exemple · exports à ne pas déposer à la DGI</div></div>
+  <div class="autre-dossier">
+    <button data-action="showDossierScreen()">← Autres dossiers</button>
+    <button data-action="openClientManager()" style="margin-top:6px;">⚙ Clients & exercices</button>
+  </div>
+  <div class="exercises">
+    <div class="ex-label">Exercices</div>
+    <button class="ex-item active" data-action="switchYear(2026, false)" id="ex-2026"><span style="font-weight:600;">2026</span><span class="ex-badge current">En cours</span></button>
+    <button class="ex-item locked" data-action="switchYear(2025, true)" id="ex-2025"><span>2025</span><span class="ex-badge locked">🔒 Clôturé</span></button>
+    <button class="ex-item locked" data-action="switchYear(2024, true)" id="ex-2024"><span>2024</span><span class="ex-badge locked">🔒 Clôturé</span></button>
+    <button class="ex-item locked" data-action="switchYear(2023, true)" id="ex-2023"><span>2023</span><span class="ex-badge locked">🔒 Clôturé</span></button>
+    <button class="ex-item locked" data-action="switchYear(2022, true)" id="ex-2022"><span>2022</span><span class="ex-badge locked">🔒 Clôturé</span></button>
+    <div style="padding:6px 16px;"><button class="btn btn-s" style="width:100%;font-size:11px;">+ Nouvel exercice</button></div>
+  </div>
+  <nav class="nav">
+    <div class="ns">Navigation</div>
+    <button class="ni active" data-action="showPanel('home')">🏠 Tableau de bord</button>
+    <button class="ni" data-action="showPanel('saisie')">✏️ Saisie</button>
+    <button class="ni" data-action="showPanel('consultation')">📖 Consultation</button>
+    <button class="ni" data-action="showPanel('traitement')">⚙️ Traitements</button>
+    <button class="ni" data-action="showPanel('etats')">📊 États</button>
+    <button class="ni" data-action="showPanel('plancomptable');renderPlanComptable()">📄 Plan Comptable</button>
+    <button class="ni" data-action="showPanel('parametrage')">🔧 Paramètres</button>
+  </nav>
+  <div class="sf">
+    <div class="uc">
+      <div class="av">M</div>
+      <div><div style="font-size:12px;font-weight:600;">Mourad</div><div style="font-size:11px;color:var(--muted);">Comptable</div></div>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+
+  <div class="warn" role="status" style="margin-bottom:10px;font-weight:700;">TEST ONLY — NOT VERIFIED BY DGI · SIMPL-TVA, SIMPL-IR et SIMPL-IS sont réservés aux exports de données fictives. Excel et les états internes restent disponibles.</div>
+
+  <!-- MENUBAR -->
+  <div class="menubar">
+    <button id="sidebar-toggle" class="sidebar-toggle" data-action="toggleSidebar()" aria-label="Afficher ou masquer le panneau latéral">◀</button>
+    <!-- Fichier -->
+    <div class="mb-item">
+      <button class="mb-btn">Fichier</button>
+      <div class="dropdown">
+        <div class="dd-item" data-action="handleMenuAction('new-dossier')">Nouveau dossier</div>
+        <div class="dd-item" data-action="handleMenuAction('open-dossier')">Ouvrir dossier</div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="window.print()">Imprimer <span class="shortcut">Ctrl+P</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="handleMenuAction('quit')">Quitter</div>
+      </div>
+    </div>
+    <!-- Saisie -->
+    <div class="mb-item">
+      <button class="mb-btn" data-action="showPanel('saisie')">Saisie</button>
+      <div class="dropdown">
+        <div class="dd-item" data-action="showPanel('saisie')">Saisie libre</div>
+        <div class="dd-item" data-action="handleMenuAction('guided-entry')">Saisie guidée</div>
+        <div class="dd-item" data-action="handleMenuAction('entry-template')">Modèles de saisie</div>
+      </div>
+    </div>
+    <!-- Consultation -->
+    <div class="mb-item">
+      <button class="mb-btn" data-action="showPanel('consultation')">Consultation</button>
+      <div class="dropdown">
+        <div class="dd-item" data-action="showPanel('consultation')">Grand Livre <span class="shortcut">Ctrl+G</span></div>
+        <div class="dd-item" data-action="handleMenuAction('third-party-ledger')">Grand Livre Tiers</div>
+        <div class="dd-item" data-action="handleMenuAction('journal-entries')">Journal des écritures</div>
+      </div>
+    </div>
+    <!-- Traitements -->
+    <div class="mb-item">
+      <button class="mb-btn" data-action="showPanel('traitement')">Traitements</button>
+      <div class="dropdown">
+        <div class="dd-item" data-action="renderTVA();openModal('modalTVA')">Déclaration TVA + RAS <span class="shortcut">Ctrl+D</span></div>
+        <div class="dd-item" data-action="handleMenuAction('simple-tva')">Simple TVA + RAS <span class="shortcut">Ctrl+S</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="renderLettrage();openModal('modalLettrage')">Lettrages <span class="shortcut">Ctrl+L</span></div>
+        <div class="dd-item" data-action="handleMenuAction('import-export')">Import et Export <span class="shortcut">Ctrl+I</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="handleMenuAction('renumber')">Renumérotation Écritures <span class="shortcut">Ctrl+R</span></div>
+        <div class="dd-item" data-action="handleMenuAction('close-journals')">Clôture journaux <span class="shortcut">Ctrl+C</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="renderCloture();openModal('modalCloture')">Clôture Exercice <span class="shortcut">Ctrl+E</span></div>
+        <div class="dd-item" style="color:var(--warning);" data-action="openModal('modalAdminOverride')">Annuler clôture exercice <span class="shortcut">Ctrl+A</span></div>
+      </div>
+    </div>
+    <!-- Paramètres -->
+    <div class="mb-item">
+      <button class="mb-btn" data-action="showPanel('parametrage')">Paramètres</button>
+      <div class="dropdown">
+        <div class="dd-item" data-action="showPanel('plancomptable');renderPlanComptable()">Plan Comptable <span class="shortcut">Ctrl+P</span></div>
+        <div class="dd-item" data-action="handleMenuAction('journals')">Journaux <span class="shortcut">Ctrl+J</span></div>
+        <div class="dd-item" data-action="handleMenuAction('banks')">Banques <span class="shortcut">Ctrl+B</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="handleMenuAction('vat-coding')">Codage TVA <span class="shortcut">Ctrl+C</span></div>
+        <div class="dd-item" data-action="handleMenuAction('vat-rates')">Taux de TVA <span class="shortcut">Ctrl+V</span></div>
+        <div class="dd-item" data-action="handleMenuAction('payment-methods')">Modes de paiement <span class="shortcut">Ctrl+O</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="handleMenuAction('third-parties')">Tiers (Clients + Frs.) <span class="shortcut">Ctrl+T</span></div>
+        <div class="dd-item" data-action="handleMenuAction('fixed-assets')">Nature immobilisation <span class="shortcut">Ctrl+N</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="handleMenuAction('currencies')">Devises <span class="shortcut">Ctrl+D</span></div>
+        <div class="dd-item" data-action="handleMenuAction('exchange-rates')">Taux de changes <span class="shortcut">Ctrl+G</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="handleMenuAction('entry-template')">Modèles de saisie <span class="shortcut">Ctrl+M</span></div>
+        <div class="dd-item" data-action="handleMenuAction('scheduled-entries')">Planification Écritures</div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="handleMenuAction('auto-backup')">Sauvegarde auto. <span class="shortcut">Ctrl+S</span></div>
+        <div class="dd-item" data-action="handleMenuAction('auto-update')">Mise à jour auto. <span class="shortcut">Ctrl+R</span></div>
+      </div>
+    </div>
+    <!-- États -->
+    <div class="mb-item">
+      <button class="mb-btn" data-action="showPanel('etats')">États</button>
+      <div class="dropdown">
+        <div class="dd-item" data-action="showPanel('plancomptable');renderPlanComptable()">Plan Comptable <span class="shortcut">Ctrl+P</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="openModal('modalBalanceChoice')">Balance <span class="shortcut">Ctrl+B</span></div>
+        <div class="dd-item" data-action="handleMenuAction('aged-balance')">Balance Âgée <span class="shortcut">Ctrl+A</span></div>
+        <div class="dd-item" data-action="handleMenuAction('report-ledger')">Grand Livre <span class="shortcut">Ctrl+G</span></div>
+        <div class="dd-item" data-action="handleMenuAction('report-journals')">Journaux <span class="shortcut">Ctrl+J</span></div>
+        <div class="dd-item" data-action="handleMenuAction('central-journal')">Journal Centralisateur <span class="shortcut">Ctrl+C</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="handleMenuAction('balance-sheet')">Bilan <span class="shortcut">Ctrl+L</span></div>
+        <div class="dd-item" data-action="handleMenuAction('client-invoices')">Factures Clients <span class="shortcut">Ctrl+F</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="handleMenuAction('tax-determination')">Détermination d'impôt <span class="shortcut">Ctrl+D</span></div>
+        <div class="dd-item" data-action="handleMenuAction('payment-delays')">Délais de Paiement <span class="shortcut">Ctrl+P</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="handleMenuAction('professional-tax')">Taxes Professionnel <span class="shortcut">Ctrl+T</span></div>
+        <div class="dd-item" data-action="handleMenuAction('fees')">Honoraires <span class="shortcut">Ctrl+H</span></div>
+        <div class="dd-item" data-action="handleMenuAction('lawyer-edi')">EDI des avocats <span class="shortcut">Ctrl+E</span></div>
+      </div>
+    </div>
+    <!-- Outils -->
+    <div class="mb-item">
+      <button class="mb-btn">Outils</button>
+      <div class="dropdown">
+        <div class="dd-item" data-action="handleMenuAction('counters')">Les Compteurs <span class="shortcut">Ctrl+C</span></div>
+        <div class="dd-item" data-action="handleMenuAction('restore')">Restaurations <span class="shortcut">Ctrl+R</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="handleMenuAction('maintenance')">Maintenances <span class="shortcut">Ctrl+M</span></div>
+        <div class="dd-item" data-action="handleMenuAction('compact')">Compacter un dossier <span class="shortcut">Ctrl+P</span></div>
+        <div class="dd-item" data-action="handleMenuAction('backup')">Lancer la sauvegarde <span class="shortcut">Ctrl+L</span></div>
+        <div class="dd-item" data-action="handleMenuAction('update')">Lancer la mise à jours <span class="shortcut">Ctrl+J</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="handleMenuAction('downloads')">Téléchargements <span class="shortcut">Ctrl+T</span></div>
+        <div class="dd-item" data-action="handleMenuAction('license')">Activer votre licence <span class="shortcut">Ctrl+A</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="handleMenuAction('suggestions')">Vos Suggestions <span class="shortcut">Ctrl+V</span></div>
+        <div class="dd-item" data-action="handleMenuAction('messaging')">Messageries <span class="shortcut">Ctrl+M</span></div>
+      </div>
+    </div>
+    <!-- Gestion Utilisateurs -->
+    <div class="mb-item">
+      <button class="mb-btn">Gestion Utilisateurs</button>
+      <div class="dropdown">
+        <div class="dd-item" data-action="handleMenuAction('users')">Utilisateurs <span class="shortcut">Ctrl+U</span></div>
+        <div class="dd-item" data-action="handleMenuAction('access')">Accès utilisateur <span class="shortcut">Ctrl+A</span></div>
+        <div class="dd-sep"></div>
+        <div class="dd-item" data-action="handleMenuAction('preferences')">Préférences <span class="shortcut">Ctrl+P</span></div>
+        <div class="dd-item" data-action="handleMenuAction('password')">Mot de passe <span class="shortcut">Ctrl+S</span></div>
+      </div>
+    </div>
+    <div class="mb-right">
+      <span class="badge" id="client-badge">SARL Brahim & Fils — 2026</span>
+      <span class="badge">TVA Mensuel / Encaissement</span>
+    </div>
+  </div>
+
+  <!-- READONLY BANNER -->
+  <div id="readonly-banner" style="display:none;background:#FEF3C7;border-bottom:1px solid #FCD34D;padding:8px 20px;font-size:12px;color:#92400E;align-items:center;justify-content:space-between;">
+    <span>🔒 <strong>Mode lecture seule</strong> — Exercice clôturé. Consultation uniquement, aucune modification possible.</span>
+    <button data-action="switchYear(2026,false)" style="background:#fff;border:1px solid #FCD34D;border-radius:4px;padding:3px 10px;font-size:11px;cursor:pointer;color:#92400E;">Retour 2026 (actif)</button>
+  </div>
+
+  <div class="content">
+
+    <!-- HOME -->
+    <div class="panel active" id="panel-home">
+
+      <!-- LIVE STATS (dossier + exercice actifs) -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="ch"><h3 id="home-live-title">Synthèse — dossier actif</h3><span class="badge" id="home-live-badge">—</span></div>
+        <div style="padding:16px;">
+          <div class="stats-4" style="grid-template-columns:repeat(5,1fr);margin-bottom:0;">
+            <div class="stat-card"><div class="lbl">Solde banque</div><div class="val" id="stat-banque">—</div><div class="sub">Trésorerie (banques)</div></div>
+            <div class="stat-card"><div class="lbl">Solde Caisse</div><div class="val" id="stat-caisse">—</div><div class="sub">Trésorerie (caisse)</div></div>
+            <div class="stat-card"><div class="lbl">Chiffre d'affaires</div><div class="val" id="stat-ca">—</div><div class="sub">Produits (classe 7)</div></div>
+            <div class="stat-card"><div class="lbl">TVA facturée</div><div class="val" id="stat-tva-fact">—</div><div class="sub">TVA collectée</div></div>
+            <div class="stat-card"><div class="lbl">TVA récupérable</div><div class="val" id="stat-tva-rec">—</div><div class="sub">TVA déductible</div></div>
+          </div>
+          <div id="home-tva-alert" style="margin-top:14px;display:none;padding:10px 14px;border-radius:6px;font-size:12px;font-weight:600;"></div>
+        </div>
+      </div>
+
+      <!-- TOP KPIs -->
+      <div class="stats-4" style="grid-template-columns:repeat(5,1fr);">
+        <div class="stat-card" style="cursor:pointer;" data-action="openAllClients()"><div class="lbl">Clients actifs</div><div class="val" id="kpi-clients-actifs">—</div><div class="sub" style="color:var(--success);" id="kpi-clients-sub">—</div></div>
+        <div class="stat-card" style="cursor:pointer;" data-action="document.getElementById('ocr-queue-card').scrollIntoView({behavior:'smooth',block:'start'})"><div class="lbl">Documents en attente</div><div class="val" style="color:var(--warning);" id="kpi-docs-pending">—</div><div class="sub">OCR non traités</div></div>
+        <div class="stat-card" style="cursor:pointer;" data-action="filterHomeClients('a-declarer')"><div class="lbl">TVA à déclarer</div><div class="val" style="color:var(--danger);" id="kpi-tva-declarer">—</div><div class="sub">Cliquer pour filtrer</div></div>
+        <div class="stat-card" style="cursor:pointer;" data-action="filterHomeClients('erreur')"><div class="lbl">Erreurs de balance</div><div class="val" style="color:var(--danger);" id="kpi-erreurs-balance">—</div><div class="sub">Nécessite correction</div></div>
+        <div class="stat-card" style="cursor:pointer;" data-action="filterHomeClients('en-cours')"><div class="lbl">Exercices en clôture</div><div class="val" style="color:var(--warning);" id="kpi-exercices-cloture">—</div><div class="sub">À finaliser</div></div>
+      </div>
+
+      <!-- MULTI-CLIENT MASTER VIEW -->
+      <div class="card" style="margin-bottom:16px;" id="home-clients-card">
+        <div class="ch">
+          <h3>Vue globale — Tous les clients</h3>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <button class="btn btn-p btn-xs" data-action="exportPortfolioTvaExcel()">Exporter Récapitulatif TVA Portefeuille</button>
+            <input id="home-clients-search" style="padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;" placeholder="Rechercher client..." oninput="renderHomeClientsTable()">
+            <select id="home-clients-filter" style="padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;" onchange="renderHomeClientsTable()">
+              <option value="">Tous les statuts</option>
+              <option value="erreur">Erreurs uniquement</option>
+              <option value="a-declarer">TVA à déclarer</option>
+              <option value="docs">Documents en attente</option>
+              <option value="en-cours">Exercices en clôture</option>
+            </select>
+            <button class="btn btn-s btn-xs" id="home-clients-more" data-action="openAllClients()" style="display:none;">Voir tout</button>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Exercice</th>
+              <th>Régime TVA</th>
+              <th style="text-align:center;">Docs en attente</th>
+              <th style="text-align:center;">Statut TVA</th>
+              <th style="text-align:right;">Trésorerie</th>
+              <th style="text-align:center;">Balance</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="home-clients-body"></tbody>
+        </table>
+      </div>
+
+      <!-- BOTTOM ROW -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+
+        <!-- OCR QUEUE -->
+        <div class="card" id="ocr-queue-card">
+          <div class="ch"><h3>📥 File OCR — En attente</h3><span class="status s-yellow" id="ocr-queue-badge">—</span></div>
+          <div style="padding:0;" id="ocr-queue-list"></div>
+          <div style="padding:9px 12px;font-size:11px;color:var(--primary);text-align:center;cursor:pointer;font-weight:600;display:none;" id="ocr-more-btn" data-action="toggleOcrShowAll()"></div>
+        </div>
+
+        <!-- TVA DEADLINES -->
+        <div class="card">
+          <div class="ch"><h3>🗓️ Échéances TVA à venir</h3></div>
+          <div style="padding:0;" id="tva-deadlines-list"></div>
+        </div>
+
+        <!-- ALERTS -->
+        <div class="card">
+          <div class="ch"><h3>⚠️ Alertes & Actions requises</h3></div>
+          <div style="padding:0;">
+            <div style="padding:9px 12px;border-bottom:1px solid var(--border);font-size:12px;cursor:pointer;" data-action="showPanel('consultation');const v=document.getElementById('consult-view');if(v){v.value='balance';renderConsultation();}">
+              <div style="display:flex;gap:6px;align-items:flex-start;">
+                <span style="color:var(--danger);font-weight:700;flex-shrink:0;">⚠</span>
+                <div><div style="font-weight:600;">Balance déséquilibrée</div><div style="font-size:11px;color:var(--muted);">SARL Brahim — écriture JA-014 — écart 200 MAD</div></div>
+              </div>
+            </div>
+            <div style="padding:9px 12px;border-bottom:1px solid var(--border);font-size:12px;cursor:pointer;" data-action="previewClientById('C008')">
+              <div style="display:flex;gap:6px;align-items:flex-start;">
+                <span style="color:var(--warning);font-weight:700;flex-shrink:0;">⚠</span>
+                <div><div style="font-weight:600;">Exercice 2025 à clôturer</div><div style="font-size:11px;color:var(--muted);">Ferronnerie Al Amal — en attente depuis 3 mois</div></div>
+              </div>
+            </div>
+            <div style="padding:9px 12px;border-bottom:1px solid var(--border);font-size:12px;cursor:pointer;" data-action="previewClientById('C003')">
+              <div style="display:flex;gap:6px;align-items:flex-start;">
+                <span style="color:var(--warning);font-weight:700;flex-shrink:0;">⚠</span>
+                <div><div style="font-weight:600;">Exercice 2025 à clôturer</div><div style="font-size:11px;color:var(--muted);">Merouane — en attente depuis 2 mois</div></div>
+              </div>
+            </div>
+            <div style="padding:9px 12px;font-size:12px;cursor:pointer;" data-action="openModal('modalLettrage')">
+              <div style="display:flex;gap:6px;align-items:flex-start;">
+                <span style="color:var(--primary);font-weight:700;flex-shrink:0;">ℹ</span>
+                <div><div style="font-weight:600;">3 factures sans lettrage</div><div style="font-size:11px;color:var(--muted);">SARL Brahim — clients non rapprochés</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+        <!-- SAISIE -->
+    <div class="panel" id="panel-saisie">
+      <div class="jh">
+        <div class="fg"><label>Journal</label>
+          <select id="saisie-journal" style="min-width:180px;" onchange="suggestPiece()">
+            <option value="A ENCAISSER">A ENCAISSER</option>
+            <option value="A NOUVEAU">A NOUVEAU</option>
+            <option value="ACHATS" selected>ACHATS</option>
+            <option value="AMORTISSEMENT">AMORTISSEMENT</option>
+            <option value="AVOIRS">AVOIRS</option>
+            <option value="CAISSE">CAISSE</option>
+            <option value="DECLARATION TVA">DECLARATION TVA</option>
+            <option value="EFFETS">EFFETS</option>
+            <option value="BANQUE">BANQUE</option>
+            <option value="VENTES">VENTES</option>
+          </select>
+        </div>
+        <div class="fg"><label>Date</label><input type="date" id="saisie-date" value="2026-06-11"></div>
+        <div class="fg"><label>N° Pièce</label><input type="text" id="saisie-piece" placeholder="Auto" style="width:90px;"></div>
+        <div class="fg"><label>Référence</label><input type="text" id="saisie-ref" placeholder="FAC-2026-001" style="width:130px;"></div>
+        <div class="fg"><label>Libellé général</label><input type="text" id="saisie-libelle" placeholder="Description..." style="width:200px;" oninput="mirrorLibelle()"></div>
+        <button class="btn btn-s" data-action="calcHtTva()" style="align-self:flex-end;">🧮 Calculer HT+TVA</button>
+        <button class="btn btn-s" data-action="openModal('modalOCR')" style="align-self:flex-end;">📎 OCR</button>
+      </div>
+      <div class="card">
+        <div class="ch"><h3>Lignes d'écriture</h3><div style="display:flex;gap:6px;"><button class="btn btn-s btn-xs" data-action="addLine()">+ Ligne</button><button class="btn btn-s btn-xs" data-action="removeRow()">- Ligne</button></div></div>
+        <div class="table-container">
+        <table id="entry-table">
+          <thead><tr>
+            <th style="width:58px;">Jour...</th>
+            <th style="width:92px;">N° pièce</th>
+            <th style="width:112px;">N° facture</th>
+            <th style="width:112px;">Référence</th>
+            <th style="width:142px;">N° compte (Général)</th>
+            <th style="width:142px;">N° compte (Tiers)</th>
+            <th class="libelle-header">Libellé écriture</th>
+            <th style="width:112px;">Date échéa...</th>
+            <th style="width:92px;">Pièce jointe</th>
+            <th style="width:112px;text-align:right;">Débit</th>
+            <th style="width:112px;text-align:right;">Crédit</th>
+          </tr></thead>
+          <tbody id="lines-body"></tbody>
+        </table>
+        </div>
+        <div class="totals" style="flex-direction:column;align-items:flex-end;gap:8px;">
+          <div class="ti"><span class="tl">Journal Débit</span><span class="tv" id="j-debit">0,00</span></div>
+          <div class="ti"><span class="tl">Journal Crédit</span><span class="tv" id="j-credit">0,00</span></div>
+          <div class="ti"><span class="tl">Solde</span><span class="tv balanced" id="total-ecart">0</span></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <button class="btn btn-s">Annuler</button>
+        <button class="btn btn-p" id="validate-entry" data-action="validerEcriture()" disabled>Valider l'écriture</button>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <div class="ch"><h3>Dernières écritures — <span id="recent-entries-year">Juin 2026</span></h3><button class="btn btn-s btn-xs">Num. Pièce Auto</button></div>
+        <table>
+          <thead><tr><th>N° Pièce</th><th>Date</th><th>Journal</th><th>N° Facture</th><th>Compte</th><th>Lettrage</th><th>Libellé</th><th style="text-align:right;">Débit</th><th style="text-align:right;">Crédit</th><th style="text-align:center;">Action</th></tr></thead>
+          <tbody id="recent-entries-body">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CONSULTATION -->
+    <div class="panel" id="panel-consultation">
+      <div class="gl-row">
+        <div class="fg"><label>Vue</label>
+          <select id="consult-view" onchange="renderConsultation()">
+            <option value="gl">Grand Livre</option>
+            <option value="balance">Balance des comptes</option>
+          </select>
+        </div>
+        <div class="fg"><label>Compte</label><input type="text" id="consult-account" placeholder="Ex: 4411" style="width:110px;" oninput="AppState.grandLivreFilter=this.value.trim();renderConsultation()"></div>
+        <div class="fg"><label>Période</label>
+          <select><option>Exercice 2026</option><option>T2 2026</option><option>Juin 2026</option></select>
+        </div>
+        <button class="btn btn-p" style="align-self:flex-end;" data-action="renderConsultation()">Afficher</button>
+        <button class="btn btn-s" style="align-self:flex-end;">Export PDF</button>
+      </div>
+      <div id="consult-gl">
+        <div class="card">
+          <div class="ch"><h3 id="gl-title">Grand Livre</h3><span class="at" id="gl-tag">—</span></div>
+          <table>
+            <thead><tr><th>Date</th><th>Journal</th><th>Pièce</th><th>N° Facture</th><th>Libellé</th><th style="text-align:right;">Débit</th><th style="text-align:right;">Crédit</th><th style="text-align:right;">Solde</th><th style="text-align:center;">Lettr.</th></tr></thead>
+            <tbody id="gl-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <div id="consult-balance" style="display:none;">
+        <div class="card">
+          <div class="ch"><h3>Balance <span id="balance-mode-label" style="color:var(--primary);">Générale</span> — <span id="balance-year">Exercice 2026</span></h3><button class="btn btn-s btn-xs">Export PDF</button></div>
+          <table>
+            <thead><tr><th>Compte</th><th>Intitulé</th><th style="text-align:center;">Type</th><th style="text-align:right;">À-nv Débit</th><th style="text-align:right;">À-nv Crédit</th><th style="text-align:right;">Mvt Débit</th><th style="text-align:right;">Mvt Crédit</th><th style="text-align:right;">Solde Débit</th><th style="text-align:right;">Solde Crédit</th></tr></thead>
+            <tbody id="balance-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRAITEMENT -->
+    <div class="panel" id="panel-traitement">
+      <div class="ag">
+        <div class="ac"><h4>📥 Import OCR</h4><p>Importez factures PDF/images. Le système extrait les données automatiquement.</p><button class="btn btn-p" data-action="openModal('modalOCR')">Importer un document</button></div>
+        <div class="ac"><h4>📊 Déclaration TVA + RAS</h4><p>Calcule TVA selon régime d'encaissement. Génère le formulaire de déclaration.</p><button class="btn btn-s" data-action="renderTVA();openModal('modalTVA')">Générer — Juin 2026</button></div>
+        <div class="ac"><h4>🔗 Lettrages</h4><p>Rapprochez règlements bancaires avec factures clients et fournisseurs.</p><button class="btn btn-s" data-action="renderLettrage();openModal('modalLettrage')">Ouvrir le lettrage</button></div>
+        <div class="ac"><h4>📤 Import et Export</h4><p>Importez depuis Excel ou exportez Grand Livre / Balance vers Excel ou XML.</p><button class="btn btn-s">Importer Excel</button></div>
+        <div class="ac"><h4>🔢 Renumérotation</h4><p>Attribue séquentiellement les numéros de pièce à toutes les écritures non numérotées.</p><button class="btn btn-s">Num. Pièce Auto</button></div>
+        <div class="ac"><h4>🔍 Détection doublons</h4><p>Analyse factures enregistrées et signale doublons par ICE + montant + date.</p><button class="btn btn-s">Lancer l'analyse</button></div>
+        <div class="ac"><h4>📋 Clôture journaux</h4><p>Clôture les journaux de la période sélectionnée avant clôture d'exercice.</p><button class="btn btn-s">Clôturer journaux</button></div>
+        <div class="ac" style="border-color:#FCD34D;background:#FFFBEB;"><h4>🔓 Annuler clôture exercice</h4><p>Réouvre un exercice clôturé pour saisie rectificative. Accès administrateur requis.</p><button class="btn btn-s" style="background:#FEF3C7;color:var(--warning);border-color:#FCD34D;" data-action="openModal('modalAdminOverride')">Déverrouiller exercice</button></div>
+        <div class="ac danger"><h4>🔒 Clôture Exercice 2026</h4><p>Clôture définitive. Les À-nouveaux seront générés automatiquement pour 2027.</p><button class="btn btn-d" data-action="renderCloture();openModal('modalCloture')">Clôturer l'exercice</button></div>
+      </div>
+    </div>
+
+    <!-- ÉTATS -->
+    <div class="panel" id="panel-etats">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+        <div class="ac" style="cursor:pointer;" data-action="openModal('modalBalanceChoice')"><h4>📊 Balance</h4><p>Balance générale des comptes avec À-nouveaux, mouvements et soldes.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
+        <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('aged-balance')"><h4>📊 Balance Âgée</h4><p>Analyse des soldes par ancienneté pour suivi des créances.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
+        <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('report-ledger')"><h4>📖 Grand Livre</h4><p>Détail de toutes les écritures par compte PCM.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
+        <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('report-journals')"><h4>📋 Journaux</h4><p>Listing des écritures par journal (Achats, Ventes, Banque...).</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
+        <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('central-journal')"><h4>📋 Journal Centralisateur</h4><p>Synthèse des totaux par journal pour la période.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
+        <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('balance-sheet')"><h4>⚖️ Bilan</h4><p>Actif / Passif — états financiers de fin d'exercice.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
+        <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('client-invoices')"><h4>🧾 Factures Clients</h4><p>Listing des factures émises avec statut de paiement.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
+        <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('tax-determination')"><h4>🏛️ Détermination d'impôt</h4><p>Calcul IS / IR selon résultat fiscal de l'exercice.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
+        <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('payment-delays')"><h4>⏱️ Délais de Paiement</h4><p>Suivi des retards de paiement et pénalités légales.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
+        <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('professional-tax')"><h4>🏢 Taxes Professionnel</h4><p>Calcul et déclaration de la Taxe Professionnelle annuelle.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
+        <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('fees')"><h4>💼 Honoraires</h4><p>État des honoraires versés avec retenue à la source (RAS).</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
+        <div class="ac" style="cursor:pointer;" data-action="showPanel('plancomptable');renderPlanComptable()"><h4>📄 Plan Comptable</h4><p>Consultation, édition et impression du plan comptable marocain.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
+      </div>
+    </div>
+
+    <!-- PLAN COMPTABLE MAROCAIN (Req 1.6) -->
+    <div class="panel" id="panel-plancomptable">
+      <div class="card">
+        <div class="ch">
+          <h3>📄 Plan Comptable Marocain — Édition</h3>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <input type="text" id="pcm-search" placeholder="🔍 Rechercher un compte (code ou intitulé)..." style="padding:5px 9px;border:1px solid var(--border);border-radius:6px;font-size:11px;width:240px;" oninput="renderPlanComptable()">
+            <select id="pcm-class-filter" onchange="renderPlanComptable()" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;">
+              <option value="all">Toutes les classes</option><option value="1">Classe 1</option><option value="2">Classe 2</option><option value="3">Classe 3</option><option value="4">Classe 4</option><option value="5">Classe 5</option><option value="6">Classe 6</option><option value="7">Classe 7</option><option value="8">Classe 8</option>
+            </select>
+            <button class="btn btn-p btn-xs" data-action="addPcmAccount()">+ Ajouter un compte</button>
+            <button class="btn btn-s btn-xs" data-action="previewPcgeGeneral()">Aperçu/import PCGE général</button>
+            <button class="btn btn-s btn-xs" data-action="openAuxImport()">Importer</button>
+            <button class="btn btn-s btn-xs" data-action="exportAuxAccounts('xlsx')">Exporter le Plan Complémentaire</button>
+            <button class="btn btn-s btn-xs" data-action="exportAuxAccounts('csv')">Export CSV</button>
+          </div>
+        </div>
+        <div style="padding:10px 16px 0;font-size:11px;color:var(--muted);">✏️ Cliquez sur un code ou un intitulé pour le modifier — les comptes peuvent être adaptés au cadre de travail du cabinet. Les modifications s'appliquent immédiatement à toutes les écritures, la balance et le grand livre.</div>
+        <table>
+          <thead><tr>
+            <th style="width:110px;">Code</th>
+            <th>Intitulé</th>
+            <th style="width:70px;text-align:center;">Classe</th>
+            <th style="width:90px;text-align:center;">Type</th>
+            <th style="width:60px;text-align:center;">AN/NON</th>
+            <th style="width:50px;"></th>
+          </tr></thead>
+          <tbody id="pcm-body"></tbody>
+        </table>
+        <div class="aux-table">
+          <div class="ch"><h3>Plan Comptable Complémentaire — Tiers</h3><span id="aux-count" style="font-size:11px;color:var(--muted);"></span></div>
+          <table>
+            <thead><tr><th>Compte auxiliaire</th><th>Libellé</th><th>Compte racine</th><th>ICE</th><th>IF</th><th>Type</th></tr></thead>
+            <tbody id="aux-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARAMETRAGE -->
+    <div class="panel" id="panel-parametrage">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="card">
+          <div class="ch"><h3>Fiche client</h3><button class="btn btn-p btn-xs">Enregistrer</button></div>
+          <div style="padding:14px;">
+            <div class="pm">
+              <h4>Informations légales</h4>
+              <div class="pg">
+                <div class="fg"><label>Raison sociale</label><input type="text" value="SARL Brahim & Fils"></div>
+                <div class="fg"><label>ICE</label><input type="text" value="001234567000045"></div>
+                <div class="fg"><label>Forme juridique</label><select><option>SARL</option><option>SA</option><option>Auto-entrepreneur</option></select></div>
+                <div class="fg"><label>Capital social (MAD)</label><input type="number" value="100000"></div>
+                <div class="fg"><label>Secteur</label><input type="text" value="Commerce général"></div>
+                <div class="fg"><label>Téléphone</label><input type="text" value="+212 661 234 567"></div>
+              </div>
+            </div>
+            <div class="pm">
+              <h4>Paramètres fiscaux</h4>
+              <div class="tr-row"><div><div style="font-size:12px;font-weight:600;">Régime TVA</div><div style="font-size:11px;color:var(--muted);">Base de calcul TVA</div></div><select style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;"><option>Encaissement</option><option>Débit</option></select></div>
+              <div class="tr-row"><div><div style="font-size:12px;font-weight:600;">Périodicité TVA</div></div><select style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;"><option>Mensuelle</option><option>Trimestrielle</option><option>Exonéré</option></select></div>
+              <div class="tr-row"><div><div style="font-size:12px;font-weight:600;">IS automatique</div></div><div class="toggle on" data-action="this.classList.toggle('on')"></div></div>
+              <div class="tr-row"><div><div style="font-size:12px;font-weight:600;">Retenue à la source (RAS)</div></div><div class="toggle on" data-action="this.classList.toggle('on')"></div></div>
+              <div class="tr-row"><div><div style="font-size:12px;font-weight:600;">Taxe Professionnelle</div></div><div class="toggle on" data-action="this.classList.toggle('on')"></div></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:14px;">
+            <div class="ch"><h3>Taux de TVA</h3><button class="btn btn-s btn-xs">+ Ajouter</button></div>
+            <table>
+              <thead><tr><th>Code</th><th>Désignation</th><th style="text-align:right;">Taux</th></tr></thead>
+              <tbody>
+                <tr><td>T20</td><td>TVA normale</td><td style="text-align:right;font-weight:600;">20%</td></tr>
+                <tr><td>T14</td><td>TVA réduite</td><td style="text-align:right;font-weight:600;">14%</td></tr>
+                <tr><td>T10</td><td>TVA réduite</td><td style="text-align:right;font-weight:600;">10%</td></tr>
+                <tr><td>T07</td><td>TVA super-réduite</td><td style="text-align:right;font-weight:600;">7%</td></tr>
+                <tr><td>T00</td><td>Exonéré</td><td style="text-align:right;font-weight:600;">0%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <div class="ch"><h3>Modes de paiement</h3><button class="btn btn-s btn-xs">+ Ajouter</button></div>
+            <table>
+              <thead><tr><th>Code</th><th>Désignation</th></tr></thead>
+              <tbody>
+                <tr><td>CH</td><td>Chèque</td></tr>
+                <tr><td>VIR</td><td>Virement bancaire</td></tr>
+                <tr><td>ESP</td><td>Espèces</td></tr>
+                <tr><td>EFF</td><td>Effet de commerce</td></tr>
+                <tr><td>CB</td><td>Carte bancaire</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- MODAL OCR -->
+<div class="mo" id="modalOCR">
+  <div class="md">
+    <h3>Import OCR</h3>
+    <p class="sub">Déposez une facture PDF ou image. Les données restent à vérifier avant toute écriture.</p>
+    <input id="ocr-file-input" type="file" accept="application/pdf,image/jpeg,image/png" hidden>
+    <div class="upz" id="ocr-drop-zone"><div class="icon">📄</div><p><strong>Cliquez ou glissez-déposez</strong> — PDF, JPG, PNG max 10 Mo</p></div>
+    <div class="ocr-state" id="ocr-state" style="display:none;"></div>
+    <div class="ocr-review" id="ocr-review">
+      <div class="ocr-grid">
+        <label>Fournisseur<input id="ocr-supplier" type="text"></label>
+        <label>ICE<input id="ocr-ice" type="text"></label>
+        <label>N° facture<input id="ocr-invoice" type="text"></label>
+        <label>Date facture (JJ/MM/AAAA)<input id="ocr-date" type="text" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off"></label>
+        <label>HT<input id="ocr-ht" type="number" step="0.01"></label>
+        <label>TVA<input id="ocr-vat" type="number" step="0.01"></label>
+        <label>Taux TVA<input id="ocr-vat-rate" type="number" step="0.01" min="0"></label>
+        <label>TTC<input id="ocr-ttc" type="number" step="0.01"></label>
+        <label>Compte de charge <span style="font-size:10px;color:var(--muted);">(suggestion : 6122 — à confirmer)</span><input id="ocr-expense-account" type="text" placeholder="6122 (À confirmer)"></label>
+        <label>Compte fournisseur <span style="font-size:10px;color:var(--muted);">(suggestion : 4411 — à confirmer)</span><input id="ocr-supplier-account" type="text" placeholder="4411 (À confirmer)"></label>
+      </div>
+      <div class="warn" id="ocr-review-warning" style="margin-top:10px;">Vérification comptable obligatoire : les données extraites et comptes suggérés doivent être contrôlés par le comptable avant génération du brouillon.</div>
+    </div>
+    <div class="mf"><button type="button" class="btn btn-s" data-action="closeModal('modalOCR')">Annuler</button><button type="button" class="btn btn-p" id="ocr-review-button" data-action="createOcrEntry()" disabled>Préparer le brouillon</button></div>
+  </div>
+</div>
+
+<!-- MODAL TVA -->
+<div class="mo" id="modalTVA">
+  <div class="md" style="width:640px;">
+    <h3>Déclaration TVA — <span id="tva-modal-title">Exercice</span></h3>
+    <p class="sub" id="tva-modal-sub">Régime — TVA calculée selon le régime du dossier.</p>
+    <div class="warn" style="margin-bottom:10px;font-weight:700;">TEST ONLY — NOT VERIFIED BY DGI · Export réservé aux données fictives de démonstration.</div>
+    <div style="max-height:300px;overflow-y:auto;margin-bottom:10px;">
+      <table>
+        <thead><tr><th>Date</th><th>Journal</th><th>N° Facture</th><th>Libellé</th><th style="text-align:right;">Montant TVA</th><th>Taux</th><th>Statut</th></tr></thead>
+        <tbody id="tva-lines-body"></tbody>
+      </table>
+    </div>
+    <table style="margin-bottom:10px;">
+      <tbody>
+        <tr><td>TVA Facturée collectée</td><td style="text-align:right;font-weight:600;" id="tva-facturee">0,00</td></tr>
+        <tr><td>TVA Récupérable (achats)</td><td style="text-align:right;font-weight:600;" id="tva-recuperable">0,00</td></tr>
+        <tr style="background:var(--bg);font-weight:700;"><td>TVA nette à payer</td><td style="text-align:right;" id="tva-nette">0,00 MAD</td></tr>
+      </tbody>
+    </table>
+    <div class="mf"><button class="btn btn-s" data-action="closeModal('modalTVA')">Fermer</button><button class="btn btn-s" data-action="exportTvaExcel()">Exporter en Excel (.xlsx)</button><button class="btn btn-p" data-action="exportSimplTva()">TEST ONLY — Export SIMPL-TVA XML/ZIP</button></div>
+  </div>
+</div>
+
+<!-- MODAL EXPORT ERRORS -->
+<div class="mo" id="modalExportErrors">
+  <div class="md" style="width:600px;">
+    <h3>⚠️ Export bloqué — corrections requises</h3>
+    <p class="sub">Le moteur fiscal a détecté des problèmes empêchant la génération du fichier DGI. Corrigez-les puis réessayez.</p>
+    <div style="max-height:320px;overflow-y:auto;margin:10px 0;" id="export-errors-list"></div>
+    <div class="mf"><button class="btn btn-p" data-action="closeModal('modalExportErrors')">Fermer</button></div>
+  </div>
+</div>
+
+<!-- MODAL CHOIX BALANCE (Req 1.4) -->
+<div class="mo" id="modalBalanceChoice">
+  <div class="md">
+    <h3>📊 Balance des comptes</h3>
+    <p class="sub">Choisissez le type de balance que vous souhaitez consulter.</p>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <button class="btn btn-s" style="width:100%;text-align:left;padding:12px 14px;" data-action="openCgncReport('balance-generale')">
+        <div style="font-weight:700;font-size:12px;">📊 Balance Générale</div>
+        <div style="font-weight:400;font-size:11px;color:var(--muted);margin-top:2px;">Tous les comptes du plan comptable, classés BILAN (AN) et CPC (NON)</div>
+      </button>
+      <button class="btn btn-s" style="width:100%;text-align:left;padding:12px 14px;" data-action="openBalance('clients')">
+        <div style="font-weight:700;font-size:12px;">👥 Balance Aux Clients</div>
+        <div style="font-weight:400;font-size:11px;color:var(--muted);margin-top:2px;">Comptes clients et leurs divisionnaires (3421...)</div>
+      </button>
+      <button class="btn btn-s" style="width:100%;text-align:left;padding:12px 14px;" data-action="openBalance('fournisseurs')">
+        <div style="font-weight:700;font-size:12px;">🚚 Balance Aux Fournisseurs</div>
+        <div style="font-weight:400;font-size:11px;color:var(--muted);margin-top:2px;">Comptes fournisseurs et leurs divisionnaires (4411...)</div>
+      </button>
+    </div>
+    <div class="mf"><button class="btn btn-s" data-action="closeModal('modalBalanceChoice')">Annuler</button></div>
+  </div>
+</div>
+
+<!-- MODAL LIASSE FISCALE -->
+<div class="mo" id="modalLiasse">
+  <div class="md" style="width:960px;max-width:96vw;">
+    <h3>Liasse Fiscale — <span id="liasse-year-title"></span></h3>
+    <p class="sub">Synthèse CGNC de la Balance Générale, passage au résultat fiscal et calcul IS / Cotisation Minimale.</p>
+    <div class="warn" style="margin-bottom:10px;font-weight:700;">TEST ONLY — NOT VERIFIED BY DGI · XML SIMPL-IS réservé aux données fictives de démonstration.</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+      <button class="btn btn-s liasse-tab active" data-action="showLiasseTab('tables', this)">32 tableaux CGNC</button>
+      <button class="btn btn-s liasse-tab" data-action="showLiasseTab('adjustments', this)">Tableau 03 — Résultat fiscal</button>
+      <button class="btn btn-s liasse-tab" data-action="showLiasseTab('tax', this)">Tableau 04 — IS / CM</button>
+    </div>
+    <div id="liasse-tables-tab"></div>
+    <div id="liasse-adjustments-tab" style="display:none;"></div>
+    <div id="liasse-tax-tab" style="display:none;"></div>
+    <div class="mf"><button class="btn btn-s" data-action="closeModal('modalLiasse')">Fermer</button><button class="btn btn-s" data-action="saveLiasseState()">Enregistrer</button><button class="btn btn-p" data-action="exportLiasseXml()">TEST ONLY — Export SIMPL-IS XML</button></div>
+  </div>
+</div>
+
+<!-- MODAL LETTRAGE -->
+<div class="mo" id="modalLettrage">
+  <div class="md" style="width:620px;">
+    <h3>Lettrage — Comptes tiers (3421 · 4411)</h3>
+    <p class="sub">Rapprochez les règlements avec les factures en attente.</p>
+    <div style="max-height:320px;overflow-y:auto;">
+      <table>
+        <thead><tr><th>Date</th><th>Pièce</th><th>Compte</th><th>Libellé</th><th style="text-align:right;">Débit</th><th style="text-align:right;">Crédit</th><th>✓</th></tr></thead>
+        <tbody id="lettrage-body"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:12px;">Solde sélectionné : <strong id="lettrage-solde" style="color:var(--success);">0,00 ✓</strong></div>
+    <div class="mf"><button class="btn btn-s" data-action="closeModal('modalLettrage')">Fermer</button><button class="btn btn-p" id="lettrage-valider" data-action="validerLettrage()" disabled>Valider le lettrage</button></div>
+  </div>
+</div>
+
+<!-- MODAL CLOTURE -->
+<div class="mo" id="modalCloture">
+  <div class="md">
+    <h3 id="cloture-title">Clôture Exercice</h3>
+    <p class="sub">Action irréversible sauf intervention administrateur.</p>
+    <div class="warn" id="cloture-warn">⚠️ La clôture va verrouiller l'exercice et générer les À-nouveaux de l'exercice suivant automatiquement.</div>
+    <div style="font-size:12px;margin-bottom:8px;font-weight:600;">Vérifications avant clôture :</div>
+    <div id="cloture-checks" style="font-size:11px;display:flex;flex-direction:column;gap:5px;margin-bottom:14px;"></div>
+    <div class="mf"><button class="btn btn-s" data-action="closeModal('modalCloture')">Annuler</button><button class="btn btn-d" data-action="confirmerCloture()">Confirmer la clôture</button></div>
+  </div>
+</div>
+
+<!-- MODAL NOUVEL EXERCICE -->
+<div class="mo" id="modalNewEx">
+  <div class="md">
+    <h3>Nouvel Exercice</h3>
+    <p class="sub">Créer un nouvel exercice fiscal pour ce client.</p>
+    <div class="form-row">
+      <div class="fg"><label>Date début</label><input type="date" value="2027-01-01"></div>
+      <div class="fg"><label>Date fin</label><input type="date" value="2027-12-31"></div>
+    </div>
+    <div class="fg" style="margin-bottom:10px;"><label>Exercice</label><input type="text" value="2027"></div>
+    <div style="font-size:11px;color:var(--muted);padding:8px;background:var(--bg);border-radius:6px;">Les soldes de clôture 2026 seront repris automatiquement comme À-nouveaux au 01/01/2027.</div>
+    <div class="mf"><button class="btn btn-s" data-action="closeModal('modalNewEx')">Annuler</button><button class="btn btn-p">Créer l'exercice</button></div>
+  </div>
+</div>
+
+<!-- APERÇU CLIENT (avant ouverture complète du dossier) -->
+<div class="mo" id="modalClientPreview">
+  <div class="md md-lg">
+    <div class="cp-head">
+      <div class="cp-avatar" id="cp-avatar">?</div>
+      <div>
+        <div class="cp-title" id="cp-name">—</div>
+        <div class="cp-meta" id="cp-meta">—</div>
+      </div>
+    </div>
+    <div class="cp-stats" id="cp-stats"></div>
+    <div class="cp-section-title">Dernières écritures</div>
+    <table>
+      <thead><tr><th>Date</th><th>Compte</th><th>Libellé</th><th style="text-align:right;">Montant</th></tr></thead>
+      <tbody id="cp-entries"></tbody>
+    </table>
+    <div class="mf">
+      <button class="btn btn-s" data-action="closeModal('modalClientPreview')">Fermer</button>
+      <button class="btn btn-p" data-action="openFullDossierFromPreview()">📂 Ouvrir le dossier complet</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOUS LES CLIENTS (vue d'ensemble, sans ouvrir un dossier précis) -->
+<div class="mo" id="modalAllClients">
+  <div class="md md-lg">
+    <h3>📋 Tous les clients</h3>
+    <p class="sub" id="ac-count">— clients au total</p>
+    <input type="text" id="all-clients-search" placeholder="🔍 Filtrer la liste..." style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;margin-bottom:12px;" oninput="renderAllClientsTable()">
+    <div style="max-height:52vh;overflow-y:auto;">
+      <table>
+        <thead><tr><th>Client</th><th>Exercice</th><th>Régime TVA</th><th style="text-align:right;">Trésorerie</th><th style="text-align:right;">TVA à déclarer</th><th></th></tr></thead>
+        <tbody id="all-clients-body"></tbody>
+      </table>
+    </div>
+    <div class="mf"><button class="btn btn-s" data-action="closeModal('modalAllClients')">Fermer</button></div>
+  </div>
+</div>
+
+<div class="mo" id="modalClientManager">
+  <div class="md md-lg" style="width:min(920px,94vw);">
+    <h3>Clients et exercices</h3>
+    <p class="sub">Les clients réels sont enregistrés dans SQLite. Les données de démonstration restent séparées et en lecture seule.</p>
+    <div id="client-manager-status" class="status s-gray" style="display:none;margin-bottom:10px;"></div>
+    <div style="display:grid;grid-template-columns:minmax(260px,1fr) minmax(300px,1.2fr);gap:16px;">
+      <div class="card" style="margin:0;padding:14px;">
+        <h4 style="font-size:12px;margin-bottom:10px;">Client réel</h4>
+        <input type="hidden" id="managed-client-id">
+        <div class="fg" style="margin-bottom:8px;"><label>Raison sociale</label><input id="managed-client-name" type="text" placeholder="SARL Exemple"></div>
+        <div class="fg" style="margin-bottom:8px;"><label>ICE</label><input id="managed-client-ice" type="text" placeholder="000000000000000"></div>
+        <div class="fg" style="margin-bottom:8px;"><label>Forme juridique</label><input id="managed-client-form" type="text" placeholder="SARL"></div>
+        <div class="form-row">
+          <div class="fg"><label>Régime TVA</label><select id="managed-client-regime"><option>Débit</option><option>Encaissement</option><option>Exonéré</option></select></div>
+          <div class="fg"><label>Périodicité</label><select id="managed-client-period"><option>Mensuelle</option><option>Trimestrielle</option><option>—</option></select></div>
+        </div>
+        <div class="mf"><button class="btn btn-s" data-action="resetManagedClientForm()">Nouveau</button><button class="btn btn-p" data-action="saveManagedClient()">Enregistrer</button></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><h4 style="font-size:12px;">Clients enregistrés</h4><button class="btn btn-s btn-xs" data-action="loadManagedClients()">Actualiser</button></div>
+        <div id="managed-clients-list" style="max-height:230px;overflow:auto;border:1px solid var(--border);border-radius:6px;"></div>
+        <div class="card" style="margin:12px 0 0;padding:14px;">
+          <h4 style="font-size:12px;margin-bottom:8px;">Exercice du client sélectionné</h4>
+          <div class="form-row">
+            <div class="fg"><label>Année</label><input id="managed-year" type="number" min="2000" max="2100" placeholder="2026"></div>
+            <div class="fg"><label>Statut</label><select id="managed-year-status"><option value="open">Ouvert</option><option value="closed">Clôturé</option></select></div>
+          </div>
+          <div class="mf"><button class="btn btn-p" data-action="saveManagedFiscalYear()">Enregistrer l'exercice</button></div>
+          <div id="managed-years-list" style="font-size:11px;color:var(--muted);"></div>
+        </div>
+      </div>
+    </div>
+    <div class="mf"><button class="btn btn-s" data-action="closeModal('modalClientManager')">Fermer</button></div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<div class="mo" id="modalPcgeImport">
+  <div class="md" style="width:760px;max-width:96vw;">
+    <h3>Import PCGE général — source PDF</h3>
+    <p class="sub">Aucun compte existant ne sera supprimé ou renommé. Les comptes sectoriels/classes 0 et 9 restent séparés.</p>
+    <div class="card" style="padding:10px;margin-bottom:10px;background:var(--bg);"><strong id="pcge-preview-summary">Aperçu en cours...</strong><div id="pcge-preview-more" style="font-size:11px;color:var(--muted);margin-top:4px;"></div></div>
+    <div style="max-height:360px;overflow:auto;"><table><thead><tr><th>Code</th><th>Libellé source</th><th>Parent</th></tr></thead><tbody id="pcge-preview-body"></tbody></table></div>
+    <div class="mf"><button class="btn btn-s" data-action="closeModal('modalPcgeImport')">Annuler</button><button class="btn btn-p" id="pcge-import-confirm" data-action="importPcgeGeneral()" disabled>Importer les comptes manquants</button></div>
+  </div>
+</div>
+
+<div class="mo" id="modalAuxImport">
+  <div class="md" style="width:900px;">
+    <h3>Importer le Plan Comptable Complémentaire</h3>
+    <p class="sub">Dossier actif : <strong id="aux-import-dossier">—</strong>. Les colonnes doivent respecter le modèle.</p>
+    <div id="aux-drop" class="import-drop" data-action="document.getElementById('aux-file').click()" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="handleAuxDrop(event)">
+      Déposez un fichier CSV ou XLSX ici, ou cliquez pour le sélectionner
+      <input id="aux-file" type="file" accept=".csv,.xlsx" hidden onchange="handleAuxFile(this.files[0])">
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+      <span id="aux-file-name" style="font-size:11px;color:var(--muted);">Aucun fichier sélectionné</span>
+      <button class="btn btn-s btn-xs" data-action="downloadAuxTemplate()">Télécharger le modèle</button>
+    </div>
+    <div id="aux-import-summary" class="import-summary" style="display:none;"></div>
+    <div id="aux-import-preview" class="import-preview" style="display:none;"></div>
+    <div class="mf">
+      <button class="btn btn-s" data-action="closeModal('modalAuxImport')">Annuler</button>
+      <button class="btn btn-p" id="aux-import-confirm" data-action="importValidAuxAccounts()" disabled>Importer les lignes valides</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="app.js"></script>
+
+<!-- SHARED MENUBAR WORKFLOW MODAL -->
+<div class="mo" id="modalMenuWorkflow">
+  <div class="md md-lg">
+    <h3 id="menu-modal-title">Action</h3>
+    <p class="sub">Dossier actif — exercice <span id="menu-modal-year">2026</span></p>
+    <div id="menu-modal-body"></div>
+    <div class="mf">
+      <button class="btn btn-s" data-action="closeModal('modalMenuWorkflow')">Fermer</button>
+      <button class="btn btn-p" id="menu-modal-primary">Valider</button>
+    </div>
+  </div>
+</div>
+
+<div class="mo" id="modalCgncReport">
+  <div class="md md-lg" style="width:min(1120px,94vw);">
+    <h3 id="cgnc-report-title">Etat CGNC</h3>
+    <p class="sub" id="cgnc-report-subtitle">Dossier actif — exercice en cours</p>
+    <div id="cgnc-report-filters" style="margin-bottom:12px;"></div>
+    <div id="cgnc-report-body" style="max-height:58vh;overflow:auto;"></div>
+    <div class="mf"><button class="btn btn-s" data-action="closeModal('modalCgncReport')">Fermer</button><button class="btn btn-s" data-action="exportCgncReport('csv')">Export CSV</button><button class="btn btn-p" data-action="exportCgncReport('xlsx')">Export Excel</button></div>
+  </div>
+</div>
+
+<!-- MODAL ADMIN OVERRIDE -->
+<div class="mo" id="modalAdminOverride">
+  <div class="md">
+    <h3>🔓 Déverrouillage exercice clôturé</h3>
+    <p class="sub">Action réservée à l'administrateur système.</p>
+    <div class="warn">⚠️ Cette action réouvre un exercice verrouillé et permet la saisie d'écritures rectificatives. Toute modification sera tracée dans le journal d'audit.</div>
+    <div style="margin-bottom:12px;">
+      <div style="font-size:12px;font-weight:600;margin-bottom:8px;">Sélectionner l'exercice à déverrouiller :</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="display:flex;align-items:center;gap:8px;font-size:12px;padding:8px;border:1px solid var(--border);border-radius:6px;cursor:pointer;">
+          <input type="radio" name="ex_override" value="2025"> <span>Exercice <strong>2025</strong> — Clôturé le 31/01/2026</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:12px;padding:8px;border:1px solid var(--border);border-radius:6px;cursor:pointer;">
+          <input type="radio" name="ex_override" value="2024"> <span>Exercice <strong>2024</strong> — Clôturé le 15/02/2025</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:12px;padding:8px;border:1px solid var(--border);border-radius:6px;cursor:pointer;">
+          <input type="radio" name="ex_override" value="2023"> <span>Exercice <strong>2023</strong> — Clôturé le 20/03/2024</span>
+        </label>
+      </div>
+    </div>
+    <div class="fg" style="margin-bottom:12px;">
+      <label>Motif de déverrouillage</label>
+      <input type="text" placeholder="Ex: Correction écriture IS 2025 suite contrôle fiscal">
+    </div>
+    <div style="font-size:11px;color:var(--muted);padding:8px;background:var(--bg);border-radius:6px;margin-bottom:4px;">🔐 Authentification admin requise — cette action sera enregistrée dans le journal d'audit avec horodatage.</div>
+    <div class="mf">
+      <button class="btn btn-s" data-action="closeModal('modalAdminOverride')">Annuler</button>
+      <button class="btn btn-s" style="background:#FEF3C7;color:var(--warning);border-color:#FCD34D;">Confirmer le déverrouillage</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Centralized click handling keeps markup declarative and works on touch devices.
+document.addEventListener('click', event => {
+  const menuItem = event.target.closest('.mb-item');
+  const menuButton = event.target.closest('.mb-btn');
+  const actionTarget = event.target.closest('[data-action]');
+
+  if (menuButton && menuItem) {
+    event.preventDefault();
+    document.querySelectorAll('.mb-item.open').forEach(item => {
+      if (item !== menuItem) item.classList.remove('open');
+    });
+    menuItem.classList.toggle('open');
+  }
+
+  if (actionTarget && !actionTarget.disabled) {
+    Function('event', actionTarget.dataset.action).call(actionTarget, event);
+    if (!actionTarget.classList.contains('mb-btn')) {
+      actionTarget.closest('.mb-item')?.classList.remove('open');
+    }
+  }
+
+  if (!menuItem && !event.target.closest('.dropdown')) {
+    document.querySelectorAll('.mb-item.open').forEach(item => item.classList.remove('open'));
+  }
+});
+</script>
+
+</body>
+</html>

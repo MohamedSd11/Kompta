@@ -1,0 +1,2187 @@
+[
+  {
+    "code": "1111",
+    "label": "Capital social",
+    "line": "{ code:'1111', label:'Capital social', type:'parent', classe:1 },"
+  },
+  {
+    "code": "3421",
+    "label": "Clients",
+    "line": "{ code:'3421', label:'Clients', type:'parent', classe:3 },"
+  },
+  {
+    "code": "34210001",
+    "label": "Client Karim",
+    "line": "{ code:'34210001', label:'Client Karim', type:'divisionnaire', parent:'3421' },"
+  },
+  {
+    "code": "34210002",
+    "label": "Client Maroine",
+    "line": "{ code:'34210002', label:'Client Maroine', type:'divisionnaire', parent:'3421' },"
+  },
+  {
+    "code": "3455",
+    "label": "État TVA récupérable",
+    "line": "{ code:'3455', label:'État TVA récupérable', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3455220",
+    "label": "État TVA récupérable 20%",
+    "line": "{ code:'3455220', label:'État TVA récupérable 20%', type:'divisionnaire', parent:'3455' },"
+  },
+  {
+    "code": "4411",
+    "label": "Fournisseurs",
+    "line": "{ code:'4411', label:'Fournisseurs', type:'parent', classe:4 },"
+  },
+  {
+    "code": "44110001",
+    "label": "Orange Maroc",
+    "line": "{ code:'44110001', label:'Orange Maroc', type:'divisionnaire', parent:'4411', ice:'001234567', identifiant_fiscal:'IF001', type_bien:'Service' },"
+  },
+  {
+    "code": "44110002",
+    "label": "Rédal Tétouan",
+    "line": "{ code:'44110002', label:'Rédal Tétouan', type:'divisionnaire', parent:'4411', ice:'000123456789012', identifiant_fiscal:'12345678', type_bien:'Service' },"
+  },
+  {
+    "code": "44110003",
+    "label": "STE Azulex",
+    "line": "{ code:'44110003', label:'STE Azulex', type:'divisionnaire', parent:'4411', ice:'003456789', identifiant_fiscal:'IF003', type_bien:'Marchandises' },"
+  },
+  {
+    "code": "4453",
+    "label": "État impôts sur les résultats",
+    "line": "{ code:'4453', label:'État impôts sur les résultats', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4455",
+    "label": "État TVA facturée",
+    "line": "{ code:'4455', label:'État TVA facturée', type:'parent', classe:4 },"
+  },
+  {
+    "code": "445520",
+    "label": "État TVA facturée 20%",
+    "line": "{ code:'445520', label:'État TVA facturée 20%', type:'divisionnaire', parent:'4455' },"
+  },
+  {
+    "code": "5141",
+    "label": "Banque CIH",
+    "line": "{ code:'5141', label:'Banque CIH', type:'parent', classe:5 },"
+  },
+  {
+    "code": "5161",
+    "label": "Caisse",
+    "line": "{ code:'5161', label:'Caisse', type:'parent', classe:5 },"
+  },
+  {
+    "code": "6125",
+    "label": "Électricité et eau",
+    "line": "{ code:'6125', label:'Électricité et eau', type:'parent', classe:6 },"
+  },
+  {
+    "code": "61211",
+    "label": "Achats matières consommables",
+    "line": "{ code:'61211', label:'Achats matières consommables', type:'parent', classe:6 },"
+  },
+  {
+    "code": "7111",
+    "label": "Ventes de marchandises",
+    "line": "{ code:'7111', label:'Ventes de marchandises', type:'parent', classe:7 },"
+  },
+  {
+    "code": "1119",
+    "label": "Actionnaires, capital souscrit non appelé",
+    "line": "{ code:'1119', label:'Actionnaires, capital souscrit non appelé', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1140",
+    "label": "Primes d'émission, de fusion, d'apport",
+    "line": "{ code:'1140', label:'Primes d\\'émission, de fusion, d\\'apport', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1151",
+    "label": "Réserve légale",
+    "line": "{ code:'1151', label:'Réserve légale', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1181",
+    "label": "Report à nouveau (solde créditeur)",
+    "line": "{ code:'1181', label:'Report à nouveau (solde créditeur)', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1191",
+    "label": "Résultat net de l'exercice (bénéfice)",
+    "line": "{ code:'1191', label:'Résultat net de l\\'exercice (bénéfice)', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1310",
+    "label": "Subventions d'investissement",
+    "line": "{ code:'1310', label:'Subventions d\\'investissement', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1410",
+    "label": "Emprunts obligataires",
+    "line": "{ code:'1410', label:'Emprunts obligataires', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1481",
+    "label": "Emprunts auprès des établissements de crédit",
+    "line": "{ code:'1481', label:'Emprunts auprès des établissements de crédit', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1486",
+    "label": "Fournisseurs d'immobilisations",
+    "line": "{ code:'1486', label:'Fournisseurs d\\'immobilisations', type:'parent', classe:1 },"
+  },
+  {
+    "code": "2110",
+    "label": "Frais préliminaires",
+    "line": "{ code:'2110', label:'Frais préliminaires', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2160",
+    "label": "Droit au bail",
+    "line": "{ code:'2160', label:'Droit au bail', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2220",
+    "label": "Terrains",
+    "line": "{ code:'2220', label:'Terrains', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2230",
+    "label": "Constructions",
+    "line": "{ code:'2230', label:'Constructions', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2340",
+    "label": "Matériel de transport",
+    "line": "{ code:'2340', label:'Matériel de transport', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2351",
+    "label": "Mobilier de bureau",
+    "line": "{ code:'2351', label:'Mobilier de bureau', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2355",
+    "label": "Matériel informatique",
+    "line": "{ code:'2355', label:'Matériel informatique', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2510",
+    "label": "Titres de participation",
+    "line": "{ code:'2510', label:'Titres de participation', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2832",
+    "label": "Amortissements des constructions",
+    "line": "{ code:'2832', label:'Amortissements des constructions', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2834",
+    "label": "Amortissements du matériel de transport",
+    "line": "{ code:'2834', label:'Amortissements du matériel de transport', type:'parent', classe:2 },"
+  },
+  {
+    "code": "3111",
+    "label": "Marchandises (stocks)",
+    "line": "{ code:'3111', label:'Marchandises (stocks)', type:'parent', classe:3 },"
+  },
+  {
+    "code": "34211",
+    "label": "Clients douteux ou litigieux",
+    "line": "{ code:'34211', label:'Clients douteux ou litigieux', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3425",
+    "label": "Personnel débiteur",
+    "line": "{ code:'3425', label:'Personnel débiteur', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3431",
+    "label": "Créances sur cessions d'immobilisations",
+    "line": "{ code:'3431', label:'Créances sur cessions d\\'immobilisations', type:'parent', classe:3 },"
+  },
+  {
+    "code": "34552",
+    "label": "État, TVA récupérable sur immobilisations",
+    "line": "{ code:'34552', label:'État, TVA récupérable sur immobilisations', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3488",
+    "label": "Autres débiteurs divers",
+    "line": "{ code:'3488', label:'Autres débiteurs divers', type:'parent', classe:3 },"
+  },
+  {
+    "code": "4413",
+    "label": "Fournisseurs, retenues de garantie",
+    "line": "{ code:'4413', label:'Fournisseurs, retenues de garantie', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4421",
+    "label": "Clients créditeurs, avances reçues",
+    "line": "{ code:'4421', label:'Clients créditeurs, avances reçues', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4432",
+    "label": "Rémunérations dues au personnel",
+    "line": "{ code:'4432', label:'Rémunérations dues au personnel', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4441",
+    "label": "CNSS",
+    "line": "{ code:'4441', label:'CNSS', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4443",
+    "label": "Caisses de retraite",
+    "line": "{ code:'4443', label:'Caisses de retraite', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4452",
+    "label": "État, impôts et taxes retenus à la source",
+    "line": "{ code:'4452', label:'État, impôts et taxes retenus à la source', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4456",
+    "label": "État, TVA due",
+    "line": "{ code:'4456', label:'État, TVA due', type:'parent', classe:4 },"
+  },
+  {
+    "code": "5148",
+    "label": "Autres établissements financiers",
+    "line": "{ code:'5148', label:'Autres établissements financiers', type:'parent', classe:5 },"
+  },
+  {
+    "code": "5165",
+    "label": "Caisse succursale",
+    "line": "{ code:'5165', label:'Caisse succursale', type:'parent', classe:5 },"
+  },
+  {
+    "code": "6111",
+    "label": "Achats de marchandises",
+    "line": "{ code:'6111', label:'Achats de marchandises', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6134",
+    "label": "Locations et charges locatives",
+    "line": "{ code:'6134', label:'Locations et charges locatives', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6147",
+    "label": "Services bancaires",
+    "line": "{ code:'6147', label:'Services bancaires', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6161",
+    "label": "Impôts et taxes directs",
+    "line": "{ code:'6161', label:'Impôts et taxes directs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6171",
+    "label": "Rémunérations du personnel",
+    "line": "{ code:'6171', label:'Rémunérations du personnel', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6174",
+    "label": "Charges sociales",
+    "line": "{ code:'6174', label:'Charges sociales', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6311",
+    "label": "Intérêts des emprunts et dettes",
+    "line": "{ code:'6311', label:'Intérêts des emprunts et dettes', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6391",
+    "label": "Dotations aux amortissements d'exploitation",
+    "line": "{ code:'6391', label:'Dotations aux amortissements d\\'exploitation', type:'parent', classe:6 },"
+  },
+  {
+    "code": "7121",
+    "label": "Ventes de biens produits",
+    "line": "{ code:'7121', label:'Ventes de biens produits', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7127",
+    "label": "Ventes et produits accessoires",
+    "line": "{ code:'7127', label:'Ventes et produits accessoires', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7151",
+    "label": "Redevances pour brevets, marques",
+    "line": "{ code:'7151', label:'Redevances pour brevets, marques', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7381",
+    "label": "Intérêts et produits assimilés",
+    "line": "{ code:'7381', label:'Intérêts et produits assimilés', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7391",
+    "label": "Reprises sur amortissements",
+    "line": "{ code:'7391', label:'Reprises sur amortissements', type:'parent', classe:7 },"
+  },
+  {
+    "code": "8600",
+    "label": "Résultat avant impôts",
+    "line": "{ code:'8600', label:'Résultat avant impôts', type:'parent', classe:8 },"
+  },
+  {
+    "code": "8900",
+    "label": "Résultat net de l'exercice",
+    "line": "{ code:'8900', label:'Résultat net de l\\'exercice', type:'parent', classe:8 },"
+  },
+  {
+    "code": "1112",
+    "label": "Fonds de dotation",
+    "line": "{ code:'1112', label:'Fonds de dotation', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1117",
+    "label": "Capital personnel",
+    "line": "{ code:'1117', label:'Capital personnel', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1121",
+    "label": "Primes d'émission",
+    "line": "{ code:'1121', label:'Primes d\\'émission', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1122",
+    "label": "Primes de fusion",
+    "line": "{ code:'1122', label:'Primes de fusion', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1123",
+    "label": "Primes d'apport",
+    "line": "{ code:'1123', label:'Primes d\\'apport', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1130",
+    "label": "Écarts de réévaluation",
+    "line": "{ code:'1130', label:'Écarts de réévaluation', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1152",
+    "label": "Réserves facultatives",
+    "line": "{ code:'1152', label:'Réserves facultatives', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1155",
+    "label": "Réserves réglementées",
+    "line": "{ code:'1155', label:'Réserves réglementées', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1161",
+    "label": "Report à nouveau (solde créditeur)",
+    "line": "{ code:'1161', label:'Report à nouveau (solde créditeur)', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1169",
+    "label": "Report à nouveau (solde débiteur)",
+    "line": "{ code:'1169', label:'Report à nouveau (solde débiteur)', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1189",
+    "label": "Résultats nets en instance d'affectation (solde débiteur)",
+    "line": "{ code:'1189', label:'Résultats nets en instance d\\'affectation (solde débiteur)', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1199",
+    "label": "Résultat net de l'exercice (solde débiteur)",
+    "line": "{ code:'1199', label:'Résultat net de l\\'exercice (solde débiteur)', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1311",
+    "label": "Subventions d'investissement reçues",
+    "line": "{ code:'1311', label:'Subventions d\\'investissement reçues', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1319",
+    "label": "Subventions d'investissement inscrites au CPC",
+    "line": "{ code:'1319', label:'Subventions d\\'investissement inscrites au CPC', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1351",
+    "label": "Provisions pour amortissements dérogatoires",
+    "line": "{ code:'1351', label:'Provisions pour amortissements dérogatoires', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1352",
+    "label": "Provisions pour plus-values en instance d'imposition",
+    "line": "{ code:'1352', label:'Provisions pour plus-values en instance d\\'imposition', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1354",
+    "label": "Provisions pour investissements",
+    "line": "{ code:'1354', label:'Provisions pour investissements', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1355",
+    "label": "Provisions pour reconstitution des gisements",
+    "line": "{ code:'1355', label:'Provisions pour reconstitution des gisements', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1356",
+    "label": "Provisions pour acquisition et construction de logements",
+    "line": "{ code:'1356', label:'Provisions pour acquisition et construction de logements', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1358",
+    "label": "Autres provisions réglementées",
+    "line": "{ code:'1358', label:'Autres provisions réglementées', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1482",
+    "label": "Avances de l'État",
+    "line": "{ code:'1482', label:'Avances de l\\'État', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1483",
+    "label": "Dettes rattachées à des participations",
+    "line": "{ code:'1483', label:'Dettes rattachées à des participations', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1484",
+    "label": "Billets de fonds",
+    "line": "{ code:'1484', label:'Billets de fonds', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1485",
+    "label": "Avances reçues et comptes courants bloqués",
+    "line": "{ code:'1485', label:'Avances reçues et comptes courants bloqués', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1487",
+    "label": "Dépôts et cautionnements reçus",
+    "line": "{ code:'1487', label:'Dépôts et cautionnements reçus', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1488",
+    "label": "Dettes de financement diverses",
+    "line": "{ code:'1488', label:'Dettes de financement diverses', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1511",
+    "label": "Provisions pour litiges",
+    "line": "{ code:'1511', label:'Provisions pour litiges', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1512",
+    "label": "Provisions pour garanties données aux clients",
+    "line": "{ code:'1512', label:'Provisions pour garanties données aux clients', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1513",
+    "label": "Provisions pour propre assureur",
+    "line": "{ code:'1513', label:'Provisions pour propre assureur', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1514",
+    "label": "Provisions pour pertes sur marchés à terme",
+    "line": "{ code:'1514', label:'Provisions pour pertes sur marchés à terme', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1515",
+    "label": "Provisions pour amendes, doubles droits, pénalités",
+    "line": "{ code:'1515', label:'Provisions pour amendes, doubles droits, pénalités', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1516",
+    "label": "Provisions pour pertes de change",
+    "line": "{ code:'1516', label:'Provisions pour pertes de change', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1518",
+    "label": "Autres provisions pour risques",
+    "line": "{ code:'1518', label:'Autres provisions pour risques', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1551",
+    "label": "Provisions pour impôts",
+    "line": "{ code:'1551', label:'Provisions pour impôts', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1552",
+    "label": "Provisions pour pensions de retraite et obligations similaires",
+    "line": "{ code:'1552', label:'Provisions pour pensions de retraite et obligations similaires', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1555",
+    "label": "Provisions pour charges à répartir sur plusieurs exercices",
+    "line": "{ code:'1555', label:'Provisions pour charges à répartir sur plusieurs exercices', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1558",
+    "label": "Autres provisions pour charges",
+    "line": "{ code:'1558', label:'Autres provisions pour charges', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1601",
+    "label": "Comptes de liaison du siège",
+    "line": "{ code:'1601', label:'Comptes de liaison du siège', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1605",
+    "label": "Comptes de liaison des établissements",
+    "line": "{ code:'1605', label:'Comptes de liaison des établissements', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1710",
+    "label": "Écarts de conversion-passif — Augmentation des créances immobilisées",
+    "line": "{ code:'1710', label:'Écarts de conversion-passif — Augmentation des créances immobilisées', type:'parent', classe:1 },"
+  },
+  {
+    "code": "1720",
+    "label": "Écarts de conversion-passif — Diminution des dettes de financement",
+    "line": "{ code:'1720', label:'Écarts de conversion-passif — Diminution des dettes de financement', type:'parent', classe:1 },"
+  },
+  {
+    "code": "2111",
+    "label": "Frais de constitution",
+    "line": "{ code:'2111', label:'Frais de constitution', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2112",
+    "label": "Frais préalables au démarrage",
+    "line": "{ code:'2112', label:'Frais préalables au démarrage', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2113",
+    "label": "Frais d'augmentation du capital",
+    "line": "{ code:'2113', label:'Frais d\\'augmentation du capital', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2114",
+    "label": "Frais sur opérations de fusions, scissions et transformations",
+    "line": "{ code:'2114', label:'Frais sur opérations de fusions, scissions et transformations', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2116",
+    "label": "Frais de prospection",
+    "line": "{ code:'2116', label:'Frais de prospection', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2117",
+    "label": "Frais de publicité",
+    "line": "{ code:'2117', label:'Frais de publicité', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2118",
+    "label": "Autres frais préliminaires",
+    "line": "{ code:'2118', label:'Autres frais préliminaires', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2121",
+    "label": "Frais d'acquisition des immobilisations",
+    "line": "{ code:'2121', label:'Frais d\\'acquisition des immobilisations', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2125",
+    "label": "Frais d'émission des emprunts",
+    "line": "{ code:'2125', label:'Frais d\\'émission des emprunts', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2128",
+    "label": "Autres charges à répartir",
+    "line": "{ code:'2128', label:'Autres charges à répartir', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2130",
+    "label": "Primes de remboursement des obligations",
+    "line": "{ code:'2130', label:'Primes de remboursement des obligations', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2210",
+    "label": "Immobilisation en recherche et développement",
+    "line": "{ code:'2210', label:'Immobilisation en recherche et développement', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2285",
+    "label": "Autres immobilisations incorporelles",
+    "line": "{ code:'2285', label:'Autres immobilisations incorporelles', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2311",
+    "label": "Terrains nus",
+    "line": "{ code:'2311', label:'Terrains nus', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2312",
+    "label": "Terrains aménagés",
+    "line": "{ code:'2312', label:'Terrains aménagés', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2313",
+    "label": "Terrains bâtis",
+    "line": "{ code:'2313', label:'Terrains bâtis', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2314",
+    "label": "Terrains de gisement",
+    "line": "{ code:'2314', label:'Terrains de gisement', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2316",
+    "label": "Agencements et aménagements de terrains",
+    "line": "{ code:'2316', label:'Agencements et aménagements de terrains', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2318",
+    "label": "Autres terrains",
+    "line": "{ code:'2318', label:'Autres terrains', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2321",
+    "label": "Bâtiments",
+    "line": "{ code:'2321', label:'Bâtiments', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2323",
+    "label": "Constructions sur terrains d'autrui",
+    "line": "{ code:'2323', label:'Constructions sur terrains d\\'autrui', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2325",
+    "label": "Ouvrages d'infrastructure",
+    "line": "{ code:'2325', label:'Ouvrages d\\'infrastructure', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2327",
+    "label": "Agencements et aménagements des constructions",
+    "line": "{ code:'2327', label:'Agencements et aménagements des constructions', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2328",
+    "label": "Autres constructions",
+    "line": "{ code:'2328', label:'Autres constructions', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2331",
+    "label": "Installations techniques",
+    "line": "{ code:'2331', label:'Installations techniques', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2332",
+    "label": "Matériel et outillage",
+    "line": "{ code:'2332', label:'Matériel et outillage', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2333",
+    "label": "Emballages récupérables identifiables",
+    "line": "{ code:'2333', label:'Emballages récupérables identifiables', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2338",
+    "label": "Autres installations techniques, matériel et outillage",
+    "line": "{ code:'2338', label:'Autres installations techniques, matériel et outillage', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2352",
+    "label": "Matériel de bureau",
+    "line": "{ code:'2352', label:'Matériel de bureau', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2356",
+    "label": "Agencements, installations et aménagements divers",
+    "line": "{ code:'2356', label:'Agencements, installations et aménagements divers', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2358",
+    "label": "Autres mobilier, matériel de bureau et aménagements divers",
+    "line": "{ code:'2358', label:'Autres mobilier, matériel de bureau et aménagements divers', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2380",
+    "label": "Autres immobilisations corporelles",
+    "line": "{ code:'2380', label:'Autres immobilisations corporelles', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2392",
+    "label": "Immo. corporelles en cours — terrains et constructions",
+    "line": "{ code:'2392', label:'Immo. corporelles en cours — terrains et constructions', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2393",
+    "label": "Immo. corporelles en cours — installations techniques",
+    "line": "{ code:'2393', label:'Immo. corporelles en cours — installations techniques', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2394",
+    "label": "Immo. corporelles en cours — matériel de transport",
+    "line": "{ code:'2394', label:'Immo. corporelles en cours — matériel de transport', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2395",
+    "label": "Immo. corporelles en cours — mobilier et matériel de bureau",
+    "line": "{ code:'2395', label:'Immo. corporelles en cours — mobilier et matériel de bureau', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2397",
+    "label": "Avances et acomptes sur commandes d'immobilisations corporelles",
+    "line": "{ code:'2397', label:'Avances et acomptes sur commandes d\\'immobilisations corporelles', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2398",
+    "label": "Autres immobilisations corporelles en cours",
+    "line": "{ code:'2398', label:'Autres immobilisations corporelles en cours', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2441",
+    "label": "Prêts au personnel",
+    "line": "{ code:'2441', label:'Prêts au personnel', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2415",
+    "label": "Prêts aux associés",
+    "line": "{ code:'2415', label:'Prêts aux associés', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2416",
+    "label": "Billets de fonds (créance)",
+    "line": "{ code:'2416', label:'Billets de fonds (créance)', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2418",
+    "label": "Autres prêts",
+    "line": "{ code:'2418', label:'Autres prêts', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2481",
+    "label": "Titres immobilisés (droits de créance)",
+    "line": "{ code:'2481', label:'Titres immobilisés (droits de créance)', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2483",
+    "label": "Créances rattachées à des participations",
+    "line": "{ code:'2483', label:'Créances rattachées à des participations', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2486",
+    "label": "Dépôts et cautionnements versés",
+    "line": "{ code:'2486', label:'Dépôts et cautionnements versés', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2487",
+    "label": "Créances immobilisées",
+    "line": "{ code:'2487', label:'Créances immobilisées', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2488",
+    "label": "Créances financières diverses",
+    "line": "{ code:'2488', label:'Créances financières diverses', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2581",
+    "label": "Actions (autres titres immobilisés)",
+    "line": "{ code:'2581', label:'Actions (autres titres immobilisés)', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2588",
+    "label": "Titres divers",
+    "line": "{ code:'2588', label:'Titres divers', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2710",
+    "label": "Écarts de conversion-actif — Diminution des créances immobilisées",
+    "line": "{ code:'2710', label:'Écarts de conversion-actif — Diminution des créances immobilisées', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2720",
+    "label": "Écarts de conversion-actif — Augmentation des dettes de financement",
+    "line": "{ code:'2720', label:'Écarts de conversion-actif — Augmentation des dettes de financement', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2811",
+    "label": "Amortissements des frais préliminaires",
+    "line": "{ code:'2811', label:'Amortissements des frais préliminaires', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2812",
+    "label": "Amortissements des charges à répartir",
+    "line": "{ code:'2812', label:'Amortissements des charges à répartir', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2813",
+    "label": "Amortissements des primes de remboursement des obligations",
+    "line": "{ code:'2813', label:'Amortissements des primes de remboursement des obligations', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2821",
+    "label": "Amortissements — recherche et développement",
+    "line": "{ code:'2821', label:'Amortissements — recherche et développement', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2822",
+    "label": "Amortissements des brevets, marques, droits similaires",
+    "line": "{ code:'2822', label:'Amortissements des brevets, marques, droits similaires', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2823",
+    "label": "Amortissements du fonds commercial",
+    "line": "{ code:'2823', label:'Amortissements du fonds commercial', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2828",
+    "label": "Amortissements des autres immobilisations incorporelles",
+    "line": "{ code:'2828', label:'Amortissements des autres immobilisations incorporelles', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2831",
+    "label": "Amortissements des terrains",
+    "line": "{ code:'2831', label:'Amortissements des terrains', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2833",
+    "label": "Amortissements des installations techniques, matériel et outillage",
+    "line": "{ code:'2833', label:'Amortissements des installations techniques, matériel et outillage', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2835",
+    "label": "Amortissements du mobilier, matériel de bureau et aménagements divers",
+    "line": "{ code:'2835', label:'Amortissements du mobilier, matériel de bureau et aménagements divers', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2838",
+    "label": "Amortissements des autres immobilisations corporelles",
+    "line": "{ code:'2838', label:'Amortissements des autres immobilisations corporelles', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2920",
+    "label": "Provisions pour dépréciation des immobilisations incorporelles",
+    "line": "{ code:'2920', label:'Provisions pour dépréciation des immobilisations incorporelles', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2930",
+    "label": "Provisions pour dépréciation des immobilisations corporelles",
+    "line": "{ code:'2930', label:'Provisions pour dépréciation des immobilisations corporelles', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2941",
+    "label": "Provisions pour dépréciation des prêts immobilisés",
+    "line": "{ code:'2941', label:'Provisions pour dépréciation des prêts immobilisés', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2948",
+    "label": "Provisions pour dépréciation des autres créances financières",
+    "line": "{ code:'2948', label:'Provisions pour dépréciation des autres créances financières', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2951",
+    "label": "Provisions pour dépréciation des titres de participation",
+    "line": "{ code:'2951', label:'Provisions pour dépréciation des titres de participation', type:'parent', classe:2 },"
+  },
+  {
+    "code": "2958",
+    "label": "Provisions pour dépréciation des autres titres immobilisés",
+    "line": "{ code:'2958', label:'Provisions pour dépréciation des autres titres immobilisés', type:'parent', classe:2 },"
+  },
+  {
+    "code": "3112",
+    "label": "Marchandises (groupe B)",
+    "line": "{ code:'3112', label:'Marchandises (groupe B)', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3116",
+    "label": "Marchandises en cours de route",
+    "line": "{ code:'3116', label:'Marchandises en cours de route', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3118",
+    "label": "Autres marchandises",
+    "line": "{ code:'3118', label:'Autres marchandises', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3121",
+    "label": "Matières premières",
+    "line": "{ code:'3121', label:'Matières premières', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3122",
+    "label": "Matières et fournitures consommables",
+    "line": "{ code:'3122', label:'Matières et fournitures consommables', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3123",
+    "label": "Emballages (stocks)",
+    "line": "{ code:'3123', label:'Emballages (stocks)', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3126",
+    "label": "Matières et fournitures consommables en cours de route",
+    "line": "{ code:'3126', label:'Matières et fournitures consommables en cours de route', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3128",
+    "label": "Autres matières et fournitures consommables",
+    "line": "{ code:'3128', label:'Autres matières et fournitures consommables', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3131",
+    "label": "Biens en cours",
+    "line": "{ code:'3131', label:'Biens en cours', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3134",
+    "label": "Services en cours",
+    "line": "{ code:'3134', label:'Services en cours', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3138",
+    "label": "Autres produits en cours",
+    "line": "{ code:'3138', label:'Autres produits en cours', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3141",
+    "label": "Produits intermédiaires",
+    "line": "{ code:'3141', label:'Produits intermédiaires', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3145",
+    "label": "Produits résiduels (matières de récupération)",
+    "line": "{ code:'3145', label:'Produits résiduels (matières de récupération)', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3148",
+    "label": "Autres produits intermédiaires et résiduels",
+    "line": "{ code:'3148', label:'Autres produits intermédiaires et résiduels', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3151",
+    "label": "Produits finis (groupe A)",
+    "line": "{ code:'3151', label:'Produits finis (groupe A)', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3152",
+    "label": "Produits finis (groupe B)",
+    "line": "{ code:'3152', label:'Produits finis (groupe B)', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3156",
+    "label": "Produits finis en cours de route",
+    "line": "{ code:'3156', label:'Produits finis en cours de route', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3158",
+    "label": "Autres produits finis",
+    "line": "{ code:'3158', label:'Autres produits finis', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3411",
+    "label": "Fournisseurs — avances et acomptes versés sur commandes",
+    "line": "{ code:'3411', label:'Fournisseurs — avances et acomptes versés sur commandes', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3413",
+    "label": "Fournisseurs — créances pour emballages et matériel à rendre",
+    "line": "{ code:'3413', label:'Fournisseurs — créances pour emballages et matériel à rendre', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3417",
+    "label": "Rabais, remises et ristournes à obtenir",
+    "line": "{ code:'3417', label:'Rabais, remises et ristournes à obtenir', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3418",
+    "label": "Autres fournisseurs débiteurs",
+    "line": "{ code:'3418', label:'Autres fournisseurs débiteurs', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3423",
+    "label": "Clients — retenues de garantie",
+    "line": "{ code:'3423', label:'Clients — retenues de garantie', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3424",
+    "label": "Clients douteux ou litigieux",
+    "line": "{ code:'3424', label:'Clients douteux ou litigieux', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3427",
+    "label": "Clients — factures à établir et créances non facturées",
+    "line": "{ code:'3427', label:'Clients — factures à établir et créances non facturées', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3428",
+    "label": "Autres clients et comptes rattachés",
+    "line": "{ code:'3428', label:'Autres clients et comptes rattachés', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3438",
+    "label": "Personnel — autres débiteurs",
+    "line": "{ code:'3438', label:'Personnel — autres débiteurs', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3451",
+    "label": "État — subventions à recevoir",
+    "line": "{ code:'3451', label:'État — subventions à recevoir', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3453",
+    "label": "État — acomptes sur impôts sur les résultats",
+    "line": "{ code:'3453', label:'État — acomptes sur impôts sur les résultats', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3456",
+    "label": "État — crédit de TVA",
+    "line": "{ code:'3456', label:'État — crédit de TVA', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3458",
+    "label": "État — autres comptes débiteurs",
+    "line": "{ code:'3458', label:'État — autres comptes débiteurs', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3461",
+    "label": "Associés — comptes d'apport en société",
+    "line": "{ code:'3461', label:'Associés — comptes d\\'apport en société', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3462",
+    "label": "Actionnaires — capital souscrit et appelé non versé",
+    "line": "{ code:'3462', label:'Actionnaires — capital souscrit et appelé non versé', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3463",
+    "label": "Comptes courants des associés débiteurs",
+    "line": "{ code:'3463', label:'Comptes courants des associés débiteurs', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3464",
+    "label": "Associés — opérations faites en commun",
+    "line": "{ code:'3464', label:'Associés — opérations faites en commun', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3467",
+    "label": "Créances rattachées aux comptes d'associés",
+    "line": "{ code:'3467', label:'Créances rattachées aux comptes d\\'associés', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3468",
+    "label": "Autres comptes d'associés débiteurs",
+    "line": "{ code:'3468', label:'Autres comptes d\\'associés débiteurs', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3481",
+    "label": "Créances sur cessions d'immobilisations",
+    "line": "{ code:'3481', label:'Créances sur cessions d\\'immobilisations', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3482",
+    "label": "Créances sur cessions d'éléments d'actif circulant",
+    "line": "{ code:'3482', label:'Créances sur cessions d\\'éléments d\\'actif circulant', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3487",
+    "label": "Créances rattachées aux autres débiteurs",
+    "line": "{ code:'3487', label:'Créances rattachées aux autres débiteurs', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3491",
+    "label": "Charges constatées d'avance",
+    "line": "{ code:'3491', label:'Charges constatées d\\'avance', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3493",
+    "label": "Intérêts courus et non échus à percevoir",
+    "line": "{ code:'3493', label:'Intérêts courus et non échus à percevoir', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3495",
+    "label": "Comptes de répartition périodique des charges",
+    "line": "{ code:'3495', label:'Comptes de répartition périodique des charges', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3497",
+    "label": "Comptes transitoires ou d'attente — débiteurs",
+    "line": "{ code:'3497', label:'Comptes transitoires ou d\\'attente — débiteurs', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3501",
+    "label": "Actions, partie libérée",
+    "line": "{ code:'3501', label:'Actions, partie libérée', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3502",
+    "label": "Actions, partie non libérée",
+    "line": "{ code:'3502', label:'Actions, partie non libérée', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3504",
+    "label": "Obligations (titres de placement)",
+    "line": "{ code:'3504', label:'Obligations (titres de placement)', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3506",
+    "label": "Bons de caisse et bons de trésor",
+    "line": "{ code:'3506', label:'Bons de caisse et bons de trésor', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3508",
+    "label": "Autres titres et valeurs de placement similaires",
+    "line": "{ code:'3508', label:'Autres titres et valeurs de placement similaires', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3701",
+    "label": "Écart de conversion-actif — Diminution des créances circulantes",
+    "line": "{ code:'3701', label:'Écart de conversion-actif — Diminution des créances circulantes', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3702",
+    "label": "Écart de conversion-actif — Augmentation des dettes circulantes",
+    "line": "{ code:'3702', label:'Écart de conversion-actif — Augmentation des dettes circulantes', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3911",
+    "label": "Provisions pour dépréciation des marchandises",
+    "line": "{ code:'3911', label:'Provisions pour dépréciation des marchandises', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3912",
+    "label": "Provisions pour dépréciation des matières et fournitures",
+    "line": "{ code:'3912', label:'Provisions pour dépréciation des matières et fournitures', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3913",
+    "label": "Provisions pour dépréciation des produits en cours",
+    "line": "{ code:'3913', label:'Provisions pour dépréciation des produits en cours', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3914",
+    "label": "Provisions pour dépréciation des produits intermédiaires",
+    "line": "{ code:'3914', label:'Provisions pour dépréciation des produits intermédiaires', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3915",
+    "label": "Provisions pour dépréciation des produits finis",
+    "line": "{ code:'3915', label:'Provisions pour dépréciation des produits finis', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3941",
+    "label": "Provisions pour dépréciation — fournisseurs débiteurs",
+    "line": "{ code:'3941', label:'Provisions pour dépréciation — fournisseurs débiteurs', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3942",
+    "label": "Provisions pour dépréciation des clients et comptes rattachés",
+    "line": "{ code:'3942', label:'Provisions pour dépréciation des clients et comptes rattachés', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3943",
+    "label": "Provisions pour dépréciation du personnel débiteur",
+    "line": "{ code:'3943', label:'Provisions pour dépréciation du personnel débiteur', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3946",
+    "label": "Provisions pour dépréciation des comptes d'associés débiteurs",
+    "line": "{ code:'3946', label:'Provisions pour dépréciation des comptes d\\'associés débiteurs', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3948",
+    "label": "Provisions pour dépréciation des autres débiteurs",
+    "line": "{ code:'3948', label:'Provisions pour dépréciation des autres débiteurs', type:'parent', classe:3 },"
+  },
+  {
+    "code": "3950",
+    "label": "Provisions pour dépréciation des titres et valeurs de placement",
+    "line": "{ code:'3950', label:'Provisions pour dépréciation des titres et valeurs de placement', type:'parent', classe:3 },"
+  },
+  {
+    "code": "4415",
+    "label": "Fournisseurs — effets à payer",
+    "line": "{ code:'4415', label:'Fournisseurs — effets à payer', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4417",
+    "label": "Fournisseurs — factures non parvenues",
+    "line": "{ code:'4417', label:'Fournisseurs — factures non parvenues', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4418",
+    "label": "Autres fournisseurs et comptes rattachés",
+    "line": "{ code:'4418', label:'Autres fournisseurs et comptes rattachés', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4425",
+    "label": "Clients — dettes pour emballages et matériel consignés",
+    "line": "{ code:'4425', label:'Clients — dettes pour emballages et matériel consignés', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4427",
+    "label": "Rabais, remises et ristournes à accorder",
+    "line": "{ code:'4427', label:'Rabais, remises et ristournes à accorder', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4428",
+    "label": "Autres clients créditeurs",
+    "line": "{ code:'4428', label:'Autres clients créditeurs', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4433",
+    "label": "Dépôts du personnel créditeurs",
+    "line": "{ code:'4433', label:'Dépôts du personnel créditeurs', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4434",
+    "label": "Oppositions sur salaires",
+    "line": "{ code:'4434', label:'Oppositions sur salaires', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4437",
+    "label": "Charges du personnel à payer",
+    "line": "{ code:'4437', label:'Charges du personnel à payer', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4438",
+    "label": "Personnel — autres créditeurs",
+    "line": "{ code:'4438', label:'Personnel — autres créditeurs', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4445",
+    "label": "Mutuelles",
+    "line": "{ code:'4445', label:'Mutuelles', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4447",
+    "label": "Charges sociales à payer",
+    "line": "{ code:'4447', label:'Charges sociales à payer', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4448",
+    "label": "Autres organismes sociaux",
+    "line": "{ code:'4448', label:'Autres organismes sociaux', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4457",
+    "label": "État — impôts et taxes à payer",
+    "line": "{ code:'4457', label:'État — impôts et taxes à payer', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4458",
+    "label": "État — autres comptes créditeurs",
+    "line": "{ code:'4458', label:'État — autres comptes créditeurs', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4461",
+    "label": "Associés — capital à rembourser",
+    "line": "{ code:'4461', label:'Associés — capital à rembourser', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4462",
+    "label": "Associés — versements reçus sur augmentation de capital",
+    "line": "{ code:'4462', label:'Associés — versements reçus sur augmentation de capital', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4463",
+    "label": "Comptes courants des associés créditeurs",
+    "line": "{ code:'4463', label:'Comptes courants des associés créditeurs', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4464",
+    "label": "Associés — opérations faites en commun",
+    "line": "{ code:'4464', label:'Associés — opérations faites en commun', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4465",
+    "label": "Associés — dividendes à payer",
+    "line": "{ code:'4465', label:'Associés — dividendes à payer', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4468",
+    "label": "Autres comptes d'associés créditeurs",
+    "line": "{ code:'4468', label:'Autres comptes d\\'associés créditeurs', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4481",
+    "label": "Dettes sur acquisitions d'immobilisations",
+    "line": "{ code:'4481', label:'Dettes sur acquisitions d\\'immobilisations', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4483",
+    "label": "Dettes sur acquisitions de titres et valeurs de placement",
+    "line": "{ code:'4483', label:'Dettes sur acquisitions de titres et valeurs de placement', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4484",
+    "label": "Obligations échues à rembourser",
+    "line": "{ code:'4484', label:'Obligations échues à rembourser', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4485",
+    "label": "Obligations, coupons à payer",
+    "line": "{ code:'4485', label:'Obligations, coupons à payer', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4487",
+    "label": "Dettes rattachées aux autres créanciers",
+    "line": "{ code:'4487', label:'Dettes rattachées aux autres créanciers', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4488",
+    "label": "Divers créanciers",
+    "line": "{ code:'4488', label:'Divers créanciers', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4491",
+    "label": "Produits constatés d'avance",
+    "line": "{ code:'4491', label:'Produits constatés d\\'avance', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4493",
+    "label": "Intérêts courus et non échus à payer",
+    "line": "{ code:'4493', label:'Intérêts courus et non échus à payer', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4495",
+    "label": "Comptes de répartition périodique des produits",
+    "line": "{ code:'4495', label:'Comptes de répartition périodique des produits', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4497",
+    "label": "Comptes transitoires ou d'attente — créditeurs",
+    "line": "{ code:'4497', label:'Comptes transitoires ou d\\'attente — créditeurs', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4501",
+    "label": "Provisions pour litiges",
+    "line": "{ code:'4501', label:'Provisions pour litiges', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4502",
+    "label": "Provisions pour garanties données aux clients",
+    "line": "{ code:'4502', label:'Provisions pour garanties données aux clients', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4505",
+    "label": "Provisions pour amendes, doubles droits et pénalités",
+    "line": "{ code:'4505', label:'Provisions pour amendes, doubles droits et pénalités', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4506",
+    "label": "Provisions pour pertes de change",
+    "line": "{ code:'4506', label:'Provisions pour pertes de change', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4507",
+    "label": "Provisions pour impôts",
+    "line": "{ code:'4507', label:'Provisions pour impôts', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4508",
+    "label": "Autres provisions pour risques et charges",
+    "line": "{ code:'4508', label:'Autres provisions pour risques et charges', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4701",
+    "label": "Écarts de conversion-passif — Augmentation des créances circulantes",
+    "line": "{ code:'4701', label:'Écarts de conversion-passif — Augmentation des créances circulantes', type:'parent', classe:4 },"
+  },
+  {
+    "code": "4702",
+    "label": "Écarts de conversion-passif — Diminution des dettes circulantes",
+    "line": "{ code:'4702', label:'Écarts de conversion-passif — Diminution des dettes circulantes', type:'parent', classe:4 },"
+  },
+  {
+    "code": "5111",
+    "label": "Chèques à encaisser ou à l'encaissement",
+    "line": "{ code:'5111', label:'Chèques à encaisser ou à l\\'encaissement', type:'parent', classe:5 },"
+  },
+  {
+    "code": "5113",
+    "label": "Effets à encaisser ou à l'encaissement",
+    "line": "{ code:'5113', label:'Effets à encaisser ou à l\\'encaissement', type:'parent', classe:5 },"
+  },
+  {
+    "code": "5115",
+    "label": "Virement de fonds",
+    "line": "{ code:'5115', label:'Virement de fonds', type:'parent', classe:5 },"
+  },
+  {
+    "code": "5118",
+    "label": "Autres valeurs à encaisser",
+    "line": "{ code:'5118', label:'Autres valeurs à encaisser', type:'parent', classe:5 },"
+  },
+  {
+    "code": "5143",
+    "label": "Trésorerie Générale",
+    "line": "{ code:'5143', label:'Trésorerie Générale', type:'parent', classe:5 },"
+  },
+  {
+    "code": "5146",
+    "label": "Chèques postaux",
+    "line": "{ code:'5146', label:'Chèques postaux', type:'parent', classe:5 },"
+  },
+  {
+    "code": "5520",
+    "label": "Crédits d'escompte",
+    "line": "{ code:'5520', label:'Crédits d\\'escompte', type:'parent', classe:5 },"
+  },
+  {
+    "code": "5530",
+    "label": "Crédits de trésorerie",
+    "line": "{ code:'5530', label:'Crédits de trésorerie', type:'parent', classe:5 },"
+  },
+  {
+    "code": "5541",
+    "label": "Banques (solde créditeur)",
+    "line": "{ code:'5541', label:'Banques (solde créditeur)', type:'parent', classe:5 },"
+  },
+  {
+    "code": "5548",
+    "label": "Autres établissements financiers (soldes créditeurs)",
+    "line": "{ code:'5548', label:'Autres établissements financiers (soldes créditeurs)', type:'parent', classe:5 },"
+  },
+  {
+    "code": "5900",
+    "label": "Provisions pour dépréciation des comptes de trésorerie",
+    "line": "{ code:'5900', label:'Provisions pour dépréciation des comptes de trésorerie', type:'parent', classe:5 },"
+  },
+  {
+    "code": "6112",
+    "label": "Achats de marchandises (groupe B)",
+    "line": "{ code:'6112', label:'Achats de marchandises (groupe B)', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6114",
+    "label": "Variation de stocks de marchandises",
+    "line": "{ code:'6114', label:'Variation de stocks de marchandises', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6118",
+    "label": "Achats revendus de marchandises des exercices antérieurs",
+    "line": "{ code:'6118', label:'Achats revendus de marchandises des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6119",
+    "label": "Rabais, remises et ristournes obtenus sur achats de marchandises",
+    "line": "{ code:'6119', label:'Rabais, remises et ristournes obtenus sur achats de marchandises', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6121",
+    "label": "Achats de matières premières",
+    "line": "{ code:'6121', label:'Achats de matières premières', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6122",
+    "label": "Achats de matières et fournitures consommables",
+    "line": "{ code:'6122', label:'Achats de matières et fournitures consommables', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6123",
+    "label": "Achats d'emballages",
+    "line": "{ code:'6123', label:'Achats d\\'emballages', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6124",
+    "label": "Variation des stocks de matières et fournitures",
+    "line": "{ code:'6124', label:'Variation des stocks de matières et fournitures', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6126",
+    "label": "Achats de travaux, études et prestations de service",
+    "line": "{ code:'6126', label:'Achats de travaux, études et prestations de service', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6128",
+    "label": "Achats de matières et fournitures des exercices antérieurs",
+    "line": "{ code:'6128', label:'Achats de matières et fournitures des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6129",
+    "label": "Rabais, remises et ristournes obtenus sur achats consommés",
+    "line": "{ code:'6129', label:'Rabais, remises et ristournes obtenus sur achats consommés', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6131",
+    "label": "Locations et charges locatives",
+    "line": "{ code:'6131', label:'Locations et charges locatives', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6132",
+    "label": "Redevances de crédit-bail",
+    "line": "{ code:'6132', label:'Redevances de crédit-bail', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6133",
+    "label": "Entretien et réparations",
+    "line": "{ code:'6133', label:'Entretien et réparations', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6135",
+    "label": "Rémunérations du personnel extérieur à l'entreprise",
+    "line": "{ code:'6135', label:'Rémunérations du personnel extérieur à l\\'entreprise', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6136",
+    "label": "Rémunérations d'intermédiaires et honoraires",
+    "line": "{ code:'6136', label:'Rémunérations d\\'intermédiaires et honoraires', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6137",
+    "label": "Redevances pour brevets, marques, droits et valeurs similaires",
+    "line": "{ code:'6137', label:'Redevances pour brevets, marques, droits et valeurs similaires', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6141",
+    "label": "Études, recherches et documentation",
+    "line": "{ code:'6141', label:'Études, recherches et documentation', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6142",
+    "label": "Transports",
+    "line": "{ code:'6142', label:'Transports', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6143",
+    "label": "Déplacements, missions et réceptions",
+    "line": "{ code:'6143', label:'Déplacements, missions et réceptions', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6144",
+    "label": "Publicité, publications et relations publiques",
+    "line": "{ code:'6144', label:'Publicité, publications et relations publiques', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6145",
+    "label": "Frais postaux et frais de télécommunications",
+    "line": "{ code:'6145', label:'Frais postaux et frais de télécommunications', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6146",
+    "label": "Cotisations et dons",
+    "line": "{ code:'6146', label:'Cotisations et dons', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6148",
+    "label": "Autres charges externes des exercices antérieurs",
+    "line": "{ code:'6148', label:'Autres charges externes des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6149",
+    "label": "Rabais, remises et ristournes obtenus sur autres charges externes",
+    "line": "{ code:'6149', label:'Rabais, remises et ristournes obtenus sur autres charges externes', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6165",
+    "label": "Impôts et taxes indirects",
+    "line": "{ code:'6165', label:'Impôts et taxes indirects', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6167",
+    "label": "Impôts, taxes et droits assimilés",
+    "line": "{ code:'6167', label:'Impôts, taxes et droits assimilés', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6168",
+    "label": "Impôts et taxes des exercices antérieurs",
+    "line": "{ code:'6168', label:'Impôts et taxes des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6176",
+    "label": "Charges sociales diverses",
+    "line": "{ code:'6176', label:'Charges sociales diverses', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6177",
+    "label": "Rémunération de l'exploitant",
+    "line": "{ code:'6177', label:'Rémunération de l\\'exploitant', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6178",
+    "label": "Charges du personnel des exercices antérieurs",
+    "line": "{ code:'6178', label:'Charges du personnel des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6181",
+    "label": "Jetons de présence",
+    "line": "{ code:'6181', label:'Jetons de présence', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6182",
+    "label": "Pertes sur créances irrécouvrables",
+    "line": "{ code:'6182', label:'Pertes sur créances irrécouvrables', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6185",
+    "label": "Pertes sur opérations faites en commun",
+    "line": "{ code:'6185', label:'Pertes sur opérations faites en commun', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6186",
+    "label": "Transfert de pertes sur opérations faites en commun",
+    "line": "{ code:'6186', label:'Transfert de pertes sur opérations faites en commun', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6188",
+    "label": "Autres charges d'exploitation des exercices antérieurs",
+    "line": "{ code:'6188', label:'Autres charges d\\'exploitation des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6191",
+    "label": "Dotations aux amortissements de l'immobilisation en non-valeurs",
+    "line": "{ code:'6191', label:'Dotations aux amortissements de l\\'immobilisation en non-valeurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6192",
+    "label": "Dotations aux amortissements des immobilisations incorporelles",
+    "line": "{ code:'6192', label:'Dotations aux amortissements des immobilisations incorporelles', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6193",
+    "label": "Dotations aux amortissements des immobilisations corporelles",
+    "line": "{ code:'6193', label:'Dotations aux amortissements des immobilisations corporelles', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6194",
+    "label": "Dotations aux provisions pour dépréciation des immobilisations",
+    "line": "{ code:'6194', label:'Dotations aux provisions pour dépréciation des immobilisations', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6195",
+    "label": "Dotations aux provisions pour risques et charges",
+    "line": "{ code:'6195', label:'Dotations aux provisions pour risques et charges', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6196",
+    "label": "Dotations aux provisions pour dépréciation de l'actif circulant",
+    "line": "{ code:'6196', label:'Dotations aux provisions pour dépréciation de l\\'actif circulant', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6198",
+    "label": "Dotations d'exploitation des exercices antérieurs",
+    "line": "{ code:'6198', label:'Dotations d\\'exploitation des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6318",
+    "label": "Charges d'intérêts des exercices antérieurs",
+    "line": "{ code:'6318', label:'Charges d\\'intérêts des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6331",
+    "label": "Pertes de change propres à l'exercice",
+    "line": "{ code:'6331', label:'Pertes de change propres à l\\'exercice', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6338",
+    "label": "Pertes de change des exercices antérieurs",
+    "line": "{ code:'6338', label:'Pertes de change des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6382",
+    "label": "Pertes sur créances liées à des participations",
+    "line": "{ code:'6382', label:'Pertes sur créances liées à des participations', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6385",
+    "label": "Charges nettes sur cession de titres et valeurs de placement",
+    "line": "{ code:'6385', label:'Charges nettes sur cession de titres et valeurs de placement', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6386",
+    "label": "Escomptes accordés",
+    "line": "{ code:'6386', label:'Escomptes accordés', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6388",
+    "label": "Autres charges financières des exercices antérieurs",
+    "line": "{ code:'6388', label:'Autres charges financières des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6392",
+    "label": "Dotations aux provisions pour dépréciation des immobilisations financières",
+    "line": "{ code:'6392', label:'Dotations aux provisions pour dépréciation des immobilisations financières', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6393",
+    "label": "Dotations aux provisions pour risques et charges financières",
+    "line": "{ code:'6393', label:'Dotations aux provisions pour risques et charges financières', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6394",
+    "label": "Dotations aux provisions pour dépréciation des titres et valeurs de placement",
+    "line": "{ code:'6394', label:'Dotations aux provisions pour dépréciation des titres et valeurs de placement', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6398",
+    "label": "Dotations financières des exercices antérieurs",
+    "line": "{ code:'6398', label:'Dotations financières des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6512",
+    "label": "VNA des immobilisations incorporelles cédées",
+    "line": "{ code:'6512', label:'VNA des immobilisations incorporelles cédées', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6513",
+    "label": "VNA des immobilisations corporelles cédées",
+    "line": "{ code:'6513', label:'VNA des immobilisations corporelles cédées', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6514",
+    "label": "VNA des immobilisations financières cédées",
+    "line": "{ code:'6514', label:'VNA des immobilisations financières cédées', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6518",
+    "label": "VNA des immobilisations cédées des exercices antérieurs",
+    "line": "{ code:'6518', label:'VNA des immobilisations cédées des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6561",
+    "label": "Subventions accordées de l'exercice",
+    "line": "{ code:'6561', label:'Subventions accordées de l\\'exercice', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6568",
+    "label": "Subventions accordées des exercices antérieurs",
+    "line": "{ code:'6568', label:'Subventions accordées des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6581",
+    "label": "Pénalités sur marchés et dédits",
+    "line": "{ code:'6581', label:'Pénalités sur marchés et dédits', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6582",
+    "label": "Rappels d'impôts (autres qu'impôts sur les résultats)",
+    "line": "{ code:'6582', label:'Rappels d\\'impôts (autres qu\\'impôts sur les résultats)', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6583",
+    "label": "Pénalités et amendes fiscales ou pénales",
+    "line": "{ code:'6583', label:'Pénalités et amendes fiscales ou pénales', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6585",
+    "label": "Créances devenues irrécouvrables",
+    "line": "{ code:'6585', label:'Créances devenues irrécouvrables', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6586",
+    "label": "Dons, libéralités et lots",
+    "line": "{ code:'6586', label:'Dons, libéralités et lots', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6588",
+    "label": "Autres charges non courantes des exercices antérieurs",
+    "line": "{ code:'6588', label:'Autres charges non courantes des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6591",
+    "label": "Dotations aux amortissements exceptionnels des immobilisations",
+    "line": "{ code:'6591', label:'Dotations aux amortissements exceptionnels des immobilisations', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6594",
+    "label": "Dotations non courantes aux provisions réglementées",
+    "line": "{ code:'6594', label:'Dotations non courantes aux provisions réglementées', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6595",
+    "label": "Dotations non courantes aux provisions pour risques et charges",
+    "line": "{ code:'6595', label:'Dotations non courantes aux provisions pour risques et charges', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6596",
+    "label": "Dotations non courantes aux provisions pour dépréciation",
+    "line": "{ code:'6596', label:'Dotations non courantes aux provisions pour dépréciation', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6598",
+    "label": "Dotations non courantes des exercices antérieurs",
+    "line": "{ code:'6598', label:'Dotations non courantes des exercices antérieurs', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6701",
+    "label": "Impôts sur les bénéfices",
+    "line": "{ code:'6701', label:'Impôts sur les bénéfices', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6705",
+    "label": "Imposition minimale annuelle des sociétés (Cotisation minimale)",
+    "line": "{ code:'6705', label:'Imposition minimale annuelle des sociétés (Cotisation minimale)', type:'parent', classe:6 },"
+  },
+  {
+    "code": "6708",
+    "label": "Rappels et dégrèvements d'impôts sur les résultats",
+    "line": "{ code:'6708', label:'Rappels et dégrèvements d\\'impôts sur les résultats', type:'parent', classe:6 },"
+  },
+  {
+    "code": "7113",
+    "label": "Ventes de marchandises à l'étranger",
+    "line": "{ code:'7113', label:'Ventes de marchandises à l\\'étranger', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7118",
+    "label": "Ventes de marchandises des exercices antérieurs",
+    "line": "{ code:'7118', label:'Ventes de marchandises des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7119",
+    "label": "Rabais, remises et ristournes accordés par l'entreprise",
+    "line": "{ code:'7119', label:'Rabais, remises et ristournes accordés par l\\'entreprise', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7122",
+    "label": "Ventes de biens produits à l'étranger",
+    "line": "{ code:'7122', label:'Ventes de biens produits à l\\'étranger', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7124",
+    "label": "Ventes de services produits au Maroc",
+    "line": "{ code:'7124', label:'Ventes de services produits au Maroc', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7125",
+    "label": "Ventes de services produits à l'étranger",
+    "line": "{ code:'7125', label:'Ventes de services produits à l\\'étranger', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7126",
+    "label": "Redevances pour brevets, marques, droits et valeurs similaires",
+    "line": "{ code:'7126', label:'Redevances pour brevets, marques, droits et valeurs similaires', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7128",
+    "label": "Ventes de biens et services produits des exercices antérieurs",
+    "line": "{ code:'7128', label:'Ventes de biens et services produits des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7129",
+    "label": "Rabais, remises et ristournes accordés (biens et services produits)",
+    "line": "{ code:'7129', label:'Rabais, remises et ristournes accordés (biens et services produits)', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7131",
+    "label": "Variation des stocks de produits en cours",
+    "line": "{ code:'7131', label:'Variation des stocks de produits en cours', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7132",
+    "label": "Variation des stocks de biens produits",
+    "line": "{ code:'7132', label:'Variation des stocks de biens produits', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7134",
+    "label": "Variation des stocks de services en cours",
+    "line": "{ code:'7134', label:'Variation des stocks de services en cours', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7141",
+    "label": "Immobilisation en non-valeurs produite",
+    "line": "{ code:'7141', label:'Immobilisation en non-valeurs produite', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7142",
+    "label": "Immobilisations incorporelles produites",
+    "line": "{ code:'7142', label:'Immobilisations incorporelles produites', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7143",
+    "label": "Immobilisations corporelles produites",
+    "line": "{ code:'7143', label:'Immobilisations corporelles produites', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7148",
+    "label": "Immobilisations produites des exercices antérieurs",
+    "line": "{ code:'7148', label:'Immobilisations produites des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7161",
+    "label": "Subventions d'exploitation reçues de l'exercice",
+    "line": "{ code:'7161', label:'Subventions d\\'exploitation reçues de l\\'exercice', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7168",
+    "label": "Subventions d'exploitation reçues des exercices antérieurs",
+    "line": "{ code:'7168', label:'Subventions d\\'exploitation reçues des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7181",
+    "label": "Jetons de présence reçus",
+    "line": "{ code:'7181', label:'Jetons de présence reçus', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7182",
+    "label": "Revenus des immeubles non affectés à l'exploitation",
+    "line": "{ code:'7182', label:'Revenus des immeubles non affectés à l\\'exploitation', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7185",
+    "label": "Profits sur opérations faites en commun",
+    "line": "{ code:'7185', label:'Profits sur opérations faites en commun', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7186",
+    "label": "Transfert de pertes sur opérations faites en commun",
+    "line": "{ code:'7186', label:'Transfert de pertes sur opérations faites en commun', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7188",
+    "label": "Autres produits d'exploitation des exercices antérieurs",
+    "line": "{ code:'7188', label:'Autres produits d\\'exploitation des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7191",
+    "label": "Reprises sur amortissements de l'immobilisation en non-valeurs",
+    "line": "{ code:'7191', label:'Reprises sur amortissements de l\\'immobilisation en non-valeurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7192",
+    "label": "Reprises sur amortissements des immobilisations incorporelles",
+    "line": "{ code:'7192', label:'Reprises sur amortissements des immobilisations incorporelles', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7193",
+    "label": "Reprises sur amortissements des immobilisations corporelles",
+    "line": "{ code:'7193', label:'Reprises sur amortissements des immobilisations corporelles', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7194",
+    "label": "Reprises sur provisions pour dépréciation des immobilisations",
+    "line": "{ code:'7194', label:'Reprises sur provisions pour dépréciation des immobilisations', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7195",
+    "label": "Reprises sur provisions pour risques et charges",
+    "line": "{ code:'7195', label:'Reprises sur provisions pour risques et charges', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7196",
+    "label": "Reprises sur provisions pour dépréciation de l'actif circulant",
+    "line": "{ code:'7196', label:'Reprises sur provisions pour dépréciation de l\\'actif circulant', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7197",
+    "label": "Transferts des charges d'exploitation",
+    "line": "{ code:'7197', label:'Transferts des charges d\\'exploitation', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7198",
+    "label": "Reprises sur amortissements et provisions des exercices antérieurs",
+    "line": "{ code:'7198', label:'Reprises sur amortissements et provisions des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7321",
+    "label": "Revenus des titres de participation",
+    "line": "{ code:'7321', label:'Revenus des titres de participation', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7325",
+    "label": "Revenus des titres immobilisés",
+    "line": "{ code:'7325', label:'Revenus des titres immobilisés', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7328",
+    "label": "Produits des titres de participation des exercices antérieurs",
+    "line": "{ code:'7328', label:'Produits des titres de participation des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7331",
+    "label": "Gains de change propres à l'exercice",
+    "line": "{ code:'7331', label:'Gains de change propres à l\\'exercice', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7338",
+    "label": "Gains de change des exercices antérieurs",
+    "line": "{ code:'7338', label:'Gains de change des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7383",
+    "label": "Revenus des créances rattachées à des participations",
+    "line": "{ code:'7383', label:'Revenus des créances rattachées à des participations', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7384",
+    "label": "Revenus des titres et valeurs de placement",
+    "line": "{ code:'7384', label:'Revenus des titres et valeurs de placement', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7385",
+    "label": "Produits nets sur cessions de titres et valeurs de placement",
+    "line": "{ code:'7385', label:'Produits nets sur cessions de titres et valeurs de placement', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7386",
+    "label": "Escomptes obtenus",
+    "line": "{ code:'7386', label:'Escomptes obtenus', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7388",
+    "label": "Intérêts et autres produits financiers des exercices antérieurs",
+    "line": "{ code:'7388', label:'Intérêts et autres produits financiers des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7392",
+    "label": "Reprises sur provisions pour dépréciation des immobilisations financières",
+    "line": "{ code:'7392', label:'Reprises sur provisions pour dépréciation des immobilisations financières', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7393",
+    "label": "Reprises sur provisions pour risques et charges financières",
+    "line": "{ code:'7393', label:'Reprises sur provisions pour risques et charges financières', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7394",
+    "label": "Reprises sur provisions pour dépréciation des titres et valeurs de placement",
+    "line": "{ code:'7394', label:'Reprises sur provisions pour dépréciation des titres et valeurs de placement', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7396",
+    "label": "Reprises sur provisions pour dépréciation des comptes de trésorerie",
+    "line": "{ code:'7396', label:'Reprises sur provisions pour dépréciation des comptes de trésorerie', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7397",
+    "label": "Transfert de charges financières",
+    "line": "{ code:'7397', label:'Transfert de charges financières', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7398",
+    "label": "Reprises sur dotations financières des exercices antérieurs",
+    "line": "{ code:'7398', label:'Reprises sur dotations financières des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7512",
+    "label": "Produits des cessions des immobilisations incorporelles",
+    "line": "{ code:'7512', label:'Produits des cessions des immobilisations incorporelles', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7513",
+    "label": "Produits des cessions des immobilisations corporelles",
+    "line": "{ code:'7513', label:'Produits des cessions des immobilisations corporelles', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7514",
+    "label": "Produits des cessions des immobilisations financières",
+    "line": "{ code:'7514', label:'Produits des cessions des immobilisations financières', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7518",
+    "label": "Produits des cessions d'immobilisations des exercices antérieurs",
+    "line": "{ code:'7518', label:'Produits des cessions d\\'immobilisations des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7561",
+    "label": "Subventions d'équilibre reçues de l'exercice",
+    "line": "{ code:'7561', label:'Subventions d\\'équilibre reçues de l\\'exercice', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7568",
+    "label": "Subventions d'équilibre reçues des exercices antérieurs",
+    "line": "{ code:'7568', label:'Subventions d\\'équilibre reçues des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7577",
+    "label": "Reprises sur subventions d'investissement de l'exercice",
+    "line": "{ code:'7577', label:'Reprises sur subventions d\\'investissement de l\\'exercice', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7578",
+    "label": "Reprises sur subventions d'investissement des exercices antérieurs",
+    "line": "{ code:'7578', label:'Reprises sur subventions d\\'investissement des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7581",
+    "label": "Pénalités et dédits reçus",
+    "line": "{ code:'7581', label:'Pénalités et dédits reçus', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7582",
+    "label": "Dégrèvement d'impôts (autres qu'impôts sur les résultats)",
+    "line": "{ code:'7582', label:'Dégrèvement d\\'impôts (autres qu\\'impôts sur les résultats)', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7585",
+    "label": "Rentrées sur créances soldées",
+    "line": "{ code:'7585', label:'Rentrées sur créances soldées', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7586",
+    "label": "Dons, libéralités et lots reçus",
+    "line": "{ code:'7586', label:'Dons, libéralités et lots reçus', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7588",
+    "label": "Autres produits non courants des exercices antérieurs",
+    "line": "{ code:'7588', label:'Autres produits non courants des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7591",
+    "label": "Reprises non courantes — amortissements exceptionnels des immobilisations",
+    "line": "{ code:'7591', label:'Reprises non courantes — amortissements exceptionnels des immobilisations', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7594",
+    "label": "Reprises non courantes sur provisions réglementées",
+    "line": "{ code:'7594', label:'Reprises non courantes sur provisions réglementées', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7595",
+    "label": "Reprises non courantes sur provisions pour risques et charges",
+    "line": "{ code:'7595', label:'Reprises non courantes sur provisions pour risques et charges', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7596",
+    "label": "Reprises non courantes sur provisions pour dépréciation",
+    "line": "{ code:'7596', label:'Reprises non courantes sur provisions pour dépréciation', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7597",
+    "label": "Transferts de charges non courantes",
+    "line": "{ code:'7597', label:'Transferts de charges non courantes', type:'parent', classe:7 },"
+  },
+  {
+    "code": "7598",
+    "label": "Reprises non courantes des exercices antérieurs",
+    "line": "{ code:'7598', label:'Reprises non courantes des exercices antérieurs', type:'parent', classe:7 },"
+  },
+  {
+    "code": "8100",
+    "label": "Résultat d'exploitation",
+    "line": "{ code:'8100', label:'Résultat d\\'exploitation', type:'parent', classe:8 },"
+  },
+  {
+    "code": "8110",
+    "label": "Marge brute",
+    "line": "{ code:'8110', label:'Marge brute', type:'parent', classe:8 },"
+  },
+  {
+    "code": "8140",
+    "label": "Valeur ajoutée",
+    "line": "{ code:'8140', label:'Valeur ajoutée', type:'parent', classe:8 },"
+  },
+  {
+    "code": "8171",
+    "label": "Excédent brut d'exploitation (créditeur)",
+    "line": "{ code:'8171', label:'Excédent brut d\\'exploitation (créditeur)', type:'parent', classe:8 },"
+  },
+  {
+    "code": "8179",
+    "label": "Insuffisance brute d'exploitation (débiteur)",
+    "line": "{ code:'8179', label:'Insuffisance brute d\\'exploitation (débiteur)', type:'parent', classe:8 },"
+  },
+  {
+    "code": "8300",
+    "label": "Résultat financier",
+    "line": "{ code:'8300', label:'Résultat financier', type:'parent', classe:8 },"
+  },
+  {
+    "code": "8400",
+    "label": "Résultat courant",
+    "line": "{ code:'8400', label:'Résultat courant', type:'parent', classe:8 },"
+  },
+  {
+    "code": "8500",
+    "label": "Résultat non courant",
+    "line": "{ code:'8500', label:'Résultat non courant', type:'parent', classe:8 },"
+  },
+  {
+    "code": "8800",
+    "label": "Résultat après impôts",
+    "line": "{ code:'8800', label:'Résultat après impôts', type:'parent', classe:8 }"
+  }
+]

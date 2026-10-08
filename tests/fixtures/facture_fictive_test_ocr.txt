@@ -1,0 +1,36 @@
+EXEMPLE SYNTHETIQUE POUR TEST OCR
+Page 1
+ATLAS BUREAUTIQUE DEMO
+FOURNISSEUR FICTIF - DOCUMENT DE TEST OCR
+DOCUMENT FICTIF - SANS VALEUR COMMERCIALE OU FISCALE
+FACTURE
+N° TEST-OCR-2026-001
+Date de facture : 15/09/2026
+Date d'échéance : 15/10/2026
+FOURNISSEUR
+CLIENT
+Atlas Bureautique Demo SARL
+Adresse : 10, rue Exemple, Casablanca
+ICE : 000000000000000
+IF : 00000000
+Client Test Demo SARL
+Adresse : 1, avenue Fictive, Rabat
+ICE : 111111111111111
+IF : 11111111
+Désignation
+Qté
+Prix unitaire HT
+TVA
+Total HT
+Fournitures de bureau (article fictif)
+1
+1 000,00 MAD
+20 %
+1 000,00 MAD
+Total hors taxes (HT)
+1 000,00 MAD
+TVA 20 %
+200,00 MAD
+TOTAL TTC
+1 200,00 MAD
+Mode de paiement : Virement bancaire (fictif)

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  PLACEHOLDER SCHEMA - mirrors xml_builders.py's État 9421 shape.
+  REPLACE with the official DGI SIMPL-IR XSD (v5.1) before production use.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="etat9421">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="entete">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="iceEmployeur" type="xs:string"/>
+              <xs:element name="ifEmployeur" type="xs:string"/>
+              <xs:element name="exercice" type="xs:gYear"/>
+              <xs:element name="nombreSalaries" type="xs:nonNegativeInteger"/>
+              <xs:element name="montantTotalIR" type="xs:decimal"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="salaries">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="salarie" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ord" type="xs:positiveInteger"/>
+                    <xs:element name="matriculeCNSS" type="xs:string" minOccurs="0"/>
+                    <xs:element name="nom" type="xs:string"/>
+                    <xs:element name="prenom" type="xs:string"/>
+                    <xs:element name="cin" type="xs:string" minOccurs="0"/>
+                    <xs:element name="categorie" type="xs:string"/>
+                    <xs:element name="dateEntree" type="xs:date" minOccurs="0"/>
+                    <xs:element name="dateSortie" type="xs:date" minOccurs="0"/>
+                    <xs:element name="brutImposable" type="xs:decimal"/>
+                    <xs:element name="irRetenu" type="xs:decimal"/>
+                    <xs:element name="netPaye" type="xs:decimal"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="version" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

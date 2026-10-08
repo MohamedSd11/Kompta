@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  PLACEHOLDER SCHEMA - mirrors the tag shape in xml_builders.py so the
+  pre-flight validator has something real to run against in dev/tests.
+  REPLACE with the official DGI SIMPL-TVA XSD (v2026.1 / V4.0) before
+  using this in production - tag names, order, and constraints here
+  are NOT guaranteed to match the DGI's real cahier des charges.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="releveDeductions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="entete">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="iceDeclarant" type="xs:string"/>
+              <xs:element name="ifDeclarant" type="xs:string"/>
+              <xs:element name="periode" type="xs:string"/>
+              <xs:element name="nombreLignes" type="xs:nonNegativeInteger"/>
+              <xs:element name="montantTotalTTC" type="xs:decimal"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="lignes">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ligneDeduction" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ord" type="xs:positiveInteger"/>
+                    <xs:element name="numFacture" type="xs:string"/>
+                    <xs:element name="designation" type="xs:string"/>
+                    <xs:element name="montantHT" type="xs:decimal"/>
+                    <xs:element name="tauxTVA" type="xs:decimal"/>
+                    <xs:element name="montantTVA" type="xs:decimal"/>
+                    <xs:element name="montantTTC" type="xs:decimal"/>
+                    <xs:element name="identifiantFiscal" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ice" type="xs:string" minOccurs="0"/>
+                    <xs:element name="modePaiement" type="xs:string"/>
+                    <xs:element name="datePaiement" type="xs:date"/>
+                    <xs:element name="dateFacture" type="xs:date"/>
+                    <xs:element name="prorata" type="xs:decimal"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="version" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

@@ -1,0 +1,4924 @@
+{
+  "already_present": [
+    {
+      "code": "1111",
+      "official_label": "Capital social",
+      "kompta_label": "Capital social",
+      "printed_page": 31,
+      "classe": 1
+    },
+    {
+      "code": "1112",
+      "official_label": "Fonds de dotation",
+      "kompta_label": "Fonds de dotation",
+      "printed_page": 31,
+      "classe": 1
+    },
+    {
+      "code": "1117",
+      "official_label": "Capital personnel",
+      "kompta_label": "Capital personnel",
+      "printed_page": 31,
+      "classe": 1
+    },
+    {
+      "code": "1119",
+      "official_label": "Actionnaires, capital souscrit-non appelé",
+      "kompta_label": "Actionnaires, capital souscrit non appelé",
+      "printed_page": 31,
+      "classe": 1
+    },
+    {
+      "code": "1122",
+      "official_label": "Primes de fusion",
+      "kompta_label": "Primes de fusion",
+      "printed_page": 31,
+      "classe": 1
+    },
+    {
+      "code": "1152",
+      "official_label": "Réserves facultatives",
+      "kompta_label": "Réserves facultatives",
+      "printed_page": 32,
+      "classe": 1
+    },
+    {
+      "code": "1155",
+      "official_label": "Réserves réglementées",
+      "kompta_label": "Réserves réglementées",
+      "printed_page": 32,
+      "classe": 1
+    },
+    {
+      "code": "1161",
+      "official_label": "Report à nouveau (solde créditeur)",
+      "kompta_label": "Report à nouveau (solde créditeur)",
+      "printed_page": 32,
+      "classe": 1
+    },
+    {
+      "code": "1169",
+      "official_label": "Report à nouveau (solde débiteur)",
+      "kompta_label": "Report à nouveau (solde débiteur)",
+      "printed_page": 32,
+      "classe": 1
+    },
+    {
+      "code": "1351",
+      "official_label": "Provisions pour amortissements dérogatoires",
+      "kompta_label": "Provisions pour amortissements dérogatoires",
+      "printed_page": 33,
+      "classe": 1
+    },
+    {
+      "code": "1354",
+      "official_label": "Provisions pour investissements",
+      "kompta_label": "Provisions pour investissements",
+      "printed_page": 33,
+      "classe": 1
+    },
+    {
+      "code": "1355",
+      "official_label": "Provisions pour reconstitution des gisements",
+      "kompta_label": "Provisions pour reconstitution des gisements",
+      "printed_page": 33,
+      "classe": 1
+    },
+    {
+      "code": "1356",
+      "official_label": "Provisions pour acquisition et construction de logements",
+      "kompta_label": "Provisions pour acquisition et construction de logements",
+      "printed_page": 33,
+      "classe": 1
+    },
+    {
+      "code": "1358",
+      "official_label": "Autres provisions réglementées",
+      "kompta_label": "Autres provisions réglementées",
+      "printed_page": 33,
+      "classe": 1
+    },
+    {
+      "code": "1410",
+      "official_label": "Emprunts obligataires",
+      "kompta_label": "Emprunts obligataires",
+      "printed_page": 34,
+      "classe": 1
+    },
+    {
+      "code": "1481",
+      "official_label": "Emprunts auprès des établissements de crédit",
+      "kompta_label": "Emprunts auprès des établissements de crédit",
+      "printed_page": 34,
+      "classe": 1
+    },
+    {
+      "code": "1483",
+      "official_label": "Dettes rattachées à des participations",
+      "kompta_label": "Dettes rattachées à des participations",
+      "printed_page": 34,
+      "classe": 1
+    },
+    {
+      "code": "1484",
+      "official_label": "Billets de fonds",
+      "kompta_label": "Billets de fonds",
+      "printed_page": 34,
+      "classe": 1
+    },
+    {
+      "code": "1485",
+      "official_label": "Avances reçues et comptes courants bloqués",
+      "kompta_label": "Avances reçues et comptes courants bloqués",
+      "printed_page": 34,
+      "classe": 1
+    },
+    {
+      "code": "1487",
+      "official_label": "Dépôts et cautionnements reçus",
+      "kompta_label": "Dépôts et cautionnements reçus",
+      "printed_page": 34,
+      "classe": 1
+    },
+    {
+      "code": "1488",
+      "official_label": "Dettes de financement diverses",
+      "kompta_label": "Dettes de financement diverses",
+      "printed_page": 34,
+      "classe": 1
+    },
+    {
+      "code": "1511",
+      "official_label": "Provisions pour litiges",
+      "kompta_label": "Provisions pour litiges",
+      "printed_page": 35,
+      "classe": 1
+    },
+    {
+      "code": "1512",
+      "official_label": "Provisions pour garanties données aux clients",
+      "kompta_label": "Provisions pour garanties données aux clients",
+      "printed_page": 35,
+      "classe": 1
+    },
+    {
+      "code": "1513",
+      "official_label": "Provisions pour propre assureur",
+      "kompta_label": "Provisions pour propre assureur",
+      "printed_page": 35,
+      "classe": 1
+    },
+    {
+      "code": "1514",
+      "official_label": "Provisions pour pertes sur marchés à terme",
+      "kompta_label": "Provisions pour pertes sur marchés à terme",
+      "printed_page": 35,
+      "classe": 1
+    },
+    {
+      "code": "1515",
+      "official_label": "Provisions pour amendes, doubles droits, pénalités",
+      "kompta_label": "Provisions pour amendes, doubles droits, pénalités",
+      "printed_page": 35,
+      "classe": 1
+    },
+    {
+      "code": "1516",
+      "official_label": "Provisions pour pertes de change",
+      "kompta_label": "Provisions pour pertes de change",
+      "printed_page": 35,
+      "classe": 1
+    },
+    {
+      "code": "1518",
+      "official_label": "Autres provisions pour risques",
+      "kompta_label": "Autres provisions pour risques",
+      "printed_page": 35,
+      "classe": 1
+    },
+    {
+      "code": "1551",
+      "official_label": "Provisions pour impôts",
+      "kompta_label": "Provisions pour impôts",
+      "printed_page": 35,
+      "classe": 1
+    },
+    {
+      "code": "1552",
+      "official_label": "Provisions pour pensions de retraite et obligations similaires",
+      "kompta_label": "Provisions pour pensions de retraite et obligations similaires",
+      "printed_page": 35,
+      "classe": 1
+    },
+    {
+      "code": "1555",
+      "official_label": "Provisions pour charges à répartir sur plusieurs exercices",
+      "kompta_label": "Provisions pour charges à répartir sur plusieurs exercices",
+      "printed_page": 35,
+      "classe": 1
+    },
+    {
+      "code": "1558",
+      "official_label": "Autres provisions pour charges",
+      "kompta_label": "Autres provisions pour charges",
+      "printed_page": 35,
+      "classe": 1
+    },
+    {
+      "code": "1601",
+      "official_label": "Comptes de liaison du siège",
+      "kompta_label": "Comptes de liaison du siège",
+      "printed_page": 35,
+      "classe": 1
+    },
+    {
+      "code": "1605",
+      "official_label": "Comptes de liaison des établissements",
+      "kompta_label": "Comptes de liaison des établissements",
+      "printed_page": 35,
+      "classe": 1
+    },
+    {
+      "code": "2111",
+      "official_label": "Frais de constitution",
+      "kompta_label": "Frais de constitution",
+      "printed_page": 37,
+      "classe": 2
+    },
+    {
+      "code": "2112",
+      "official_label": "Frais préalables au démarrage",
+      "kompta_label": "Frais préalables au démarrage",
+      "printed_page": 37,
+      "classe": 2
+    },
+    {
+      "code": "2114",
+      "official_label": "Frais sur opérations de fusions, scissions et transformations",
+      "kompta_label": "Frais sur opérations de fusions, scissions et transformations",
+      "printed_page": 37,
+      "classe": 2
+    },
+    {
+      "code": "2116",
+      "official_label": "Frais de prospection",
+      "kompta_label": "Frais de prospection",
+      "printed_page": 37,
+      "classe": 2
+    },
+    {
+      "code": "2117",
+      "official_label": "Frais de publicité",
+      "kompta_label": "Frais de publicité",
+      "printed_page": 37,
+      "classe": 2
+    },
+    {
+      "code": "2118",
+      "official_label": "Autres frais préliminaires",
+      "kompta_label": "Autres frais préliminaires",
+      "printed_page": 37,
+      "classe": 2
+    },
+    {
+      "code": "2128",
+      "official_label": "Autres charges à répartir",
+      "kompta_label": "Autres charges à répartir",
+      "printed_page": 37,
+      "classe": 2
+    },
+    {
+      "code": "2130",
+      "official_label": "Primes de remboursement des obligations",
+      "kompta_label": "Primes de remboursement des obligations",
+      "printed_page": 37,
+      "classe": 2
+    },
+    {
+      "code": "2210",
+      "official_label": "Immobilisation en recherche et développement",
+      "kompta_label": "Immobilisation en recherche et développement",
+      "printed_page": 38,
+      "classe": 2
+    },
+    {
+      "code": "2311",
+      "official_label": "Terrains nus",
+      "kompta_label": "Terrains nus",
+      "printed_page": 39,
+      "classe": 2
+    },
+    {
+      "code": "2312",
+      "official_label": "Terrains aménagés",
+      "kompta_label": "Terrains aménagés",
+      "printed_page": 39,
+      "classe": 2
+    },
+    {
+      "code": "2313",
+      "official_label": "Terrains bâtis",
+      "kompta_label": "Terrains bâtis",
+      "printed_page": 39,
+      "classe": 2
+    },
+    {
+      "code": "2314",
+      "official_label": "Terrains de gisement",
+      "kompta_label": "Terrains de gisement",
+      "printed_page": 39,
+      "classe": 2
+    },
+    {
+      "code": "2316",
+      "official_label": "Agencements et aménagements de terrains",
+      "kompta_label": "Agencements et aménagements de terrains",
+      "printed_page": 39,
+      "classe": 2
+    },
+    {
+      "code": "2318",
+      "official_label": "Autres terrains",
+      "kompta_label": "Autres terrains",
+      "printed_page": 39,
+      "classe": 2
+    },
+    {
+      "code": "2321",
+      "official_label": "Bâtiments",
+      "kompta_label": "Bâtiments",
+      "printed_page": 39,
+      "classe": 2
+    },
+    {
+      "code": "2327",
+      "official_label": "Agencements et aménagements des constructions",
+      "kompta_label": "Agencements et aménagements des constructions",
+      "printed_page": 39,
+      "classe": 2
+    },
+    {
+      "code": "2328",
+      "official_label": "Autres constructions",
+      "kompta_label": "Autres constructions",
+      "printed_page": 39,
+      "classe": 2
+    },
+    {
+      "code": "2331",
+      "official_label": "Installations techniques",
+      "kompta_label": "Installations techniques",
+      "printed_page": 40,
+      "classe": 2
+    },
+    {
+      "code": "2332",
+      "official_label": "Matériel et outillage",
+      "kompta_label": "Matériel et outillage",
+      "printed_page": 40,
+      "classe": 2
+    },
+    {
+      "code": "2333",
+      "official_label": "Emballages récupérables identifiables",
+      "kompta_label": "Emballages récupérables identifiables",
+      "printed_page": 40,
+      "classe": 2
+    },
+    {
+      "code": "2338",
+      "official_label": "Autres installations techniques, matériel et outillage",
+      "kompta_label": "Autres installations techniques, matériel et outillage",
+      "printed_page": 40,
+      "classe": 2
+    },
+    {
+      "code": "2340",
+      "official_label": "Matériel de transport",
+      "kompta_label": "Matériel de transport",
+      "printed_page": 40,
+      "classe": 2
+    },
+    {
+      "code": "2351",
+      "official_label": "Mobilier de bureau",
+      "kompta_label": "Mobilier de bureau",
+      "printed_page": 40,
+      "classe": 2
+    },
+    {
+      "code": "2352",
+      "official_label": "Matériel de bureau",
+      "kompta_label": "Matériel de bureau",
+      "printed_page": 40,
+      "classe": 2
+    },
+    {
+      "code": "2355",
+      "official_label": "Matériel informatique",
+      "kompta_label": "Matériel informatique",
+      "printed_page": 40,
+      "classe": 2
+    },
+    {
+      "code": "2358",
+      "official_label": "Autres mobilier, matériel de bureau et aménagements divers",
+      "kompta_label": "Autres mobilier, matériel de bureau et aménagements divers",
+      "printed_page": 40,
+      "classe": 2
+    },
+    {
+      "code": "2380",
+      "official_label": "Autres immobilisations corporelles",
+      "kompta_label": "Autres immobilisations corporelles",
+      "printed_page": 40,
+      "classe": 2
+    },
+    {
+      "code": "2398",
+      "official_label": "Autres immobilisations corporelles en cours",
+      "kompta_label": "Autres immobilisations corporelles en cours",
+      "printed_page": 41,
+      "classe": 2
+    },
+    {
+      "code": "2415",
+      "official_label": "Prêts aux associés",
+      "kompta_label": "Prêts aux associés",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "2418",
+      "official_label": "Autres prêts",
+      "kompta_label": "Autres prêts",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "2481",
+      "official_label": "Titres immobilisés (droits de créance)",
+      "kompta_label": "Titres immobilisés (droits de créance)",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "2483",
+      "official_label": "Créances rattachées à des participations",
+      "kompta_label": "Créances rattachées à des participations",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "2486",
+      "official_label": "Dépôts et cautionnements versés",
+      "kompta_label": "Dépôts et cautionnements versés",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "2487",
+      "official_label": "Créances immobilisées",
+      "kompta_label": "Créances immobilisées",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "2488",
+      "official_label": "Créances financières diverses",
+      "kompta_label": "Créances financières diverses",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "2510",
+      "official_label": "Titres de participation",
+      "kompta_label": "Titres de participation",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "2588",
+      "official_label": "Titres divers",
+      "kompta_label": "Titres divers",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "2811",
+      "official_label": "Amortissements des Frais préliminaires",
+      "kompta_label": "Amortissements des frais préliminaires",
+      "printed_page": 44,
+      "classe": 2
+    },
+    {
+      "code": "2812",
+      "official_label": "Amortissements des charges à répartir",
+      "kompta_label": "Amortissements des charges à répartir",
+      "printed_page": 44,
+      "classe": 2
+    },
+    {
+      "code": "2813",
+      "official_label": "Amortissements des primes de remboursement des obligations",
+      "kompta_label": "Amortissements des primes de remboursement des obligations",
+      "printed_page": 44,
+      "classe": 2
+    },
+    {
+      "code": "2823",
+      "official_label": "Amortissements du Fonds commercial",
+      "kompta_label": "Amortissements du fonds commercial",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "2828",
+      "official_label": "Amortissements des autres immobilisations incorporelles",
+      "kompta_label": "Amortissements des autres immobilisations incorporelles",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "2831",
+      "official_label": "Amortissements des Terrains",
+      "kompta_label": "Amortissements des terrains",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "2832",
+      "official_label": "Amortissements des constructions",
+      "kompta_label": "Amortissements des constructions",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "2833",
+      "official_label": "Amortissements des installations techniques, matériel et outillage",
+      "kompta_label": "Amortissements des installations techniques, matériel et outillage",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "2834",
+      "official_label": "Amortissements du matériel de transport",
+      "kompta_label": "Amortissements du matériel de transport",
+      "printed_page": 46,
+      "classe": 2
+    },
+    {
+      "code": "2835",
+      "official_label": "Amortissements du mobilier, matériel de bureau et aménagements divers",
+      "kompta_label": "Amortissements du mobilier, matériel de bureau et aménagements divers",
+      "printed_page": 46,
+      "classe": 2
+    },
+    {
+      "code": "2838",
+      "official_label": "Amortissements des autres immobilisations corporelles",
+      "kompta_label": "Amortissements des autres immobilisations corporelles",
+      "printed_page": 46,
+      "classe": 2
+    },
+    {
+      "code": "2920",
+      "official_label": "Provisions pour dépréciation des immobilisations incorporelles",
+      "kompta_label": "Provisions pour dépréciation des immobilisations incorporelles",
+      "printed_page": 47,
+      "classe": 2
+    },
+    {
+      "code": "2930",
+      "official_label": "Provisions pour dépréciation des immobilisations corporelles",
+      "kompta_label": "Provisions pour dépréciation des immobilisations corporelles",
+      "printed_page": 47,
+      "classe": 2
+    },
+    {
+      "code": "2941",
+      "official_label": "Provisions pour dépréciation des prêts immobilisés",
+      "kompta_label": "Provisions pour dépréciation des prêts immobilisés",
+      "printed_page": 47,
+      "classe": 2
+    },
+    {
+      "code": "2948",
+      "official_label": "Provisions pour dépréciation des autres créances financières",
+      "kompta_label": "Provisions pour dépréciation des autres créances financières",
+      "printed_page": 47,
+      "classe": 2
+    },
+    {
+      "code": "2951",
+      "official_label": "Provisions pour dépréciation des titres de participation",
+      "kompta_label": "Provisions pour dépréciation des titres de participation",
+      "printed_page": 47,
+      "classe": 2
+    },
+    {
+      "code": "2958",
+      "official_label": "Provisions pour dépréciation des autres titres immobilisés",
+      "kompta_label": "Provisions pour dépréciation des autres titres immobilisés",
+      "printed_page": 47,
+      "classe": 2
+    },
+    {
+      "code": "3112",
+      "official_label": "Marchandises (groupe B)",
+      "kompta_label": "Marchandises (groupe B)",
+      "printed_page": 49,
+      "classe": 3
+    },
+    {
+      "code": "3116",
+      "official_label": "Marchandises en cours de route",
+      "kompta_label": "Marchandises en cours de route",
+      "printed_page": 49,
+      "classe": 3
+    },
+    {
+      "code": "3118",
+      "official_label": "Autres marchandises",
+      "kompta_label": "Autres marchandises",
+      "printed_page": 49,
+      "classe": 3
+    },
+    {
+      "code": "3121",
+      "official_label": "Matières premières",
+      "kompta_label": "Matières premières",
+      "printed_page": 49,
+      "classe": 3
+    },
+    {
+      "code": "3122",
+      "official_label": "Matières et fournitures consommables",
+      "kompta_label": "Matières et fournitures consommables",
+      "printed_page": 49,
+      "classe": 3
+    },
+    {
+      "code": "3126",
+      "official_label": "Matières et fournitures consommables en cours de route",
+      "kompta_label": "Matières et fournitures consommables en cours de route",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "3128",
+      "official_label": "Autres matières et fournitures consommables",
+      "kompta_label": "Autres matières et fournitures consommables",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "3131",
+      "official_label": "Biens en cours",
+      "kompta_label": "Biens en cours",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "3134",
+      "official_label": "Services en cours",
+      "kompta_label": "Services en cours",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "3138",
+      "official_label": "Autres produits en cours",
+      "kompta_label": "Autres produits en cours",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "3141",
+      "official_label": "Produits intermédiaires",
+      "kompta_label": "Produits intermédiaires",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "3151",
+      "official_label": "Produits finis (groupe A)",
+      "kompta_label": "Produits finis (groupe A)",
+      "printed_page": 51,
+      "classe": 3
+    },
+    {
+      "code": "3152",
+      "official_label": "Produits finis (groupe B)",
+      "kompta_label": "Produits finis (groupe B)",
+      "printed_page": 51,
+      "classe": 3
+    },
+    {
+      "code": "3156",
+      "official_label": "Produits finis en cours de route",
+      "kompta_label": "Produits finis en cours de route",
+      "printed_page": 51,
+      "classe": 3
+    },
+    {
+      "code": "3158",
+      "official_label": "Autres produits finis",
+      "kompta_label": "Autres produits finis",
+      "printed_page": 51,
+      "classe": 3
+    },
+    {
+      "code": "3418",
+      "official_label": "Autres fournisseurs débiteurs",
+      "kompta_label": "Autres fournisseurs débiteurs",
+      "printed_page": 52,
+      "classe": 3
+    },
+    {
+      "code": "3421",
+      "official_label": "Clients",
+      "kompta_label": "Clients",
+      "printed_page": 52,
+      "classe": 3
+    },
+    {
+      "code": "3424",
+      "official_label": "Clients douteux ou litigieux",
+      "kompta_label": "Clients douteux ou litigieux",
+      "printed_page": 52,
+      "classe": 3
+    },
+    {
+      "code": "3428",
+      "official_label": "Autres clients et comptes rattachés",
+      "kompta_label": "Autres clients et comptes rattachés",
+      "printed_page": 52,
+      "classe": 3
+    },
+    {
+      "code": "3463",
+      "official_label": "Comptes courants des associés débiteurs",
+      "kompta_label": "Comptes courants des associés débiteurs",
+      "printed_page": 53,
+      "classe": 3
+    },
+    {
+      "code": "3487",
+      "official_label": "Créances rattachées aux autres débiteurs",
+      "kompta_label": "Créances rattachées aux autres débiteurs",
+      "printed_page": 54,
+      "classe": 3
+    },
+    {
+      "code": "3493",
+      "official_label": "Intérêts courus et non échus à percevoir",
+      "kompta_label": "Intérêts courus et non échus à percevoir",
+      "printed_page": 54,
+      "classe": 3
+    },
+    {
+      "code": "3495",
+      "official_label": "Comptes de répartition périodique des charges",
+      "kompta_label": "Comptes de répartition périodique des charges",
+      "printed_page": 54,
+      "classe": 3
+    },
+    {
+      "code": "3501",
+      "official_label": "Actions, partie libérée",
+      "kompta_label": "Actions, partie libérée",
+      "printed_page": 54,
+      "classe": 3
+    },
+    {
+      "code": "3502",
+      "official_label": "Actions, partie non libérée",
+      "kompta_label": "Actions, partie non libérée",
+      "printed_page": 54,
+      "classe": 3
+    },
+    {
+      "code": "3508",
+      "official_label": "Autres titres et valeurs de placement similaires",
+      "kompta_label": "Autres titres et valeurs de placement similaires",
+      "printed_page": 54,
+      "classe": 3
+    },
+    {
+      "code": "3911",
+      "official_label": "Provisions pour dépréciation des marchandises",
+      "kompta_label": "Provisions pour dépréciation des marchandises",
+      "printed_page": 55,
+      "classe": 3
+    },
+    {
+      "code": "3912",
+      "official_label": "Provisions pour dépréciation des matières et fournitures",
+      "kompta_label": "Provisions pour dépréciation des matières et fournitures",
+      "printed_page": 55,
+      "classe": 3
+    },
+    {
+      "code": "3913",
+      "official_label": "Provisions pour dépréciation des produits en cours",
+      "kompta_label": "Provisions pour dépréciation des produits en cours",
+      "printed_page": 55,
+      "classe": 3
+    },
+    {
+      "code": "3914",
+      "official_label": "Provisions pour dépréciation des produits intermédiaires",
+      "kompta_label": "Provisions pour dépréciation des produits intermédiaires",
+      "printed_page": 55,
+      "classe": 3
+    },
+    {
+      "code": "3915",
+      "official_label": "Provisions pour dépréciation des produits finis",
+      "kompta_label": "Provisions pour dépréciation des produits finis",
+      "printed_page": 55,
+      "classe": 3
+    },
+    {
+      "code": "3942",
+      "official_label": "Provisions pour dépréciation des clients et comptes rattachés",
+      "kompta_label": "Provisions pour dépréciation des clients et comptes rattachés",
+      "printed_page": 55,
+      "classe": 3
+    },
+    {
+      "code": "3943",
+      "official_label": "Provisions pour dépréciation du personnel - débiteur",
+      "kompta_label": "Provisions pour dépréciation du personnel débiteur",
+      "printed_page": 55,
+      "classe": 3
+    },
+    {
+      "code": "3948",
+      "official_label": "Provisions pour dépréciation des autres débiteurs",
+      "kompta_label": "Provisions pour dépréciation des autres débiteurs",
+      "printed_page": 55,
+      "classe": 3
+    },
+    {
+      "code": "3950",
+      "official_label": "Provisions pour dépréciation des titres et valeurs de placement",
+      "kompta_label": "Provisions pour dépréciation des titres et valeurs de placement",
+      "printed_page": 55,
+      "classe": 3
+    },
+    {
+      "code": "4411",
+      "official_label": "Fournisseurs",
+      "kompta_label": "Fournisseurs",
+      "printed_page": 57,
+      "classe": 4
+    },
+    {
+      "code": "4413",
+      "official_label": "Fournisseurs - retenues de garantie",
+      "kompta_label": "Fournisseurs, retenues de garantie",
+      "printed_page": 57,
+      "classe": 4
+    },
+    {
+      "code": "4418",
+      "official_label": "Autres fournisseurs et comptes rattachés",
+      "kompta_label": "Autres fournisseurs et comptes rattachés",
+      "printed_page": 57,
+      "classe": 4
+    },
+    {
+      "code": "4428",
+      "official_label": "Autres clients créditeurs",
+      "kompta_label": "Autres clients créditeurs",
+      "printed_page": 58,
+      "classe": 4
+    },
+    {
+      "code": "4432",
+      "official_label": "Rémunérations dues au personnel",
+      "kompta_label": "Rémunérations dues au personnel",
+      "printed_page": 58,
+      "classe": 4
+    },
+    {
+      "code": "4433",
+      "official_label": "Dépôts du personnel créditeurs",
+      "kompta_label": "Dépôts du personnel créditeurs",
+      "printed_page": 58,
+      "classe": 4
+    },
+    {
+      "code": "4434",
+      "official_label": "Oppositions sur salaires",
+      "kompta_label": "Oppositions sur salaires",
+      "printed_page": 58,
+      "classe": 4
+    },
+    {
+      "code": "4437",
+      "official_label": "Charges du personnel à payer",
+      "kompta_label": "Charges du personnel à payer",
+      "printed_page": 58,
+      "classe": 4
+    },
+    {
+      "code": "4443",
+      "official_label": "Caisses de retraite",
+      "kompta_label": "Caisses de retraite",
+      "printed_page": 58,
+      "classe": 4
+    },
+    {
+      "code": "4445",
+      "official_label": "Mutuelles",
+      "kompta_label": "Mutuelles",
+      "printed_page": 58,
+      "classe": 4
+    },
+    {
+      "code": "4447",
+      "official_label": "Charges sociales à payer",
+      "kompta_label": "Charges sociales à payer",
+      "printed_page": 58,
+      "classe": 4
+    },
+    {
+      "code": "4448",
+      "official_label": "Autres organismes sociaux",
+      "kompta_label": "Autres organismes sociaux",
+      "printed_page": 58,
+      "classe": 4
+    },
+    {
+      "code": "4463",
+      "official_label": "Comptes courants des associés créditeurs",
+      "kompta_label": "Comptes courants des associés créditeurs",
+      "printed_page": 59,
+      "classe": 4
+    },
+    {
+      "code": "4483",
+      "official_label": "Dettes sur acquisitions de titres et valeurs de placement",
+      "kompta_label": "Dettes sur acquisitions de titres et valeurs de placement",
+      "printed_page": 59,
+      "classe": 4
+    },
+    {
+      "code": "4484",
+      "official_label": "Obligations échues à rembourser",
+      "kompta_label": "Obligations échues à rembourser",
+      "printed_page": 59,
+      "classe": 4
+    },
+    {
+      "code": "4485",
+      "official_label": "Obligations, coupons à payer",
+      "kompta_label": "Obligations, coupons à payer",
+      "printed_page": 59,
+      "classe": 4
+    },
+    {
+      "code": "4487",
+      "official_label": "Dettes rattachées aux autres créanciers",
+      "kompta_label": "Dettes rattachées aux autres créanciers",
+      "printed_page": 59,
+      "classe": 4
+    },
+    {
+      "code": "4488",
+      "official_label": "Divers créanciers",
+      "kompta_label": "Divers créanciers",
+      "printed_page": 59,
+      "classe": 4
+    },
+    {
+      "code": "4493",
+      "official_label": "Intérêts courus et non échus à payer",
+      "kompta_label": "Intérêts courus et non échus à payer",
+      "printed_page": 59,
+      "classe": 4
+    },
+    {
+      "code": "4495",
+      "official_label": "Comptes de répartition périodique des produits",
+      "kompta_label": "Comptes de répartition périodique des produits",
+      "printed_page": 59,
+      "classe": 4
+    },
+    {
+      "code": "4501",
+      "official_label": "Provisions pour litiges",
+      "kompta_label": "Provisions pour litiges",
+      "printed_page": 60,
+      "classe": 4
+    },
+    {
+      "code": "4502",
+      "official_label": "Provisions pour garanties données aux clients",
+      "kompta_label": "Provisions pour garanties données aux clients",
+      "printed_page": 60,
+      "classe": 4
+    },
+    {
+      "code": "4505",
+      "official_label": "Provisions pour amendes, doubles droits et pénalités",
+      "kompta_label": "Provisions pour amendes, doubles droits et pénalités",
+      "printed_page": 60,
+      "classe": 4
+    },
+    {
+      "code": "4506",
+      "official_label": "Provisions pour pertes de change",
+      "kompta_label": "Provisions pour pertes de change",
+      "printed_page": 60,
+      "classe": 4
+    },
+    {
+      "code": "4507",
+      "official_label": "Provisions pour impôts",
+      "kompta_label": "Provisions pour impôts",
+      "printed_page": 60,
+      "classe": 4
+    },
+    {
+      "code": "4508",
+      "official_label": "Autres provisions pour risques et charges",
+      "kompta_label": "Autres provisions pour risques et charges",
+      "printed_page": 60,
+      "classe": 4
+    },
+    {
+      "code": "5118",
+      "official_label": "Autres valeurs à encaisser",
+      "kompta_label": "Autres valeurs à encaisser",
+      "printed_page": 61,
+      "classe": 5
+    },
+    {
+      "code": "5143",
+      "official_label": "Trésorerie Générale",
+      "kompta_label": "Trésorerie Générale",
+      "printed_page": 61,
+      "classe": 5
+    },
+    {
+      "code": "5146",
+      "official_label": "Chèques postaux",
+      "kompta_label": "Chèques postaux",
+      "printed_page": 61,
+      "classe": 5
+    },
+    {
+      "code": "5530",
+      "official_label": "Crédits de trésorerie",
+      "kompta_label": "Crédits de trésorerie",
+      "printed_page": 62,
+      "classe": 5
+    },
+    {
+      "code": "5900",
+      "official_label": "Provisions pour dépréciation des comptes de trésorerie",
+      "kompta_label": "Provisions pour dépréciation des comptes de trésorerie",
+      "printed_page": 62,
+      "classe": 5
+    },
+    {
+      "code": "6112",
+      "official_label": "Achats de marchandises \"groupe B\"",
+      "kompta_label": "Achats de marchandises (groupe B)",
+      "printed_page": 63,
+      "classe": 6
+    },
+    {
+      "code": "6114",
+      "official_label": "Variation de stocks de marchandises",
+      "kompta_label": "Variation de stocks de marchandises",
+      "printed_page": 63,
+      "classe": 6
+    },
+    {
+      "code": "6118",
+      "official_label": "Achats revendus de marchandises des exercices antérieurs",
+      "kompta_label": "Achats revendus de marchandises des exercices antérieurs",
+      "printed_page": 63,
+      "classe": 6
+    },
+    {
+      "code": "6119",
+      "official_label": "Rabais, remises, et ristournes obtenus sur achats de marchandises",
+      "kompta_label": "Rabais, remises et ristournes obtenus sur achats de marchandises",
+      "printed_page": 63,
+      "classe": 6
+    },
+    {
+      "code": "6121",
+      "official_label": "Achats de matières premières",
+      "kompta_label": "Achats de matières premières",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "6122",
+      "official_label": "Achats de matières et fournitures consommables",
+      "kompta_label": "Achats de matières et fournitures consommables",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "6124",
+      "official_label": "Variation des stocks de matières et fournitures",
+      "kompta_label": "Variation des stocks de matières et fournitures",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "6126",
+      "official_label": "Achats de travaux , études et prestations de service",
+      "kompta_label": "Achats de travaux, études et prestations de service",
+      "printed_page": 65,
+      "classe": 6
+    },
+    {
+      "code": "6131",
+      "official_label": "Locations et charges locatives",
+      "kompta_label": "Locations et charges locatives",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "6132",
+      "official_label": "Redevances de crédit-bail",
+      "kompta_label": "Redevances de crédit-bail",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "6133",
+      "official_label": "Entretien et réparations",
+      "kompta_label": "Entretien et réparations",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "6137",
+      "official_label": "Redevances pour brevets marques, droits et valeurs similaires",
+      "kompta_label": "Redevances pour brevets, marques, droits et valeurs similaires",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "6142",
+      "official_label": "Transports",
+      "kompta_label": "Transports",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "6143",
+      "official_label": "Déplacements, missions et réceptions",
+      "kompta_label": "Déplacements, missions et réceptions",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "6144",
+      "official_label": "Publicité, publications et relations publiques",
+      "kompta_label": "Publicité, publications et relations publiques",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "6145",
+      "official_label": "Frais postaux et frais de télécommunications",
+      "kompta_label": "Frais postaux et frais de télécommunications",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "6146",
+      "official_label": "Cotisations et dons",
+      "kompta_label": "Cotisations et dons",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "6147",
+      "official_label": "Services bancaires",
+      "kompta_label": "Services bancaires",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "6148",
+      "official_label": "Autres charges externes des exercices antérieurs",
+      "kompta_label": "Autres charges externes des exercices antérieurs",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "6149",
+      "official_label": "Rabais, Remises et ristournes obtenus sur autres charges externes",
+      "kompta_label": "Rabais, remises et ristournes obtenus sur autres charges externes",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "6161",
+      "official_label": "Impôts et taxes directs",
+      "kompta_label": "Impôts et taxes directs",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "6167",
+      "official_label": "Impôts, taxes et droits assimilés",
+      "kompta_label": "Impôts, taxes et droits assimilés",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "6168",
+      "official_label": "Impôts et taxes des exercices antérieurs",
+      "kompta_label": "Impôts et taxes des exercices antérieurs",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "6171",
+      "official_label": "Rémunérations du personnel",
+      "kompta_label": "Rémunérations du personnel",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "6174",
+      "official_label": "Charges sociales",
+      "kompta_label": "Charges sociales",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "6176",
+      "official_label": "Charges sociales diverses",
+      "kompta_label": "Charges sociales diverses",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "6181",
+      "official_label": "Jetons de présence",
+      "kompta_label": "Jetons de présence",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "6182",
+      "official_label": "Pertes sur créances irrécouvrables",
+      "kompta_label": "Pertes sur créances irrécouvrables",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "6185",
+      "official_label": "Pertes sur opérations faites en commun",
+      "kompta_label": "Pertes sur opérations faites en commun",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "6311",
+      "official_label": "Intérêts des emprunts et dettes",
+      "kompta_label": "Intérêts des emprunts et dettes",
+      "printed_page": 73,
+      "classe": 6
+    },
+    {
+      "code": "6338",
+      "official_label": "Pertes de change des exercices antérieurs",
+      "kompta_label": "Pertes de change des exercices antérieurs",
+      "printed_page": 73,
+      "classe": 6
+    },
+    {
+      "code": "6382",
+      "official_label": "Pertes sur créances liées à des participations",
+      "kompta_label": "Pertes sur créances liées à des participations",
+      "printed_page": 73,
+      "classe": 6
+    },
+    {
+      "code": "6386",
+      "official_label": "Escomptes accordés",
+      "kompta_label": "Escomptes accordés",
+      "printed_page": 73,
+      "classe": 6
+    },
+    {
+      "code": "6388",
+      "official_label": "Autres charges financières des exercices antérieurs",
+      "kompta_label": "Autres charges financières des exercices antérieurs",
+      "printed_page": 74,
+      "classe": 6
+    },
+    {
+      "code": "6392",
+      "official_label": "Dotations aux provisions pour dépréciation des immobilisations financières",
+      "kompta_label": "Dotations aux provisions pour dépréciation des immobilisations financières",
+      "printed_page": 74,
+      "classe": 6
+    },
+    {
+      "code": "6394",
+      "official_label": "Dotations aux provisions pour dépréciation des titres et valeurs de placement",
+      "kompta_label": "Dotations aux provisions pour dépréciation des titres et valeurs de placement",
+      "printed_page": 74,
+      "classe": 6
+    },
+    {
+      "code": "6398",
+      "official_label": "Dotations financières des exercices antérieurs",
+      "kompta_label": "Dotations financières des exercices antérieurs",
+      "printed_page": 74,
+      "classe": 6
+    },
+    {
+      "code": "6568",
+      "official_label": "Subventions accordées des exercices antérieurs",
+      "kompta_label": "Subventions accordées des exercices antérieurs",
+      "printed_page": 75,
+      "classe": 6
+    },
+    {
+      "code": "6581",
+      "official_label": "Pénalités sur marchés et dédits",
+      "kompta_label": "Pénalités sur marchés et dédits",
+      "printed_page": 75,
+      "classe": 6
+    },
+    {
+      "code": "6583",
+      "official_label": "Pénalités et amendes fiscales ou pénales",
+      "kompta_label": "Pénalités et amendes fiscales ou pénales",
+      "printed_page": 75,
+      "classe": 6
+    },
+    {
+      "code": "6585",
+      "official_label": "Créances devenues irrécouvrables",
+      "kompta_label": "Créances devenues irrécouvrables",
+      "printed_page": 75,
+      "classe": 6
+    },
+    {
+      "code": "6586",
+      "official_label": "Dons, libéralités et lots",
+      "kompta_label": "Dons, libéralités et lots",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "6588",
+      "official_label": "Autres charges non courantes des exercices antérieurs",
+      "kompta_label": "Autres charges non courantes des exercices antérieurs",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "6591",
+      "official_label": "Dotations aux amortissements exceptionnels des immobilisations",
+      "kompta_label": "Dotations aux amortissements exceptionnels des immobilisations",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "6594",
+      "official_label": "Dotations non courantes aux provisions réglementées",
+      "kompta_label": "Dotations non courantes aux provisions réglementées",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "6595",
+      "official_label": "Dotations non courantes aux provisions pour risques et charges",
+      "kompta_label": "Dotations non courantes aux provisions pour risques et charges",
+      "printed_page": 77,
+      "classe": 6
+    },
+    {
+      "code": "6596",
+      "official_label": "Dotations non courantes aux provisions pour dépréciation",
+      "kompta_label": "Dotations non courantes aux provisions pour dépréciation",
+      "printed_page": 77,
+      "classe": 6
+    },
+    {
+      "code": "6598",
+      "official_label": "Dotations non courantes des exercices antérieurs",
+      "kompta_label": "Dotations non courantes des exercices antérieurs",
+      "printed_page": 77,
+      "classe": 6
+    },
+    {
+      "code": "6701",
+      "official_label": "Impôts sur les bénéfices",
+      "kompta_label": "Impôts sur les bénéfices",
+      "printed_page": 77,
+      "classe": 6
+    },
+    {
+      "code": "7118",
+      "official_label": "Ventes de marchandises des exercices antérieurs",
+      "kompta_label": "Ventes de marchandises des exercices antérieurs",
+      "printed_page": 79,
+      "classe": 7
+    },
+    {
+      "code": "7124",
+      "official_label": "Ventes de services produits au Maroc",
+      "kompta_label": "Ventes de services produits au Maroc",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "7126",
+      "official_label": "Redevances pour brevets, marques, droits et valeurs similaires",
+      "kompta_label": "Redevances pour brevets, marques, droits et valeurs similaires",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "7127",
+      "official_label": "Ventes et produits accessoires",
+      "kompta_label": "Ventes et produits accessoires",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "7128",
+      "official_label": "Ventes de biens et services produits des exercices antérieurs",
+      "kompta_label": "Ventes de biens et services produits des exercices antérieurs",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "7131",
+      "official_label": "Variation des stocks de produits en cours",
+      "kompta_label": "Variation des stocks de produits en cours",
+      "printed_page": 81,
+      "classe": 7
+    },
+    {
+      "code": "7132",
+      "official_label": "Variation des stocks de biens produits",
+      "kompta_label": "Variation des stocks de biens produits",
+      "printed_page": 81,
+      "classe": 7
+    },
+    {
+      "code": "7141",
+      "official_label": "Immobilisation en non-valeurs produite",
+      "kompta_label": "Immobilisation en non-valeurs produite",
+      "printed_page": 82,
+      "classe": 7
+    },
+    {
+      "code": "7142",
+      "official_label": "Immobilisations incorporelles produites",
+      "kompta_label": "Immobilisations incorporelles produites",
+      "printed_page": 82,
+      "classe": 7
+    },
+    {
+      "code": "7143",
+      "official_label": "Immobilisations corporelles produites",
+      "kompta_label": "Immobilisations corporelles produites",
+      "printed_page": 82,
+      "classe": 7
+    },
+    {
+      "code": "7148",
+      "official_label": "Immobilisations produites des exercices antérieurs.",
+      "kompta_label": "Immobilisations produites des exercices antérieurs",
+      "printed_page": 82,
+      "classe": 7
+    },
+    {
+      "code": "7181",
+      "official_label": "Jetons de présence reçus",
+      "kompta_label": "Jetons de présence reçus",
+      "printed_page": 82,
+      "classe": 7
+    },
+    {
+      "code": "7185",
+      "official_label": "Profits sur opérations faites en commun",
+      "kompta_label": "Profits sur opérations faites en commun",
+      "printed_page": 82,
+      "classe": 7
+    },
+    {
+      "code": "7186",
+      "official_label": "Transfert de pertes sur opérations faites en commun",
+      "kompta_label": "Transfert de pertes sur opérations faites en commun",
+      "printed_page": 83,
+      "classe": 7
+    },
+    {
+      "code": "7192",
+      "official_label": "Reprises sur amortissements des immobilisations incorporelles",
+      "kompta_label": "Reprises sur amortissements des immobilisations incorporelles",
+      "printed_page": 83,
+      "classe": 7
+    },
+    {
+      "code": "7193",
+      "official_label": "Reprises sur amortissements des immobilisations corporelles",
+      "kompta_label": "Reprises sur amortissements des immobilisations corporelles",
+      "printed_page": 83,
+      "classe": 7
+    },
+    {
+      "code": "7194",
+      "official_label": "Reprises sur provisions pour dépréciation des immobilisations",
+      "kompta_label": "Reprises sur provisions pour dépréciation des immobilisations",
+      "printed_page": 83,
+      "classe": 7
+    },
+    {
+      "code": "7195",
+      "official_label": "Reprises sur provisions pour risques et charges",
+      "kompta_label": "Reprises sur provisions pour risques et charges",
+      "printed_page": 83,
+      "classe": 7
+    },
+    {
+      "code": "7198",
+      "official_label": "Reprises sur amortissements et provisions des exercices antérieurs",
+      "kompta_label": "Reprises sur amortissements et provisions des exercices antérieurs",
+      "printed_page": 83,
+      "classe": 7
+    },
+    {
+      "code": "7321",
+      "official_label": "Revenus des titres de participation",
+      "kompta_label": "Revenus des titres de participation",
+      "printed_page": 84,
+      "classe": 7
+    },
+    {
+      "code": "7325",
+      "official_label": "Revenus des titres immobilisés",
+      "kompta_label": "Revenus des titres immobilisés",
+      "printed_page": 84,
+      "classe": 7
+    },
+    {
+      "code": "7338",
+      "official_label": "Gains de change des exercices antérieurs",
+      "kompta_label": "Gains de change des exercices antérieurs",
+      "printed_page": 84,
+      "classe": 7
+    },
+    {
+      "code": "7381",
+      "official_label": "Intérêts et produits assimilés",
+      "kompta_label": "Intérêts et produits assimilés",
+      "printed_page": 84,
+      "classe": 7
+    },
+    {
+      "code": "7383",
+      "official_label": "Revenus des créances rattachées à des participations",
+      "kompta_label": "Revenus des créances rattachées à des participations",
+      "printed_page": 84,
+      "classe": 7
+    },
+    {
+      "code": "7384",
+      "official_label": "Revenus des titres et valeurs de placement",
+      "kompta_label": "Revenus des titres et valeurs de placement",
+      "printed_page": 84,
+      "classe": 7
+    },
+    {
+      "code": "7385",
+      "official_label": "Produits nets sur cessions de titres et valeurs de placement",
+      "kompta_label": "Produits nets sur cessions de titres et valeurs de placement",
+      "printed_page": 84,
+      "classe": 7
+    },
+    {
+      "code": "7386",
+      "official_label": "Escomptes obtenus",
+      "kompta_label": "Escomptes obtenus",
+      "printed_page": 84,
+      "classe": 7
+    },
+    {
+      "code": "7388",
+      "official_label": "Intérêts et autres produits financiers des exercices antérieurs",
+      "kompta_label": "Intérêts et autres produits financiers des exercices antérieurs",
+      "printed_page": 84,
+      "classe": 7
+    },
+    {
+      "code": "7392",
+      "official_label": "Reprises sur provisions pour dépréciation des immobilisations financières",
+      "kompta_label": "Reprises sur provisions pour dépréciation des immobilisations financières",
+      "printed_page": 85,
+      "classe": 7
+    },
+    {
+      "code": "7394",
+      "official_label": "Reprises sur provisions pour dépréciation des titres et valeurs de placement",
+      "kompta_label": "Reprises sur provisions pour dépréciation des titres et valeurs de placement",
+      "printed_page": 85,
+      "classe": 7
+    },
+    {
+      "code": "7396",
+      "official_label": "Reprises sur provisions pour dépréciation des comptes de trésorerie",
+      "kompta_label": "Reprises sur provisions pour dépréciation des comptes de trésorerie",
+      "printed_page": 85,
+      "classe": 7
+    },
+    {
+      "code": "7398",
+      "official_label": "Reprises sur dotations financières des exercices antérieurs",
+      "kompta_label": "Reprises sur dotations financières des exercices antérieurs",
+      "printed_page": 85,
+      "classe": 7
+    },
+    {
+      "code": "7581",
+      "official_label": "Pénalités et dédits reçus",
+      "kompta_label": "Pénalités et dédits reçus",
+      "printed_page": 86,
+      "classe": 7
+    },
+    {
+      "code": "7585",
+      "official_label": "Rentrées sur créances soldées",
+      "kompta_label": "Rentrées sur créances soldées",
+      "printed_page": 87,
+      "classe": 7
+    },
+    {
+      "code": "7586",
+      "official_label": "Dons, libéralités et lots reçus",
+      "kompta_label": "Dons, libéralités et lots reçus",
+      "printed_page": 87,
+      "classe": 7
+    },
+    {
+      "code": "7588",
+      "official_label": "Autres produits non courants des exercices antérieurs",
+      "kompta_label": "Autres produits non courants des exercices antérieurs",
+      "printed_page": 87,
+      "classe": 7
+    },
+    {
+      "code": "7594",
+      "official_label": "Reprises non courantes sur provisions réglementées",
+      "kompta_label": "Reprises non courantes sur provisions réglementées",
+      "printed_page": 87,
+      "classe": 7
+    },
+    {
+      "code": "7595",
+      "official_label": "Reprises non courantes sur provisions pour risques et charges",
+      "kompta_label": "Reprises non courantes sur provisions pour risques et charges",
+      "printed_page": 88,
+      "classe": 7
+    },
+    {
+      "code": "7596",
+      "official_label": "Reprises non courantes sur provisions pour dépréciation",
+      "kompta_label": "Reprises non courantes sur provisions pour dépréciation",
+      "printed_page": 88,
+      "classe": 7
+    },
+    {
+      "code": "7597",
+      "official_label": "Transferts de charges non courantes",
+      "kompta_label": "Transferts de charges non courantes",
+      "printed_page": 88,
+      "classe": 7
+    },
+    {
+      "code": "7598",
+      "official_label": "Reprises non courantes des exercices antérieurs",
+      "kompta_label": "Reprises non courantes des exercices antérieurs",
+      "printed_page": 88,
+      "classe": 7
+    },
+    {
+      "code": "8110",
+      "official_label": "Marge brute",
+      "kompta_label": "Marge brute",
+      "printed_page": 89,
+      "classe": 8
+    },
+    {
+      "code": "8140",
+      "official_label": "Valeur ajoutée",
+      "kompta_label": "Valeur ajoutée",
+      "printed_page": 89,
+      "classe": 8
+    },
+    {
+      "code": "8300",
+      "official_label": "Résultat financier",
+      "kompta_label": "Résultat financier",
+      "printed_page": 90,
+      "classe": 8
+    },
+    {
+      "code": "8400",
+      "official_label": "Résultat courant",
+      "kompta_label": "Résultat courant",
+      "printed_page": 90,
+      "classe": 8
+    },
+    {
+      "code": "8500",
+      "official_label": "Résultat non courant",
+      "kompta_label": "Résultat non courant",
+      "printed_page": 90,
+      "classe": 8
+    },
+    {
+      "code": "8600",
+      "official_label": "Résultat avant impôts",
+      "kompta_label": "Résultat avant impôts",
+      "printed_page": 90,
+      "classe": 8
+    },
+    {
+      "code": "8800",
+      "official_label": "Résultat après impôts",
+      "kompta_label": "Résultat après impôts",
+      "printed_page": 91,
+      "classe": 8
+    }
+  ],
+  "needs_review": [
+    {
+      "code": "1121",
+      "official_label": "Primes d'émission",
+      "kompta_label": "Primes d\\",
+      "printed_page": 31,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1123",
+      "official_label": "Primes d'apport",
+      "kompta_label": "Primes d\\",
+      "printed_page": 31,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1130",
+      "official_label": "Ecarts de réévaluation",
+      "kompta_label": "Écarts de réévaluation",
+      "printed_page": 32,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1140",
+      "official_label": "Réserve légale",
+      "kompta_label": "Primes d\\",
+      "printed_page": 32,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1151",
+      "official_label": "Réserves statutaires ou contractuelles",
+      "kompta_label": "Réserve légale",
+      "printed_page": 32,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1181",
+      "official_label": "Résultats nets en instance d'affectation (solde créditeur)",
+      "kompta_label": "Report à nouveau (solde créditeur)",
+      "printed_page": 32,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1189",
+      "official_label": "Résultats nets en instance d'affectation (solde débiteur)",
+      "kompta_label": "Résultats nets en instance d\\",
+      "printed_page": 32,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1191",
+      "official_label": "Résultat net de l'exercice (créditeur)",
+      "kompta_label": "Résultat net de l\\",
+      "printed_page": 32,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1199",
+      "official_label": "Résultat net de l'exercice (débiteur)",
+      "kompta_label": "Résultat net de l\\",
+      "printed_page": 32,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1311",
+      "official_label": "Subventions d'investissement reçues",
+      "kompta_label": "Subventions d\\",
+      "printed_page": 33,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1319",
+      "official_label": "Subventions d'investissement inscrites au compte de produits et charges",
+      "kompta_label": "Subventions d\\",
+      "printed_page": 33,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1352",
+      "official_label": "Provisions pour plus-values en instance d'imposition",
+      "kompta_label": "Provisions pour plus-values en instance d\\",
+      "printed_page": 33,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1482",
+      "official_label": "Avances de l'Etat",
+      "kompta_label": "Avances de l\\",
+      "printed_page": 34,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1486",
+      "official_label": "Fournisseurs d'immobilisations",
+      "kompta_label": "Fournisseurs d\\",
+      "printed_page": 34,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1710",
+      "official_label": "Augmentation des créances immobilisées",
+      "kompta_label": "Écarts de conversion-passif — Augmentation des créances immobilisées",
+      "printed_page": 36,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "1720",
+      "official_label": "Diminution des dettes de financement",
+      "kompta_label": "Écarts de conversion-passif — Diminution des dettes de financement",
+      "printed_page": 36,
+      "classe": 1,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2113",
+      "official_label": "Frais d'augmentation du capital",
+      "kompta_label": "Frais d\\",
+      "printed_page": 37,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2121",
+      "official_label": "Frais d'acquisition des immobilisations",
+      "kompta_label": "Frais d\\",
+      "printed_page": 37,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2125",
+      "official_label": "Frais d'émission des emprunts",
+      "kompta_label": "Frais d\\",
+      "printed_page": 37,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2220",
+      "official_label": "Brevets, marques, droits et valeurs similaires",
+      "kompta_label": "Terrains",
+      "printed_page": 38,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2230",
+      "official_label": "Fonds commercial",
+      "kompta_label": "Constructions",
+      "printed_page": 38,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2285",
+      "official_label": "Immobilisations incorporelles en cours",
+      "kompta_label": "Autres immobilisations incorporelles",
+      "printed_page": 38,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2323",
+      "official_label": "Constructions sur terrains d'autrui",
+      "kompta_label": "Constructions sur terrains d\\",
+      "printed_page": 39,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2325",
+      "official_label": "Ouvrages d'infrastructure",
+      "kompta_label": "Ouvrages d\\",
+      "printed_page": 39,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2356",
+      "official_label": "Agencements, installations et aménagements divers (biens n'appartenant pas à l'entreprise)",
+      "kompta_label": "Agencements, installations et aménagements divers",
+      "printed_page": 40,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2392",
+      "official_label": "Immobilisations corporelles en cours de terrains et constructions",
+      "kompta_label": "Immo. corporelles en cours — terrains et constructions",
+      "printed_page": 41,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2393",
+      "official_label": "Immobilisations corporelles en cours des installations techniques, matériel et outillage",
+      "kompta_label": "Immo. corporelles en cours — installations techniques",
+      "printed_page": 41,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2394",
+      "official_label": "Immobilisations corporelles en cours de matériel de transport",
+      "kompta_label": "Immo. corporelles en cours — matériel de transport",
+      "printed_page": 41,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2395",
+      "official_label": "Immobilisations corporelles en cours de mobilier, matériel de bureau et aménagements divers",
+      "kompta_label": "Immo. corporelles en cours — mobilier et matériel de bureau",
+      "printed_page": 41,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2397",
+      "official_label": "Avances et acomptes versés sur commandes d'immobilisations corporelles",
+      "kompta_label": "Avances et acomptes sur commandes d\\",
+      "printed_page": 41,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2416",
+      "official_label": "Billets de fonds",
+      "kompta_label": "Billets de fonds (créance)",
+      "printed_page": 42,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2581",
+      "official_label": "Actions",
+      "kompta_label": "Actions (autres titres immobilisés)",
+      "printed_page": 42,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2710",
+      "official_label": "Diminution des créances immobilisées",
+      "kompta_label": "Écarts de conversion-actif — Diminution des créances immobilisées",
+      "printed_page": 43,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2720",
+      "official_label": "Augmentation des dettes de financement",
+      "kompta_label": "Écarts de conversion-actif — Augmentation des dettes de financement",
+      "printed_page": 43,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2821",
+      "official_label": "Amortissements de l'immobilisation en recherche et développement",
+      "kompta_label": "Amortissements — recherche et développement",
+      "printed_page": 44,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "2822",
+      "official_label": "Amortissements des brevets, marques, droits et valeurs similaires",
+      "kompta_label": "Amortissements des brevets, marques, droits similaires",
+      "printed_page": 44,
+      "classe": 2,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3111",
+      "official_label": "Marchandises (groupe A)",
+      "kompta_label": "Marchandises (stocks)",
+      "printed_page": 49,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3123",
+      "official_label": "Emballages",
+      "kompta_label": "Emballages (stocks)",
+      "printed_page": 50,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3145",
+      "official_label": "Produits résiduels (ou matières de récupération)",
+      "kompta_label": "Produits résiduels (matières de récupération)",
+      "printed_page": 50,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3148",
+      "official_label": "Autres produits intermédiaires et produits résiduels",
+      "kompta_label": "Autres produits intermédiaires et résiduels",
+      "printed_page": 50,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3411",
+      "official_label": "Fournisseurs - avances et acomptes versés sur commandes d'exploitation",
+      "kompta_label": "Fournisseurs — avances et acomptes versés sur commandes",
+      "printed_page": 52,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3413",
+      "official_label": "Fournisseurs - créances pour emballages et matériel à rendre",
+      "kompta_label": "Fournisseurs — créances pour emballages et matériel à rendre",
+      "printed_page": 52,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3417",
+      "official_label": "Rabais, remises et ristournes à obtenir-avoirs non encore reçus",
+      "kompta_label": "Rabais, remises et ristournes à obtenir",
+      "printed_page": 52,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "34211",
+      "official_label": "Clients - catégorie A",
+      "kompta_label": "Clients douteux ou litigieux",
+      "printed_page": 52,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3423",
+      "official_label": "Clients - retenues de garantie",
+      "kompta_label": "Clients — retenues de garantie",
+      "printed_page": 52,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3425",
+      "official_label": "Clients - effets à recevoir",
+      "kompta_label": "Personnel débiteur",
+      "printed_page": 52,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3427",
+      "official_label": "Clients - factures à établir et créances sur travaux non encore facturables",
+      "kompta_label": "Clients — factures à établir et créances non facturées",
+      "printed_page": 52,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3431",
+      "official_label": "Avances et acomptes au personnel",
+      "kompta_label": "Créances sur cessions d\\",
+      "printed_page": 52,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3438",
+      "official_label": "Personnel - autres débiteurs",
+      "kompta_label": "Personnel — autres débiteurs",
+      "printed_page": 52,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3451",
+      "official_label": "Subventions à recevoir",
+      "kompta_label": "État — subventions à recevoir",
+      "printed_page": 53,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3453",
+      "official_label": "Acomptes sur impôts sur les résultats",
+      "kompta_label": "État — acomptes sur impôts sur les résultats",
+      "printed_page": 53,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3455",
+      "official_label": "Etat - T.V.A. Récupérable",
+      "kompta_label": "État TVA récupérable",
+      "printed_page": 53,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "34552",
+      "official_label": "Etat - T.V.A. récupérable sur les charges",
+      "kompta_label": "État, TVA récupérable sur immobilisations",
+      "printed_page": 53,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3456",
+      "official_label": "Etat - Crédit de T.V.A. (suivant déclarations)",
+      "kompta_label": "État — crédit de TVA",
+      "printed_page": 53,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3458",
+      "official_label": "Etat - Autres comptes débiteurs",
+      "kompta_label": "État — autres comptes débiteurs",
+      "printed_page": 53,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3461",
+      "official_label": "Associés - comptes d'apport en société",
+      "kompta_label": "Associés — comptes d\\",
+      "printed_page": 53,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3462",
+      "official_label": "Actionnaires - capital souscrit et appelé non versé",
+      "kompta_label": "Actionnaires — capital souscrit et appelé non versé",
+      "printed_page": 53,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3464",
+      "official_label": "Associés - opérations faites en commun",
+      "kompta_label": "Associés — opérations faites en commun",
+      "printed_page": 53,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3467",
+      "official_label": "Créances rattachées aux comptes d'associés",
+      "kompta_label": "Créances rattachées aux comptes d\\",
+      "printed_page": 53,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3468",
+      "official_label": "Autres comptes d'associés débiteurs",
+      "kompta_label": "Autres comptes d\\",
+      "printed_page": 53,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3481",
+      "official_label": "Créances sur cessions d'immobilisations",
+      "kompta_label": "Créances sur cessions d\\",
+      "printed_page": 54,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3482",
+      "official_label": "Créances sur cessions d'éléments d'actif circulant",
+      "kompta_label": "Créances sur cessions d\\",
+      "printed_page": 54,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3488",
+      "official_label": "Divers débiteurs",
+      "kompta_label": "Autres débiteurs divers",
+      "printed_page": 54,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3491",
+      "official_label": "Charges constatées d'avance",
+      "kompta_label": "Charges constatées d\\",
+      "printed_page": 54,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3497",
+      "official_label": "Comptes transitoires ou d'attente - débiteurs",
+      "kompta_label": "Comptes transitoires ou d\\",
+      "printed_page": 54,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3504",
+      "official_label": "Obligations",
+      "kompta_label": "Obligations (titres de placement)",
+      "printed_page": 54,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3506",
+      "official_label": "Bons de caisse et bons du Trésor",
+      "kompta_label": "Bons de caisse et bons de trésor",
+      "printed_page": 54,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3701",
+      "official_label": "Diminution des créances circulantes",
+      "kompta_label": "Écart de conversion-actif — Diminution des créances circulantes",
+      "printed_page": 54,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3702",
+      "official_label": "Augmentation des dettes circulantes",
+      "kompta_label": "Écart de conversion-actif — Augmentation des dettes circulantes",
+      "printed_page": 54,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3941",
+      "official_label": "Provisions pour dépréciation-fournisseurs débiteurs, avances et acomptes",
+      "kompta_label": "Provisions pour dépréciation — fournisseurs débiteurs",
+      "printed_page": 55,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "3946",
+      "official_label": "Provisions pour dépréciation des comptes d'associés débiteurs",
+      "kompta_label": "Provisions pour dépréciation des comptes d\\",
+      "printed_page": 55,
+      "classe": 3,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4415",
+      "official_label": "Fournisseurs - effets à payer",
+      "kompta_label": "Fournisseurs — effets à payer",
+      "printed_page": 57,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4417",
+      "official_label": "Fournisseurs - factures non parvenues",
+      "kompta_label": "Fournisseurs — factures non parvenues",
+      "printed_page": 57,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4421",
+      "official_label": "Clients - avances et acomptes reçus sur commandes en cours",
+      "kompta_label": "Clients créditeurs, avances reçues",
+      "printed_page": 58,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4425",
+      "official_label": "Clients - Dettes pour emballages et matériel consignés",
+      "kompta_label": "Clients — dettes pour emballages et matériel consignés",
+      "printed_page": 58,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4427",
+      "official_label": "Rabais, remises et ristournes à accorder - avoirs à établir",
+      "kompta_label": "Rabais, remises et ristournes à accorder",
+      "printed_page": 58,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4438",
+      "official_label": "Personnel - autres créditeurs",
+      "kompta_label": "Personnel — autres créditeurs",
+      "printed_page": 58,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4441",
+      "official_label": "Caisse Nationale de la Sécurité Sociale",
+      "kompta_label": "CNSS",
+      "printed_page": 58,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4452",
+      "official_label": "Etat Impôts, taxes et assimilés",
+      "kompta_label": "État, impôts et taxes retenus à la source",
+      "printed_page": 58,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4453",
+      "official_label": "Etat, impôts sur les résultats",
+      "kompta_label": "État impôts sur les résultats",
+      "printed_page": 58,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4455",
+      "official_label": "Etat, T V A facturée",
+      "kompta_label": "État TVA facturée",
+      "printed_page": 58,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4456",
+      "official_label": "Etat, T V A due (suivant déclarations)",
+      "kompta_label": "État, TVA due",
+      "printed_page": 58,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4457",
+      "official_label": "Etat, impôts et taxes à payer",
+      "kompta_label": "État — impôts et taxes à payer",
+      "printed_page": 59,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4458",
+      "official_label": "Etat - Autres comptes créditeurs",
+      "kompta_label": "État — autres comptes créditeurs",
+      "printed_page": 59,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4461",
+      "official_label": "Associés - capital à rembourser",
+      "kompta_label": "Associés — capital à rembourser",
+      "printed_page": 59,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4462",
+      "official_label": "Associés - versements reçus sur augmentation de capital",
+      "kompta_label": "Associés — versements reçus sur augmentation de capital",
+      "printed_page": 59,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4464",
+      "official_label": "Associés - opérations faites en commun",
+      "kompta_label": "Associés — opérations faites en commun",
+      "printed_page": 59,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4465",
+      "official_label": "Associés Dividendes à payer",
+      "kompta_label": "Associés — dividendes à payer",
+      "printed_page": 59,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4468",
+      "official_label": "Autres comptes d'associés - créditeurs",
+      "kompta_label": "Autres comptes d\\",
+      "printed_page": 59,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4481",
+      "official_label": "Dettes sur acquisition d'immobilisations",
+      "kompta_label": "Dettes sur acquisitions d\\",
+      "printed_page": 59,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4491",
+      "official_label": "Produits constatés d'avance",
+      "kompta_label": "Produits constatés d\\",
+      "printed_page": 59,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4497",
+      "official_label": "Comptes transitoires ou d'attente - créditeurs",
+      "kompta_label": "Comptes transitoires ou d\\",
+      "printed_page": 59,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4701",
+      "official_label": "Augmentation des créances circulantes",
+      "kompta_label": "Écarts de conversion-passif — Augmentation des créances circulantes",
+      "printed_page": 60,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "4702",
+      "official_label": "Diminution des dettes circulantes",
+      "kompta_label": "Écarts de conversion-passif — Diminution des dettes circulantes",
+      "printed_page": 60,
+      "classe": 4,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "5111",
+      "official_label": "Chèques à encaisser ou à l'encaissement",
+      "kompta_label": "Chèques à encaisser ou à l\\",
+      "printed_page": 61,
+      "classe": 5,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "5113",
+      "official_label": "Effets à encaisser ou à l'encaissement",
+      "kompta_label": "Effets à encaisser ou à l\\",
+      "printed_page": 61,
+      "classe": 5,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "5115",
+      "official_label": "Virements de fonds",
+      "kompta_label": "Virement de fonds",
+      "printed_page": 61,
+      "classe": 5,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "5141",
+      "official_label": "Banques (soldes débiteurs)",
+      "kompta_label": "Banque CIH",
+      "printed_page": 61,
+      "classe": 5,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "5148",
+      "official_label": "Autres établissements financiers et assimilés (soldes débiteurs)",
+      "kompta_label": "Autres établissements financiers",
+      "printed_page": 61,
+      "classe": 5,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "5161",
+      "official_label": "Caisses",
+      "kompta_label": "Caisse",
+      "printed_page": 62,
+      "classe": 5,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "5165",
+      "official_label": "Régies d'avances et accréditifs",
+      "kompta_label": "Caisse succursale",
+      "printed_page": 62,
+      "classe": 5,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "5520",
+      "official_label": "Crédits d'escompte",
+      "kompta_label": "Crédits d\\",
+      "printed_page": 62,
+      "classe": 5,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "5541",
+      "official_label": "Banques (soldes créditeurs)",
+      "kompta_label": "Banques (solde créditeur)",
+      "printed_page": 62,
+      "classe": 5,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "5548",
+      "official_label": "Autres établissements financiers et assimilés (soldes créditeurs)",
+      "kompta_label": "Autres établissements financiers (soldes créditeurs)",
+      "printed_page": 62,
+      "classe": 5,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6111",
+      "official_label": "Achats de marchandises \"groupe A\"",
+      "kompta_label": "Achats de marchandises",
+      "printed_page": 63,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "61211",
+      "official_label": "Achats de matières premières A",
+      "kompta_label": "Achats matières consommables",
+      "printed_page": 64,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6123",
+      "official_label": "Achats d'emballages",
+      "kompta_label": "Achats d\\",
+      "printed_page": 64,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6125",
+      "official_label": "Achats non stockés de matières et de fournitures",
+      "kompta_label": "Électricité et eau",
+      "printed_page": 64,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6128",
+      "official_label": "Achats de matières et de fournitures des exercices antérieurs",
+      "kompta_label": "Achats de matières et fournitures des exercices antérieurs",
+      "printed_page": 65,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6129",
+      "official_label": "Rabais, remises et ristournes obtenus sur achats consommés de matières et fournitures",
+      "kompta_label": "Rabais, remises et ristournes obtenus sur achats consommés",
+      "printed_page": 65,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6134",
+      "official_label": "Primes d'assurances",
+      "kompta_label": "Locations et charges locatives",
+      "printed_page": 66,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6135",
+      "official_label": "Rémunérations du personnel extérieur à l'entreprise",
+      "kompta_label": "Rémunérations du personnel extérieur à l\\",
+      "printed_page": 67,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6136",
+      "official_label": "Rémunérations d'intermédiaires et honoraires",
+      "kompta_label": "Rémunérations d\\",
+      "printed_page": 67,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6141",
+      "official_label": "Etudes, recherches et documentation",
+      "kompta_label": "Études, recherches et documentation",
+      "printed_page": 67,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6165",
+      "official_label": "Impôts et Taxes Indirectes",
+      "kompta_label": "Impôts et taxes indirects",
+      "printed_page": 69,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6177",
+      "official_label": "Rémunération de l'exploitant",
+      "kompta_label": "Rémunération de l\\",
+      "printed_page": 70,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6178",
+      "official_label": "Charges de personnel des exercices antérieurs.",
+      "kompta_label": "Charges du personnel des exercices antérieurs",
+      "printed_page": 70,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6186",
+      "official_label": "Transfert de profits sur opérations faites en commun",
+      "kompta_label": "Transfert de pertes sur opérations faites en commun",
+      "printed_page": 70,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6188",
+      "official_label": "Autres charges d'exploitation des exercices antérieurs",
+      "kompta_label": "Autres charges d\\",
+      "printed_page": 70,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6191",
+      "official_label": "Dotations d'exploitation aux amortissements de l'immobilisation en non-valeurs",
+      "kompta_label": "Dotations aux amortissements de l\\",
+      "printed_page": 70,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6192",
+      "official_label": "Dotations d'exploitation aux amortissements des immobilisations incorporelles",
+      "kompta_label": "Dotations aux amortissements des immobilisations incorporelles",
+      "printed_page": 71,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6193",
+      "official_label": "Dotations d'exploitaion aux amortissements des immobilisations corporelles",
+      "kompta_label": "Dotations aux amortissements des immobilisations corporelles",
+      "printed_page": 71,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6194",
+      "official_label": "Dotations d'exploitation aux provisions pour dépréciation des immobilisations",
+      "kompta_label": "Dotations aux provisions pour dépréciation des immobilisations",
+      "printed_page": 71,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6195",
+      "official_label": "Dotations d'exploitation aux provisions pour risques et charges",
+      "kompta_label": "Dotations aux provisions pour risques et charges",
+      "printed_page": 71,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6196",
+      "official_label": "Dotations d'exploitation aux provisions pour dépréciation de l'actif circulant",
+      "kompta_label": "Dotations aux provisions pour dépréciation de l\\",
+      "printed_page": 72,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6198",
+      "official_label": "Dotations d'exploitation des exercices antérieurs",
+      "kompta_label": "Dotations d\\",
+      "printed_page": 72,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6318",
+      "official_label": "Charges d'intérêts des exercices antérieurs",
+      "kompta_label": "Charges d\\",
+      "printed_page": 73,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6331",
+      "official_label": "Pertes de change propres à l'exercice",
+      "kompta_label": "Pertes de change propres à l\\",
+      "printed_page": 73,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6385",
+      "official_label": "Charges nettes sur cessions de titres et valeurs de placement",
+      "kompta_label": "Charges nettes sur cession de titres et valeurs de placement",
+      "printed_page": 73,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6391",
+      "official_label": "Dotations aux amortissements des primes de remboursement des obligations",
+      "kompta_label": "Dotations aux amortissements d\\",
+      "printed_page": 74,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6393",
+      "official_label": "Dotations aux provisions pour risques et charges financiers",
+      "kompta_label": "Dotations aux provisions pour risques et charges financières",
+      "printed_page": 74,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6512",
+      "official_label": "V.N.A des immobilisations incorporelles cédées",
+      "kompta_label": "VNA des immobilisations incorporelles cédées",
+      "printed_page": 75,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6513",
+      "official_label": "V.N.A des immobilisations corporelles cédées",
+      "kompta_label": "VNA des immobilisations corporelles cédées",
+      "printed_page": 75,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6514",
+      "official_label": "V.N.A des immobilisations financières cédées (droits de propriété)",
+      "kompta_label": "VNA des immobilisations financières cédées",
+      "printed_page": 75,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6518",
+      "official_label": "V.N.A des immobilisations cédées des exercices antérieurs",
+      "kompta_label": "VNA des immobilisations cédées des exercices antérieurs",
+      "printed_page": 75,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6561",
+      "official_label": "Subventions accordées de l'exercice",
+      "kompta_label": "Subventions accordées de l\\",
+      "printed_page": 75,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6582",
+      "official_label": "Rappels d'impôts (autres qu'impôts sur les résultats)",
+      "kompta_label": "Rappels d\\",
+      "printed_page": 75,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6705",
+      "official_label": "Imposition minimale annuelle des sociétés",
+      "kompta_label": "Imposition minimale annuelle des sociétés (Cotisation minimale)",
+      "printed_page": 77,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "6708",
+      "official_label": "Rappels et dégrèvements des impôts sur les résultats",
+      "kompta_label": "Rappels et dégrèvements d\\",
+      "printed_page": 77,
+      "classe": 6,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7111",
+      "official_label": "Ventes de marchandises au Maroc",
+      "kompta_label": "Ventes de marchandises",
+      "printed_page": 79,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7113",
+      "official_label": "Ventes de marchandises à l'étranger",
+      "kompta_label": "Ventes de marchandises à l\\",
+      "printed_page": 79,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7119",
+      "official_label": "Rabais, remises et ristournes accordés par l'entreprise",
+      "kompta_label": "Rabais, remises et ristournes accordés par l\\",
+      "printed_page": 79,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7121",
+      "official_label": "Ventes de biens produits au Maroc",
+      "kompta_label": "Ventes de biens produits",
+      "printed_page": 79,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7122",
+      "official_label": "Ventes de biens produits à l'étranger",
+      "kompta_label": "Ventes de biens produits à l\\",
+      "printed_page": 80,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7125",
+      "official_label": "Ventes de services produits à l'étranger",
+      "kompta_label": "Ventes de services produits à l\\",
+      "printed_page": 80,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7129",
+      "official_label": "Rabais, Remises,et Ristournes accordés par l'entreprise",
+      "kompta_label": "Rabais, remises et ristournes accordés (biens et services produits)",
+      "printed_page": 81,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7134",
+      "official_label": "Variations des stocks de services en cours",
+      "kompta_label": "Variation des stocks de services en cours",
+      "printed_page": 82,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7161",
+      "official_label": "Subventions d'exploitation reçues de l'exercice",
+      "kompta_label": "Subventions d\\",
+      "printed_page": 82,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7168",
+      "official_label": "Subventions d'exploitation reçues des exercices antérieurs",
+      "kompta_label": "Subventions d\\",
+      "printed_page": 82,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7182",
+      "official_label": "Revenus des immeubles non affectés à l'exploitation",
+      "kompta_label": "Revenus des immeubles non affectés à l\\",
+      "printed_page": 82,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7188",
+      "official_label": "Autres produits d'exploitation des exercices antérieurs",
+      "kompta_label": "Autres produits d\\",
+      "printed_page": 83,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7191",
+      "official_label": "Reprises sur amortissements de l'immobilisation en non-valeurs",
+      "kompta_label": "Reprises sur amortissements de l\\",
+      "printed_page": 83,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7196",
+      "official_label": "Reprises sur provisions pour dépréciation de l'actif circulant",
+      "kompta_label": "Reprises sur provisions pour dépréciation de l\\",
+      "printed_page": 83,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7197",
+      "official_label": "Transferts de charges d'exploitation",
+      "kompta_label": "Transferts des charges d\\",
+      "printed_page": 83,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7328",
+      "official_label": "Produits des titres de participation et des autres titres immobilisés des exercices antérieurs",
+      "kompta_label": "Produits des titres de participation des exercices antérieurs",
+      "printed_page": 84,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7331",
+      "official_label": "Gains de change propres à l'exercice",
+      "kompta_label": "Gains de change propres à l\\",
+      "printed_page": 84,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7391",
+      "official_label": "Reprises sur amortissements des primes de remboursement des obligations",
+      "kompta_label": "Reprises sur amortissements",
+      "printed_page": 85,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7393",
+      "official_label": "Reprises sur provisions pour risques et charges financiers",
+      "kompta_label": "Reprises sur provisions pour risques et charges financières",
+      "printed_page": 85,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7397",
+      "official_label": "Transferts de charges financières",
+      "kompta_label": "Transfert de charges financières",
+      "printed_page": 85,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7512",
+      "official_label": "P.C des immobilisations incorporelles cédées",
+      "kompta_label": "Produits des cessions des immobilisations incorporelles",
+      "printed_page": 86,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7513",
+      "official_label": "P.C des immobilisations corporelles cédées",
+      "kompta_label": "Produits des cessions des immobilisations corporelles",
+      "printed_page": 86,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7514",
+      "official_label": "P.C des immobilisations financières (droits de propriété)",
+      "kompta_label": "Produits des cessions des immobilisations financières",
+      "printed_page": 86,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7518",
+      "official_label": "P.C des immobilisations des exercices antérieurs",
+      "kompta_label": "Produits des cessions d\\",
+      "printed_page": 86,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7561",
+      "official_label": "Subventions d'équilibre reçues de l'exercice",
+      "kompta_label": "Subventions d\\",
+      "printed_page": 86,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7568",
+      "official_label": "Subventions d'équilibre reçues des exercices antérieurs",
+      "kompta_label": "Subventions d\\",
+      "printed_page": 86,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7577",
+      "official_label": "Reprises sur subventions d'investissement de l'exercice",
+      "kompta_label": "Reprises sur subventions d\\",
+      "printed_page": 86,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7578",
+      "official_label": "Reprises sur subventions d'investissement des exercices antérieurs",
+      "kompta_label": "Reprises sur subventions d\\",
+      "printed_page": 86,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7582",
+      "official_label": "Dégrèvements d'impôts (autres qu'impôts sur les résultats)",
+      "kompta_label": "Dégrèvement d\\",
+      "printed_page": 87,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "7591",
+      "official_label": "Reprises non courantes sur amortissements exceptionnels des immobilisations",
+      "kompta_label": "Reprises non courantes — amortissements exceptionnels des immobilisations",
+      "printed_page": 87,
+      "classe": 7,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "8100",
+      "official_label": "Résultat d'exploitation",
+      "kompta_label": "Résultat d\\",
+      "printed_page": 89,
+      "classe": 8,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "8171",
+      "official_label": "Excédent brut d'exploitation (créditeur)",
+      "kompta_label": "Excédent brut d\\",
+      "printed_page": 90,
+      "classe": 8,
+      "reason": "Libellé différent ou variante d'intitulé"
+    },
+    {
+      "code": "8179",
+      "official_label": "Insuffisance brute d'exploitation (débiteur)",
+      "kompta_label": "Insuffisance brute d\\",
+      "printed_page": 90,
+      "classe": 8,
+      "reason": "Libellé différent ou variante d'intitulé"
+    }
+  ],
+  "missing": [
+    {
+      "code": "11171",
+      "official_label": "Capital individuel",
+      "printed_page": 31,
+      "classe": 1
+    },
+    {
+      "code": "11175",
+      "official_label": "Compte de l'exploitant",
+      "printed_page": 31,
+      "classe": 1
+    },
+    {
+      "code": "23211",
+      "official_label": "Bâtiments industriels (A, B...)",
+      "printed_page": 39,
+      "classe": 2
+    },
+    {
+      "code": "23214",
+      "official_label": "Bâtiments administratifs et commerciaux (A, B...)",
+      "printed_page": 39,
+      "classe": 2
+    },
+    {
+      "code": "23218",
+      "official_label": "Autres bâtiments",
+      "printed_page": 39,
+      "classe": 2
+    },
+    {
+      "code": "23321",
+      "official_label": "Matériel",
+      "printed_page": 40,
+      "classe": 2
+    },
+    {
+      "code": "23324",
+      "official_label": "Outillage",
+      "printed_page": 40,
+      "classe": 2
+    },
+    {
+      "code": "2411",
+      "official_label": "Prêts au personnel",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "24811",
+      "official_label": "Obligations",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "24813",
+      "official_label": "Bons d'équipement",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "24818",
+      "official_label": "Bons divers",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "24861",
+      "official_label": "Dépôts",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "24864",
+      "official_label": "Cautionnements",
+      "printed_page": 42,
+      "classe": 2
+    },
+    {
+      "code": "28111",
+      "official_label": "Amortissements des Frais de constitution",
+      "printed_page": 44,
+      "classe": 2
+    },
+    {
+      "code": "28112",
+      "official_label": "Amortissements des Frais préliminaires au démarrage",
+      "printed_page": 44,
+      "classe": 2
+    },
+    {
+      "code": "28113",
+      "official_label": "Amortissements des Frais d'augmentation du capital",
+      "printed_page": 44,
+      "classe": 2
+    },
+    {
+      "code": "28114",
+      "official_label": "Amortissements des Frais sur opérations de fusions, scissions et transformations",
+      "printed_page": 44,
+      "classe": 2
+    },
+    {
+      "code": "28116",
+      "official_label": "Amortissements des Frais de prospection",
+      "printed_page": 44,
+      "classe": 2
+    },
+    {
+      "code": "28117",
+      "official_label": "Amortissements des Frais de publicité",
+      "printed_page": 44,
+      "classe": 2
+    },
+    {
+      "code": "28118",
+      "official_label": "Amortissements des Autres frais préliminaires",
+      "printed_page": 44,
+      "classe": 2
+    },
+    {
+      "code": "28121",
+      "official_label": "Amortissements des Frais d'acquisition des immobilisations",
+      "printed_page": 44,
+      "classe": 2
+    },
+    {
+      "code": "28125",
+      "official_label": "Amortissements des frais d'émission des emprunts",
+      "printed_page": 44,
+      "classe": 2
+    },
+    {
+      "code": "28128",
+      "official_label": "Amortissements des Autres charges à répartir",
+      "printed_page": 44,
+      "classe": 2
+    },
+    {
+      "code": "28311",
+      "official_label": "Amortissements des terrains nus",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "28312",
+      "official_label": "Amortissements des terrains aménagés",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "28313",
+      "official_label": "Amortissements des terrains bâtis",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "28314",
+      "official_label": "Amortissements des Terrains de gisement",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "28316",
+      "official_label": "Amortissements des agencements et aménagements de terrains",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "28318",
+      "official_label": "Amortissements des autres terrains",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "28321",
+      "official_label": "Amortissements des bâtiments",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "28323",
+      "official_label": "Amortissements des Constructions sur terrains d'autrui",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "28325",
+      "official_label": "Amortissements des ouvrages d'infrastructure",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "28327",
+      "official_label": "Amortissements des installations, agencements et aménagements des constructions",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "28328",
+      "official_label": "Amortissements des Autres constructions",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "28331",
+      "official_label": "Amortissements des installations techniques",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "28332",
+      "official_label": "Amortissements du matériel et outillage",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "28333",
+      "official_label": "Amortissements des emballages récupérables identifiables",
+      "printed_page": 45,
+      "classe": 2
+    },
+    {
+      "code": "28338",
+      "official_label": "Amortissements des autres installations techniques, matériel et outillage",
+      "printed_page": 46,
+      "classe": 2
+    },
+    {
+      "code": "28351",
+      "official_label": "Amortissements du mobilier de bureau",
+      "printed_page": 46,
+      "classe": 2
+    },
+    {
+      "code": "28352",
+      "official_label": "Amortissements du matériel de bureau",
+      "printed_page": 46,
+      "classe": 2
+    },
+    {
+      "code": "28355",
+      "official_label": "Amortissements du matériel informatique",
+      "printed_page": 46,
+      "classe": 2
+    },
+    {
+      "code": "28356",
+      "official_label": "Amortissements des agencements, installations et aménagements divers",
+      "printed_page": 46,
+      "classe": 2
+    },
+    {
+      "code": "28358",
+      "official_label": "Amortissements des autres mobilier, matériel de bureau et aménagements divers",
+      "printed_page": 46,
+      "classe": 2
+    },
+    {
+      "code": "31211",
+      "official_label": "Matières premières (groupe A)",
+      "printed_page": 49,
+      "classe": 3
+    },
+    {
+      "code": "31212",
+      "official_label": "Matières premières (groupe B)",
+      "printed_page": 49,
+      "classe": 3
+    },
+    {
+      "code": "31221",
+      "official_label": "Matières consommables (groupe A)",
+      "printed_page": 49,
+      "classe": 3
+    },
+    {
+      "code": "31222",
+      "official_label": "Matières consommables (groupe B)",
+      "printed_page": 49,
+      "classe": 3
+    },
+    {
+      "code": "31223",
+      "official_label": "Combustibles",
+      "printed_page": 49,
+      "classe": 3
+    },
+    {
+      "code": "31224",
+      "official_label": "Produits d'entretien",
+      "printed_page": 49,
+      "classe": 3
+    },
+    {
+      "code": "31225",
+      "official_label": "Fournitures d'atelier et d'usine",
+      "printed_page": 49,
+      "classe": 3
+    },
+    {
+      "code": "31226",
+      "official_label": "Fournitures de magasin",
+      "printed_page": 49,
+      "classe": 3
+    },
+    {
+      "code": "31227",
+      "official_label": "Fournitures de bureau",
+      "printed_page": 49,
+      "classe": 3
+    },
+    {
+      "code": "31231",
+      "official_label": "Emballages perdus",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "31232",
+      "official_label": "Emballages récupérables non identifiables",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "31233",
+      "official_label": "Emballages à usage mixte",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "31311",
+      "official_label": "Biens produits en cours",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "31312",
+      "official_label": "Biens intermédiaires en cours",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "31317",
+      "official_label": "Biens résiduels en cours",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "31341",
+      "official_label": "Travaux en cours",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "31342",
+      "official_label": "Etudes en cours",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "31343",
+      "official_label": "Prestations en cours",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "31411",
+      "official_label": "Produits intermédiaires (groupe A)",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "31412",
+      "official_label": "Produits intermédiaires (groupe B)",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "31451",
+      "official_label": "Déchets",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "31452",
+      "official_label": "Rebuts",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "31453",
+      "official_label": "Matières de récupération",
+      "printed_page": 50,
+      "classe": 3
+    },
+    {
+      "code": "34212",
+      "official_label": "Clients - catégorie B",
+      "printed_page": 52,
+      "classe": 3
+    },
+    {
+      "code": "34271",
+      "official_label": "Clients - factures à établir",
+      "printed_page": 52,
+      "classe": 3
+    },
+    {
+      "code": "34272",
+      "official_label": "Créances sur travaux non encore facturables",
+      "printed_page": 52,
+      "classe": 3
+    },
+    {
+      "code": "34511",
+      "official_label": "Subventions d'investissement à recevoir",
+      "printed_page": 53,
+      "classe": 3
+    },
+    {
+      "code": "34512",
+      "official_label": "Subventions d'exploitation à recevoir",
+      "printed_page": 53,
+      "classe": 3
+    },
+    {
+      "code": "34513",
+      "official_label": "Subventions d'équilibre à recevoir",
+      "printed_page": 53,
+      "classe": 3
+    },
+    {
+      "code": "34551",
+      "official_label": "Etat - T.V.A. récupérable sur immobilisations",
+      "printed_page": 53,
+      "classe": 3
+    },
+    {
+      "code": "35061",
+      "official_label": "Bons de caisse",
+      "printed_page": 54,
+      "classe": 3
+    },
+    {
+      "code": "35062",
+      "official_label": "Bons du Trésor",
+      "printed_page": 54,
+      "classe": 3
+    },
+    {
+      "code": "44111",
+      "official_label": "Fournisseurs - catégorie A",
+      "printed_page": 57,
+      "classe": 4
+    },
+    {
+      "code": "44112",
+      "official_label": "Fournisseurs - catégorie B",
+      "printed_page": 57,
+      "classe": 4
+    },
+    {
+      "code": "44521",
+      "official_label": "Etat, taxe urbaine et taxe d'édilité",
+      "printed_page": 58,
+      "classe": 4
+    },
+    {
+      "code": "44522",
+      "official_label": "Etat, patente",
+      "printed_page": 58,
+      "classe": 4
+    },
+    {
+      "code": "44525",
+      "official_label": "Etat, PTS et PSN",
+      "printed_page": 58,
+      "classe": 4
+    },
+    {
+      "code": "51111",
+      "official_label": "Chèques en portefeuille",
+      "printed_page": 61,
+      "classe": 5
+    },
+    {
+      "code": "51112",
+      "official_label": "Chèques à l'encaissement",
+      "printed_page": 61,
+      "classe": 5
+    },
+    {
+      "code": "51131",
+      "official_label": "Effets échus à encaisser",
+      "printed_page": 61,
+      "classe": 5
+    },
+    {
+      "code": "51132",
+      "official_label": "Effets à l'encaissement",
+      "printed_page": 61,
+      "classe": 5
+    },
+    {
+      "code": "51611",
+      "official_label": "Caisse centrale",
+      "printed_page": 62,
+      "classe": 5
+    },
+    {
+      "code": "51613",
+      "official_label": "Caisse (succursale ou agence A)",
+      "printed_page": 62,
+      "classe": 5
+    },
+    {
+      "code": "51614",
+      "official_label": "Caisse (succursale ou agence B)",
+      "printed_page": 62,
+      "classe": 5
+    },
+    {
+      "code": "61212",
+      "official_label": "Achats de matières premières B",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61221",
+      "official_label": "Achats de matières et fournitures A",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61222",
+      "official_label": "Achats de matières et fournitures B",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61223",
+      "official_label": "Achats de combustibles",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61224",
+      "official_label": "Achats de produits d'entretien",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61225",
+      "official_label": "Achats de fournitures d'atelier et d'usine",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61226",
+      "official_label": "Achats de fournitures de magasin",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61227",
+      "official_label": "Achats de fournitures de bureau",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61231",
+      "official_label": "Achats d'emballages perdus",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61232",
+      "official_label": "Achats d'emballages récupérables non identifiables",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61233",
+      "official_label": "Achats d'emballages à usage mixte",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61241",
+      "official_label": "Variation des stocks de matières premières",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61242",
+      "official_label": "Variation des stocks de matières et fournitures consommables",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61243",
+      "official_label": "Variation des stocks des emballages",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61251",
+      "official_label": "Achats de fournitures non stockables (eau, électricité .....)",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61252",
+      "official_label": "Achats de fournitures d'entretien",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61253",
+      "official_label": "Achats de petit outillage et de petit équipement",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61254",
+      "official_label": "Achats de fournitures de bureau",
+      "printed_page": 64,
+      "classe": 6
+    },
+    {
+      "code": "61261",
+      "official_label": "Achats des travaux",
+      "printed_page": 65,
+      "classe": 6
+    },
+    {
+      "code": "61262",
+      "official_label": "Achats des études",
+      "printed_page": 65,
+      "classe": 6
+    },
+    {
+      "code": "61263",
+      "official_label": "Achats des prestations de service",
+      "printed_page": 65,
+      "classe": 6
+    },
+    {
+      "code": "61291",
+      "official_label": "R.R.R obtenus sur achats de matières premières",
+      "printed_page": 65,
+      "classe": 6
+    },
+    {
+      "code": "61292",
+      "official_label": "R.R.R. obtenus sur achats de matières et fournitures consommables",
+      "printed_page": 65,
+      "classe": 6
+    },
+    {
+      "code": "61293",
+      "official_label": "R.R.R. obtenus sur achats des emballages",
+      "printed_page": 65,
+      "classe": 6
+    },
+    {
+      "code": "61295",
+      "official_label": "R.R.R. obtenus sur achats non stockés",
+      "printed_page": 65,
+      "classe": 6
+    },
+    {
+      "code": "61296",
+      "official_label": "R.R.R. obtenus sur achats de travaux, études et prestations de service",
+      "printed_page": 65,
+      "classe": 6
+    },
+    {
+      "code": "61298",
+      "official_label": "R.R.R. obtenus sur achats de matières et fournitures des exercices antérieurs",
+      "printed_page": 65,
+      "classe": 6
+    },
+    {
+      "code": "61311",
+      "official_label": "Location de terrains",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61312",
+      "official_label": "Location de constructions",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61313",
+      "official_label": "Location de matériel et d'outillage",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61314",
+      "official_label": "Location de mobilier et matériel de bureau",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61315",
+      "official_label": "Location de matériel informatique",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61316",
+      "official_label": "Location de matériel de transport",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61317",
+      "official_label": "Malis sur emballages rendus",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61318",
+      "official_label": "Locations et charges locatives diverses",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61321",
+      "official_label": "Redevances de crédit-bail - mobilier et matériel",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61331",
+      "official_label": "Entretien et Réparations des biens immobiliers",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61332",
+      "official_label": "Entretien et réparations des biens mobiliers",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61335",
+      "official_label": "Maintenance",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61341",
+      "official_label": "Assurances multirisques (vol, incendie, responsabilité civile....)",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61343",
+      "official_label": "Assurances - Risques d'exploitation",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61345",
+      "official_label": "Assurances - Matériel de transport",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61348",
+      "official_label": "Autres assurances",
+      "printed_page": 66,
+      "classe": 6
+    },
+    {
+      "code": "61351",
+      "official_label": "Rémunérations du personnel occasionnel",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61352",
+      "official_label": "Rémunérations du personnel intérimaire",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61353",
+      "official_label": "Rémunérations du personnel détaché ou prêté à l'entreprise",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61361",
+      "official_label": "Commissions et courtages",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61365",
+      "official_label": "Honoraires",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61367",
+      "official_label": "Frais d'actes et de contentieux",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61371",
+      "official_label": "Redevances pour brevets",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61378",
+      "official_label": "Autres redevances",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61411",
+      "official_label": "Etudes générales",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61413",
+      "official_label": "Recherches",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61415",
+      "official_label": "Documentation générale",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61416",
+      "official_label": "Documentation technique",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61421",
+      "official_label": "Transports du personnel",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61425",
+      "official_label": "Transports sur achats",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61426",
+      "official_label": "Transports sur ventes",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61428",
+      "official_label": "Autres transports",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61431",
+      "official_label": "Voyages et déplacements",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61433",
+      "official_label": "Frais de déménagement",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61435",
+      "official_label": "Missions",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61436",
+      "official_label": "Réceptions",
+      "printed_page": 67,
+      "classe": 6
+    },
+    {
+      "code": "61441",
+      "official_label": "Annonces et insertions",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61442",
+      "official_label": "Echantillons, catalogues et imprimés publicitaires",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61443",
+      "official_label": "Foires et expositions",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61444",
+      "official_label": "Primes de publicité",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61446",
+      "official_label": "Publications",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61447",
+      "official_label": "Cadeaux à la clientèle",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61448",
+      "official_label": "Autres charges de publicité et relations publiques",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61451",
+      "official_label": "Frais postaux",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61455",
+      "official_label": "Frais de téléphone",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61456",
+      "official_label": "Frais de télex et de télégrammes",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61461",
+      "official_label": "Cotisations",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61462",
+      "official_label": "Dons",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61471",
+      "official_label": "Frais d'achat et de vente des titres",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61472",
+      "official_label": "Frais sur effets de commerce",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61473",
+      "official_label": "Frais et commissions sur services bancaires",
+      "printed_page": 68,
+      "classe": 6
+    },
+    {
+      "code": "61611",
+      "official_label": "Taxe urbaine et taxe d'édilité",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61612",
+      "official_label": "Patente",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61615",
+      "official_label": "Taxes locales",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61671",
+      "official_label": "Droits d'enregistrement et de timbre",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61673",
+      "official_label": "Taxes sur les véhicules",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61678",
+      "official_label": "Autres impôts, taxes et droits assimilés",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61711",
+      "official_label": "Appointements et salaires",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61712",
+      "official_label": "Primes et gratifications",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61713",
+      "official_label": "Indemnités et avantages divers",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61714",
+      "official_label": "Commissions au personnel",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61715",
+      "official_label": "Rémunérations des administrateurs, gérants et associés",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61741",
+      "official_label": "Cotisations de sécurité sociale",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61742",
+      "official_label": "Cotisations aux caisses de retraite",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61743",
+      "official_label": "Cotisations aux mutuelles",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61744",
+      "official_label": "Prestations familiales",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61745",
+      "official_label": "Assurances accidents de travail",
+      "printed_page": 69,
+      "classe": 6
+    },
+    {
+      "code": "61761",
+      "official_label": "Assurances groupe",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "61762",
+      "official_label": "Prestations de retraites",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "61763",
+      "official_label": "Allocations aux oeuvres sociales",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "61764",
+      "official_label": "Habillement et vêtements de travail",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "61765",
+      "official_label": "Indemnités de préavis et de licenciement",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "61766",
+      "official_label": "Médecine de travail, pharmacie",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "61768",
+      "official_label": "Autres charges sociales diverses",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "61771",
+      "official_label": "Appointements et salaires",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "61774",
+      "official_label": "Charges sociales sur appointements et salaires de l'exploitant",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "61911",
+      "official_label": "D.E.A. des frais préliminaires",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "61912",
+      "official_label": "D.E.A. des charges à répartir",
+      "printed_page": 70,
+      "classe": 6
+    },
+    {
+      "code": "61921",
+      "official_label": "D.E.A. de l'immobilisations en recherche et développement",
+      "printed_page": 71,
+      "classe": 6
+    },
+    {
+      "code": "61922",
+      "official_label": "D.E.A. des brevets, marques, droits et valeurs similaires",
+      "printed_page": 71,
+      "classe": 6
+    },
+    {
+      "code": "61923",
+      "official_label": "D.E.A. du fonds commercial",
+      "printed_page": 71,
+      "classe": 6
+    },
+    {
+      "code": "61928",
+      "official_label": "D.E.A. des autres immobilisations incorporelles",
+      "printed_page": 71,
+      "classe": 6
+    },
+    {
+      "code": "61931",
+      "official_label": "D.E.A. des terrains",
+      "printed_page": 71,
+      "classe": 6
+    },
+    {
+      "code": "61932",
+      "official_label": "D.E.A. des constructions",
+      "printed_page": 71,
+      "classe": 6
+    },
+    {
+      "code": "61933",
+      "official_label": "D.E.A. des installations techniques, matériel et outillage",
+      "printed_page": 71,
+      "classe": 6
+    },
+    {
+      "code": "61934",
+      "official_label": "D.E.A. du matériel de transport",
+      "printed_page": 71,
+      "classe": 6
+    },
+    {
+      "code": "61935",
+      "official_label": "D.E.A. des mobilier, matériel de bureau et aménagements divers",
+      "printed_page": 71,
+      "classe": 6
+    },
+    {
+      "code": "61938",
+      "official_label": "D.E.A des autres immobilisations corporelles",
+      "printed_page": 71,
+      "classe": 6
+    },
+    {
+      "code": "61942",
+      "official_label": "D.E.P. pour dépréciation des immobilisations incorporelles",
+      "printed_page": 71,
+      "classe": 6
+    },
+    {
+      "code": "61943",
+      "official_label": "D.E.P pour dépréciation des immobilisations corporelles",
+      "printed_page": 71,
+      "classe": 6
+    },
+    {
+      "code": "61955",
+      "official_label": "D.E.P. pour risques et charges durables",
+      "printed_page": 71,
+      "classe": 6
+    },
+    {
+      "code": "61957",
+      "official_label": "D.E.P. pour risques et charges momentanés",
+      "printed_page": 71,
+      "classe": 6
+    },
+    {
+      "code": "61961",
+      "official_label": "D.E.P. pour dépréciation des stocks",
+      "printed_page": 72,
+      "classe": 6
+    },
+    {
+      "code": "61964",
+      "official_label": "D.E.P. pour dépréciation des créances de l'actif circulant",
+      "printed_page": 72,
+      "classe": 6
+    },
+    {
+      "code": "61981",
+      "official_label": "D.E. aux amortissements des exercices antérieurs",
+      "printed_page": 72,
+      "classe": 6
+    },
+    {
+      "code": "61984",
+      "official_label": "D.E. aux provisions des exercices antérieurs",
+      "printed_page": 72,
+      "classe": 6
+    },
+    {
+      "code": "63111",
+      "official_label": "Intérêts des emprunts",
+      "printed_page": 73,
+      "classe": 6
+    },
+    {
+      "code": "63113",
+      "official_label": "Intérêts des dettes rattachées à des participations",
+      "printed_page": 73,
+      "classe": 6
+    },
+    {
+      "code": "63114",
+      "official_label": "Intérêts des comptes courants et dépôts créditeurs",
+      "printed_page": 73,
+      "classe": 6
+    },
+    {
+      "code": "63115",
+      "official_label": "Intérêts bancaires et sur opérations de financement",
+      "printed_page": 73,
+      "classe": 6
+    },
+    {
+      "code": "63118",
+      "official_label": "Autres intérêts des emprunts et dettes",
+      "printed_page": 73,
+      "classe": 6
+    },
+    {
+      "code": "6396",
+      "official_label": "Dotations aux provisions pour dépréciation des comptes de trésorerie",
+      "printed_page": 74,
+      "classe": 6
+    },
+    {
+      "code": "65811",
+      "official_label": "Pénalités sur marchés",
+      "printed_page": 75,
+      "classe": 6
+    },
+    {
+      "code": "65812",
+      "official_label": "Dédits",
+      "printed_page": 75,
+      "classe": 6
+    },
+    {
+      "code": "65831",
+      "official_label": "Pénalités et amendes fiscales",
+      "printed_page": 75,
+      "classe": 6
+    },
+    {
+      "code": "65833",
+      "official_label": "Pénalités et amendes pénales",
+      "printed_page": 75,
+      "classe": 6
+    },
+    {
+      "code": "65861",
+      "official_label": "Dons",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "65862",
+      "official_label": "Libéralités",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "65863",
+      "official_label": "Lots",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "65911",
+      "official_label": "D.A.E. de l'immobilisation en non-valeurs",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "65912",
+      "official_label": "D.A.E. des immobilisations incorporelles",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "65913",
+      "official_label": "D.A.E. des immobilisations corporelles",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "65941",
+      "official_label": "DNC pour amortissements dérogatoires",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "65942",
+      "official_label": "DNC pour plus-values en instance d'imposition",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "65944",
+      "official_label": "DNC pour investissements",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "65945",
+      "official_label": "DNC pour reconstitution de gisements",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "65946",
+      "official_label": "DNC pour acquisition et construction de logements",
+      "printed_page": 76,
+      "classe": 6
+    },
+    {
+      "code": "65955",
+      "official_label": "DNC aux provisions pour risques et charges durables",
+      "printed_page": 77,
+      "classe": 6
+    },
+    {
+      "code": "65957",
+      "official_label": "DNC aux provisions pour risques et charges momentanés",
+      "printed_page": 77,
+      "classe": 6
+    },
+    {
+      "code": "65962",
+      "official_label": "DNC aux provisions pour dépréciation de l'actif immobilisé",
+      "printed_page": 77,
+      "classe": 6
+    },
+    {
+      "code": "65963",
+      "official_label": "DNC aux provisions pour dépréciation de l'actif circulant",
+      "printed_page": 77,
+      "classe": 6
+    },
+    {
+      "code": "71211",
+      "official_label": "Ventes de produits finis",
+      "printed_page": 79,
+      "classe": 7
+    },
+    {
+      "code": "71212",
+      "official_label": "Ventes de produits intermédiaires",
+      "printed_page": 79,
+      "classe": 7
+    },
+    {
+      "code": "71217",
+      "official_label": "Ventes de produits résiduels",
+      "printed_page": 79,
+      "classe": 7
+    },
+    {
+      "code": "71221",
+      "official_label": "Ventes de produits finis",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "71222",
+      "official_label": "Ventes de produits intermédiaires",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "71241",
+      "official_label": "Travaux",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "71242",
+      "official_label": "Etudes",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "71243",
+      "official_label": "Prestations de service",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "71251",
+      "official_label": "Travaux",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "71252",
+      "official_label": "Etudes",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "71253",
+      "official_label": "Prestations de service",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "71271",
+      "official_label": "Locations diverses reçues",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "71272",
+      "official_label": "Commissions et courtages reçus",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "71273",
+      "official_label": "Produits de services exploités dans l'intérêt du personnel",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "71275",
+      "official_label": "Bonis sur reprises d'emballages consignés",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "71276",
+      "official_label": "Ports et frais accessoires facturés",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "71278",
+      "official_label": "Autres ventes et produits accessoires",
+      "printed_page": 80,
+      "classe": 7
+    },
+    {
+      "code": "71291",
+      "official_label": "R.R.R. accordés sur ventes au Maroc des biens produits",
+      "printed_page": 81,
+      "classe": 7
+    },
+    {
+      "code": "71292",
+      "official_label": "R.R.R. accordés sur ventes à l'étranger des biens produits",
+      "printed_page": 81,
+      "classe": 7
+    },
+    {
+      "code": "71294",
+      "official_label": "R.R.R. accordés sur ventes au Maroc des services produits",
+      "printed_page": 81,
+      "classe": 7
+    },
+    {
+      "code": "71295",
+      "official_label": "R.R.R. accordés sur ventes à l'étranger des services produits",
+      "printed_page": 81,
+      "classe": 7
+    },
+    {
+      "code": "71298",
+      "official_label": "R.R.R. accordés sur ventes de biens et services produits des exercices antérieurs",
+      "printed_page": 81,
+      "classe": 7
+    },
+    {
+      "code": "71311",
+      "official_label": "Variation des stocks de Biens produits en cours",
+      "printed_page": 81,
+      "classe": 7
+    },
+    {
+      "code": "71312",
+      "official_label": "Variation des stocks de produits intermédiaires en cours",
+      "printed_page": 81,
+      "classe": 7
+    },
+    {
+      "code": "71317",
+      "official_label": "Variation des stocks de produits résiduels en cours",
+      "printed_page": 81,
+      "classe": 7
+    },
+    {
+      "code": "71321",
+      "official_label": "Variation des stocks de produits finis",
+      "printed_page": 81,
+      "classe": 7
+    },
+    {
+      "code": "71322",
+      "official_label": "Variation des stocks de produits intermédiaires",
+      "printed_page": 81,
+      "classe": 7
+    },
+    {
+      "code": "71327",
+      "official_label": "Variation des stocks de produits résiduels",
+      "printed_page": 81,
+      "classe": 7
+    },
+    {
+      "code": "71341",
+      "official_label": "Variation des stocks de travaux en cours",
+      "printed_page": 82,
+      "classe": 7
+    },
+    {
+      "code": "71342",
+      "official_label": "Variation des stocks d'études en cours",
+      "printed_page": 82,
+      "classe": 7
+    },
+    {
+      "code": "71343",
+      "official_label": "Variation des stocks de prestations en cours",
+      "printed_page": 82,
+      "classe": 7
+    },
+    {
+      "code": "71971",
+      "official_label": "T.C.E-achats de marchandises",
+      "printed_page": 83,
+      "classe": 7
+    },
+    {
+      "code": "71972",
+      "official_label": "T.C.E-achats consommés de matières et fournitures",
+      "printed_page": 83,
+      "classe": 7
+    },
+    {
+      "code": "71973",
+      "official_label": "T.C.E - Autres charges externes",
+      "printed_page": 83,
+      "classe": 7
+    },
+    {
+      "code": "71975",
+      "official_label": "T.C.E - Impôt et taxes",
+      "printed_page": 83,
+      "classe": 7
+    },
+    {
+      "code": "71976",
+      "official_label": "T.C.E - Charges du personnel",
+      "printed_page": 83,
+      "classe": 7
+    },
+    {
+      "code": "71978",
+      "official_label": "T.C.E - Autres charges d'exploitation",
+      "printed_page": 83,
+      "classe": 7
+    },
+    {
+      "code": "71981",
+      "official_label": "Reprises sur amortissements des exercices antérieurs",
+      "printed_page": 83,
+      "classe": 7
+    },
+    {
+      "code": "71984",
+      "official_label": "Reprises sur provisions des exercices antérieurs",
+      "printed_page": 83,
+      "classe": 7
+    },
+    {
+      "code": "73811",
+      "official_label": "Intérêts des prêts",
+      "printed_page": 84,
+      "classe": 7
+    },
+    {
+      "code": "73813",
+      "official_label": "Revenus des autres créances financières",
+      "printed_page": 84,
+      "classe": 7
+    },
+    {
+      "code": "73971",
+      "official_label": "Transferts - charges d'intérêts",
+      "printed_page": 85,
+      "classe": 7
+    },
+    {
+      "code": "73973",
+      "official_label": "Transferts - pertes de change",
+      "printed_page": 85,
+      "classe": 7
+    },
+    {
+      "code": "73978",
+      "official_label": "Transferts autres charges financières",
+      "printed_page": 85,
+      "classe": 7
+    },
+    {
+      "code": "75811",
+      "official_label": "Pénalités reçues sur marchés",
+      "printed_page": 86,
+      "classe": 7
+    },
+    {
+      "code": "75812",
+      "official_label": "Dédits reçus",
+      "printed_page": 86,
+      "classe": 7
+    },
+    {
+      "code": "75861",
+      "official_label": "Dons",
+      "printed_page": 87,
+      "classe": 7
+    },
+    {
+      "code": "75862",
+      "official_label": "Libéralités",
+      "printed_page": 87,
+      "classe": 7
+    },
+    {
+      "code": "75863",
+      "official_label": "Lots",
+      "printed_page": 87,
+      "classe": 7
+    },
+    {
+      "code": "75911",
+      "official_label": "R.A.E. de l'immobilisation en non valeurs",
+      "printed_page": 87,
+      "classe": 7
+    },
+    {
+      "code": "75912",
+      "official_label": "R.A.E. des immobilisations incorporelles",
+      "printed_page": 87,
+      "classe": 7
+    },
+    {
+      "code": "75913",
+      "official_label": "R.A.E des immobilisations corporelles",
+      "printed_page": 87,
+      "classe": 7
+    },
+    {
+      "code": "75941",
+      "official_label": "Reprises sur amortissements dérogatoires",
+      "printed_page": 87,
+      "classe": 7
+    },
+    {
+      "code": "75942",
+      "official_label": "Reprises sur plus-values en instance d'imposition",
+      "printed_page": 87,
+      "classe": 7
+    },
+    {
+      "code": "75944",
+      "official_label": "Reprises sur provisions pour investissements",
+      "printed_page": 87,
+      "classe": 7
+    },
+    {
+      "code": "75945",
+      "official_label": "Reprises sur provisions pour reconstitution de gisements",
+      "printed_page": 87,
+      "classe": 7
+    },
+    {
+      "code": "75946",
+      "official_label": "Reprises sur provisions pour acquisition et construction de logements",
+      "printed_page": 88,
+      "classe": 7
+    },
+    {
+      "code": "75955",
+      "official_label": "Reprises sur provisions pour risques et charges durables",
+      "printed_page": 88,
+      "classe": 7
+    },
+    {
+      "code": "75957",
+      "official_label": "Reprises sur provisions pour risques et charges momentanés",
+      "printed_page": 88,
+      "classe": 7
+    },
+    {
+      "code": "75962",
+      "official_label": "R.N.C. sur provisions pour dépréciation de l'actif immobilisé",
+      "printed_page": 88,
+      "classe": 7
+    },
+    {
+      "code": "75963",
+      "official_label": "R.N.C sur provisions pour dépréciation de l'actif circulant",
+      "printed_page": 88,
+      "classe": 7
+    }
+  ]
+}
