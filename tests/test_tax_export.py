@@ -417,7 +417,7 @@ class TestLiasseMappingSchema:
             LiasseMappingCatalog(rules=(rule, rule.model_copy(update={"order": 2})))
 
     def test_rule_rejects_wrong_table_for_cgnc_class(self):
-        with pytest.raises(ValidationError):
+        with pytest.raises(ValidationError, match="not valid for TABLEAU_1_BILAN_ACTIF; expected one of TABLEAU_3_CPC, TABLEAU_5_ESG"):
             LiasseMappingRule(
                 dgi_cell_code="BAD-01", label="Charges", table=LiasseTable.BILAN_ACTIF,
                 selector={"account_prefixes": ("6",), "cgnc_class": CgncClass.CHARGES},

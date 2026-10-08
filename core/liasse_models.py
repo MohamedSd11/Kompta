@@ -156,8 +156,8 @@ class LiasseMappingRule(BaseModel):
             raise ValueError("Class 5 treasury accounts are not assigned to the requested three tables")
         if self.table not in expected_tables:
             raise ValueError(
-                f"CGNC class {self.selector.cgnc_class.value} is not valid for {self.table.value}, "
-                f"not {self.table.value}"
+                f"CGNC class {self.selector.cgnc_class.value} is not valid for {self.table.value}; "
+                f"expected one of {', '.join(sorted(table.value for table in expected_tables))}"
             )
         return self
 
