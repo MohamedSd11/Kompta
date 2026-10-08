@@ -11,22 +11,19 @@ Accounting safeguards:
 from __future__ import annotations
 
 import hashlib
-import io
-import json
 import mimetypes
 import sqlite3
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
 from pydantic import BaseModel, Field
 
-from core.invoice_extractor import (
+from .invoice_extractor import (
     ExtractedInvoiceData,
     extract_text_from_pdf,
     parse_invoice_text,
 )
-from .storage import connect_database, resolve_database_path
+from .storage import connect_database, resolve_database_path, utc_now_iso
 
 
 MAX_DOCUMENT_BYTES = 10 * 1024 * 1024
@@ -113,6 +110,16 @@ def _merge_missing_fields(primary: ExtractedInvoiceData, fallback: ExtractedInvo
     if warnings != primary.warnings:
         updates["warnings"] = warnings
     return primary.model_copy(update=updates) if updates else primary
+
+
+def _load_extracted_json(raw: str | None) -> ExtractedInvoiceData | None:
+    """Corrupt or legacy stored extractions are treated as absent rather than fatal."""
+    if not raw:
+        return None
+    try:
+        return ExtractedInvoiceData.model_validate_json(raw)
+    except Exception:
+        return None
 
 
 class OcrDocument(BaseModel):
@@ -238,12 +245,7 @@ class OcrDocumentStore:
                 row = db.execute(
                     "SELECT * FROM ocr_documents WHERE id=?", (matches[0],)
                 ).fetchone()
-                existing_extracted = None
-                if row["extracted_json"]:
-                    try:
-                        existing_extracted = ExtractedInvoiceData.model_validate_json(row["extracted_json"])
-                    except Exception:
-                        pass
+                existing_extracted = _load_extracted_json(row["extracted_json"])
 
                 if existing_extracted is None:
                     existing_extracted = extracted_data
@@ -302,7 +304,7 @@ class OcrDocumentStore:
                         status, duplicate_matches, uploaded_at, extracted_json)
                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                     (client_id, year, safe_name, mime_type, len(content), checksum,
-                     content, status, ",".join(map(str, matches)), datetime.now(timezone.utc).isoformat(),
+                     content, status, ",".join(map(str, matches)), utc_now_iso(),
                      extracted_json),
                 )
             except sqlite3.IntegrityError as error:
@@ -334,18 +336,11 @@ class OcrDocumentStore:
         if row is None:
             return None
 
-        extracted_data = None
-        if row["extracted_json"]:
-            try:
-                extracted_data = ExtractedInvoiceData.model_validate_json(row["extracted_json"])
-            except Exception:
-                extracted_data = None
-
         return OcrDocument(
             documentId=row["id"], clientId=row["client_id"], year=row["fiscal_year"],
             filename=row["filename"], mimeType=row["mime_type"], size=row["size"],
             checksum=row["checksum"], status=row["status"],
             duplicateMatches=[int(value) for value in row["duplicate_matches"].split(",") if value],
             processingError=row["processing_error"],
-            extractedData=extracted_data,
+            extractedData=_load_extracted_json(row["extracted_json"]),
         )

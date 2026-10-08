@@ -2,13 +2,12 @@
 from __future__ import annotations
 
 import sqlite3
-from datetime import datetime, timezone
 from pathlib import Path
 from uuid import uuid4
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-from .storage import connect_database, resolve_database_path
+from .storage import connect_database, resolve_database_path, utc_now_iso
 
 
 class ClientUpsert(BaseModel):
@@ -49,7 +48,7 @@ class ClientRepository:
 
     @staticmethod
     def _now() -> str:
-        return datetime.now(timezone.utc).isoformat()
+        return utc_now_iso()
 
     def _initialize(self) -> None:
         with self._connect() as db:
@@ -93,21 +92,22 @@ class ClientRepository:
             "years": years,
         }
 
+    @staticmethod
+    def _fiscal_years(db: sqlite3.Connection, client_id: str) -> list[dict[str, object]]:
+        rows = db.execute(
+            "SELECT year, status, is_demo FROM fiscal_years WHERE client_id=? ORDER BY year DESC",
+            (client_id,),
+        ).fetchall()
+        return [
+            {"year": item["year"], "status": item["status"], "isDemo": bool(item["is_demo"])}
+            for item in rows
+        ]
+
     def list_clients(self, *, include_demo: bool = True) -> list[dict[str, object]]:
         with self._connect() as db:
             where = "" if include_demo else "WHERE is_demo = 0"
             rows = db.execute(f"SELECT * FROM clients {where} ORDER BY is_demo DESC, name COLLATE NOCASE").fetchall()
-            result = []
-            for row in rows:
-                years = db.execute(
-                    "SELECT year, status, is_demo FROM fiscal_years WHERE client_id=? ORDER BY year DESC",
-                    (row["id"],),
-                ).fetchall()
-                result.append(self._client(row, [
-                    {"year": item["year"], "status": item["status"], "isDemo": bool(item["is_demo"])}
-                    for item in years
-                ]))
-            return result
+            return [self._client(row, self._fiscal_years(db, row["id"])) for row in rows]
 
     def create_client(self, request: ClientUpsert) -> dict[str, object]:
         client_id = f"R{uuid4().hex[:10].upper()}"
@@ -137,14 +137,7 @@ class ClientRepository:
             row = db.execute("SELECT * FROM clients WHERE id=?", (client_id,)).fetchone()
             if row is None:
                 raise KeyError(client_id)
-            years = db.execute(
-                "SELECT year, status, is_demo FROM fiscal_years WHERE client_id=? ORDER BY year DESC",
-                (client_id,),
-            ).fetchall()
-            return self._client(row, [
-                {"year": item["year"], "status": item["status"], "isDemo": bool(item["is_demo"])}
-                for item in years
-            ])
+            return self._client(row, self._fiscal_years(db, client_id))
 
     def save_fiscal_year(self, client_id: str, request: FiscalYearUpsert) -> dict[str, object]:
         now = self._now()

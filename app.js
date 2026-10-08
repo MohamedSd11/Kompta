@@ -1367,12 +1367,11 @@ async function exportTvaExcel() {
   }
 
   const releve = buildReleveDeductionsPayload(currentClientId, false);
-  const parseMoney = value => Number(String(value || '0').replace(/\s/g, '').replace(',', '.').replace(/[^\d.-]/g, '')) || 0;
   const request = {
     dossierId: currentClientId,
     companyName: dossier?.name || 'Entreprise',
     regime: dossier?.tva_regime || 'Débit',
-    tvaCollectee: parseMoney(document.getElementById('tva-facturee')?.textContent),
+    tvaCollectee: parseAmount(document.getElementById('tva-facturee')?.textContent),
     ventes: buildTvaCollecteePayload(currentClientId, false),
     releve
   };
@@ -2755,9 +2754,6 @@ function renderThirdPartyLedger() {
     }).join('')
     : '<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:20px;">Aucun compte auxiliaire client ou fournisseur.</td></tr>';
   showToast('Comptes tiers chargés depuis le plan comptable ✓', 'info');
-}
-function showTiersLedger() {
-  renderThirdPartyLedger();
 }
 function menuSetting(label) { showPanel('parametrage'); showToast(label + ' : configuration disponible dans Paramètres', 'info'); }
 function handleMenuAction(action) {

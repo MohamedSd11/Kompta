@@ -7,7 +7,7 @@ numbers and the failing XML node/path - not just a boolean.
 
 Requires `lxml` (pip install lxml).
 
-NOTE: Ship the *real* DGI XSD files under core/schemas/ once obtained;
+NOTE: Ship the *real* DGI XSD files under schemas/ once obtained;
 the placeholder schemas in this repo only encode the tag shape implied
 by the feature spec and are NOT a substitute for the official schema.
 """

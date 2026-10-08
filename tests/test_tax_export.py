@@ -38,7 +38,7 @@ from core.models import (
     ReleveDeductions,
     SalarieLine,
 )
-from core.validators import validate_etat_9421, validate_releve_deductions
+from core.validators import validate_releve_deductions
 from core.xml_builders import build_etat_9421_xml, build_releve_deductions_xml
 from core.xsd_validator import validate_against_schema
 from core.journal_service import JournalEntryPost, JournalRepository, JournalLine

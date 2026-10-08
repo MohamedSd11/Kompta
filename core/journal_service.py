@@ -8,13 +8,16 @@ from __future__ import annotations
 
 import json
 import sqlite3
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
-from .storage import connect_database, resolve_database_path
-from .pcge_import import preview_import, extract_pcge_general_accounts, account_parent
+from .storage import connect_database, resolve_database_path, utc_now_iso
+from .pcge_import import preview_import, extract_pcge_general_accounts
+
+
+JOURNAL_PIECE_PREFIXES = {"ACHATS": "JA", "VENTES": "JV", "BANQUE": "JB", "CAISSE": "JC"}
 
 
 class JournalLine(BaseModel):
@@ -160,7 +163,7 @@ class JournalRepository:
 
     @staticmethod
     def _now() -> str:
-        return datetime.now(timezone.utc).isoformat()
+        return utc_now_iso()
 
     def _sync_catalog(self, db: sqlite3.Connection, catalog: list[dict[str, Any]]) -> None:
         now = self._now()
@@ -227,40 +230,9 @@ class JournalRepository:
         try:
             db.execute("BEGIN IMMEDIATE")
             self._sync_catalog(db, request.account_catalog)
-            self._validate_lines(db, request)
-            sequence = db.execute(
-                "SELECT next_entry_number FROM journal_sequences WHERE client_id=? AND year=?",
-                (request.client_id, request.year),
-            ).fetchone()
-            number = int(sequence[0]) if sequence else 1
-            if sequence:
-                db.execute("UPDATE journal_sequences SET next_entry_number=? WHERE client_id=? AND year=?", (number + 1, request.client_id, request.year))
-            else:
-                db.execute("INSERT INTO journal_sequences VALUES (?, ?, ?)", (request.client_id, request.year, number + 1))
-            prefix = {"ACHATS": "JA", "VENTES": "JV", "BANQUE": "JB", "CAISSE": "JC"}.get(request.journal, "OD")
-            piece = f"{prefix}-{number:06d}"
-            now = self._now()
-            cursor = db.execute(
-                """INSERT INTO journal_entries(client_id, year, entry_number, piece_number, journal, entry_date, reference, label, user_id, posted_at)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                (request.client_id, request.year, number, piece, request.journal, request.entry_date, request.reference, request.label, request.user_id, now),
-            )
-            entry_id = int(cursor.lastrowid)
-            for line_number, line in enumerate(request.lines, 1):
-                db.execute(
-                    """INSERT INTO journal_lines(entry_id, line_number, account_code, auxiliary_code, label, debit, credit, invoice, vat_rate)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                    (entry_id, line_number, line.account, line.auxiliary, line.label, line.debit, line.credit, line.invoice, line.vat_rate),
-                )
-            payload = request.model_dump(by_alias=True, mode="json")
-            payload.update({"entryId": entry_id, "entryNumber": number, "pieceNumber": piece})
-            for action in ("CREATE", "POST"):
-                db.execute(
-                    "INSERT INTO audit_logs(user_id, timestamp, action_type, entry_id, payload_diff) VALUES (?, ?, ?, ?, ?)",
-                    (request.user_id, now, action, entry_id, json.dumps(payload, sort_keys=True)),
-                )
+            result = self._post_in_transaction(db, request)
             db.commit()
-            return JournalEntryPosted(entryId=entry_id, entryNumber=number, pieceNumber=piece, clientId=request.client_id, year=request.year)
+            return result
         except Exception:
             db.rollback()
             raise
@@ -345,7 +317,7 @@ class JournalRepository:
             db.execute("UPDATE journal_sequences SET next_entry_number=? WHERE client_id=? AND year=?", (number + 1, request.client_id, request.year))
         else:
             db.execute("INSERT INTO journal_sequences VALUES (?, ?, ?)", (request.client_id, request.year, number + 1))
-        prefix = {"ACHATS": "JA", "VENTES": "JV", "BANQUE": "JB", "CAISSE": "JC"}.get(request.journal, "OD")
+        prefix = JOURNAL_PIECE_PREFIXES.get(request.journal, "OD")
         piece = f"{prefix}-{number:06d}"
         now = self._now()
         cursor = db.execute("INSERT INTO journal_entries(client_id, year, entry_number, piece_number, journal, entry_date, reference, label, user_id, posted_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (request.client_id, request.year, number, piece, request.journal, request.entry_date, request.reference, request.label, request.user_id, now))
