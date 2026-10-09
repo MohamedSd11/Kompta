@@ -31,19 +31,21 @@ def test_dataset_rejects_code_whose_class_does_not_match(tmp_path):
         extract_pcge_general_accounts(source)
 
 
-def test_chart_is_standard_dataset_plus_documented_supplement():
+def test_chart_contains_the_complete_pdf_classes_and_uses_supplements_only_when_missing():
     chart = cgnc.chart_of_accounts()
     standard = json.loads(cgnc.STANDARD_DATASET.read_text(encoding="utf-8"))
     supplement = json.loads(cgnc.SUPPLEMENT_DATASET.read_text(encoding="utf-8"))
+    standard_codes = {item["account_code"] for item in standard}
 
-    assert len(chart) == len(standard) + len(supplement)
-    assert {item["code"] for item in chart if item["source"] == "cgnc_supplement"} == {"3455", "4455"}
-    assert cgnc.official_label("4411") == next(i["label_fr"] for i in standard if i["account_code"] == "4411")
+    assert len(chart) == len(standard) + sum(item["account_code"] not in standard_codes for item in supplement)
+    assert {item["class"] for item in chart} == set(range(1, 9))
+    assert len(chart) == 871
+    assert cgnc.official_label("5141") == "Banques (soldes débiteurs)"
 
 
 @pytest.mark.parametrize("code, root", [
     ("6125", "6125"), ("44110002", "4411"), ("34210001", "3421"),
-    ("3455220", "34552"), ("445520", "4455"), ("9999", None), ("4453", None), ("61A", None),
+    ("3455220", "34552"), ("445520", "4455"), ("9999", None), ("9998", None), ("61A", None),
 ])
 def test_accounts_are_valid_when_listed_or_extending_a_listed_code(code, root):
     assert cgnc.cgnc_root(code) == root
@@ -53,16 +55,16 @@ def test_posting_rejects_accounts_outside_the_cgnc_chart(tmp_path):
     repository = JournalRepository(tmp_path / "journal.sqlite3")
     request = JournalEntryPost(
         clientId="C001", year=2026, journal="OD", date="2026-01-05",
-        accountCatalog=[{"code": "4453", "label": "Hors référentiel"}, {"code": "6125", "label": "Libellé local"}],
-        lines=[JournalLine(compte="6125", debit=10), JournalLine(compte="4453", credit=10)],
+        accountCatalog=[{"code": "9998", "label": "Hors référentiel"}, {"code": "6125", "label": "Libellé local"}],
+        lines=[JournalLine(compte="6125", debit=10), JournalLine(compte="9998", credit=10)],
     )
 
-    with pytest.raises(ValueError, match="Unknown PCM account: 4453"):
+    with pytest.raises(ValueError, match="Unknown PCM account: 9998"):
         repository.post(request)
     repository.post(request.model_copy(update={"lines": [JournalLine(compte="6125", debit=10), JournalLine(compte="5141", credit=10)]}))
     with repository._connect() as db:
         assert db.execute("SELECT label FROM pcm_accounts WHERE code='6125'").fetchone()[0] == cgnc.official_label("6125")
-        assert db.execute("SELECT COUNT(*) FROM pcm_accounts WHERE code='4453'").fetchone()[0] == 0
+        assert db.execute("SELECT COUNT(*) FROM pcm_accounts WHERE code='9998'").fetchone()[0] == 0
 
 
 def test_preview_reports_missing_present_and_review_without_relabeling_existing():

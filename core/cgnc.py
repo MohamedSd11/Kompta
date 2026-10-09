@@ -1,9 +1,9 @@
-"""CGNC (Code Général de Normalisation Comptable) chart of accounts and shared account roots.
+"""CGNC chart of accounts and shared account roots.
 
-`cgnc_standard_accounts.json` is the single source of truth for the chart. The small
-`cgnc_supplement_accounts.json` only adds roots missing from that dataset that the app
-posts to. An account is valid when its code is listed, or extends a listed code
-(e.g. 44110002 under 4411, 3455220 under 34552).
+`cgnc_standard_accounts.json` contains the complete class 1–8 chart extracted from
+the supplied PCGE. The supplement is retained for deployments whose chart has not
+yet been refreshed. An account is valid when its code is listed, or extends a
+listed code (e.g. 44110002 under 4411, 3455220 under 34552).
 """
 from __future__ import annotations
 
@@ -44,7 +44,13 @@ def read_dataset(path: str | Path, source: str) -> list[dict[str, Any]]:
 
 @lru_cache(maxsize=1)
 def chart_of_accounts() -> tuple[dict[str, Any], ...]:
-    accounts = read_dataset(STANDARD_DATASET, "cgnc_standard") + read_dataset(SUPPLEMENT_DATASET, "cgnc_supplement")
+    accounts = read_dataset(STANDARD_DATASET, "cgnc_standard")
+    standard_codes = {account["code"] for account in accounts}
+    accounts.extend(
+        account
+        for account in read_dataset(SUPPLEMENT_DATASET, "cgnc_supplement")
+        if account["code"] not in standard_codes
+    )
     codes = [account["code"] for account in accounts]
     duplicates = sorted({code for code in codes if codes.count(code) > 1})
     if duplicates:
@@ -57,8 +63,14 @@ def _labels() -> dict[str, str]:
     return {account["code"]: account["label"] for account in chart_of_accounts()}
 
 
+@lru_cache(maxsize=1)
+def _standard_codes() -> frozenset[str]:
+    return frozenset(account["code"] for account in read_dataset(STANDARD_DATASET, "cgnc_standard"))
+
+
 def official_label(code: str) -> str | None:
-    return _labels().get(str(code).strip())
+    value = str(code).strip()
+    return _labels().get(value) if value in _standard_codes() else None
 
 
 def cgnc_root(code: str) -> str | None:
