@@ -103,6 +103,7 @@
       <button class="mb-btn" data-action="showPanel('traitement')">Traitements</button>
       <div class="dropdown">
         <div class="dd-item" data-action="renderTVA();openModal('modalTVA')">Déclaration TVA + RAS <span class="shortcut">Ctrl+D</span></div>
+        <div class="dd-item" data-action="showPanel('plancomptable');renderPlanComptable()">Plan comptable marocain</div>
         <div class="dd-item" data-action="handleMenuAction('simple-tva')">Simple TVA + RAS <span class="shortcut">Ctrl+S</span></div>
         <div class="dd-sep"></div>
         <div class="dd-item" data-action="renderLettrage();openModal('modalLettrage')">Lettrages <span class="shortcut">Ctrl+L</span></div>
@@ -351,7 +352,7 @@
             <th style="width:112px;">N° facture</th>
             <th style="width:142px;">N° compte</th>
             <th class="libelle-header">Libellé écriture</th>
-            <th style="width:112px;">Date échéa...</th>
+            <th style="width:112px;">Date</th>
             <th style="width:112px;text-align:right;">Débit</th>
             <th style="width:112px;text-align:right;">Crédit</th>
           </tr></thead>

@@ -188,9 +188,6 @@ const DATA = {
     { code:'34210001', label:'Client Karim', type:'divisionnaire', parent:'3421' },
     { code:'34210002', label:'Client Maroine', type:'divisionnaire', parent:'3421' },
     { code:'3455220', label:'État TVA récupérable 20%', type:'divisionnaire', parent:'3455' },
-    { code:'44110001', label:'Orange Maroc', type:'divisionnaire', parent:'4411', ice:'001234567', identifiant_fiscal:'IF001', type_bien:'Service' },
-    { code:'44110002', label:'Rédal Tétouan', type:'divisionnaire', parent:'4411', ice:'000123456789012', identifiant_fiscal:'12345678', type_bien:'Service' },
-    { code:'44110003', label:'STE Azulex', type:'divisionnaire', parent:'4411', ice:'003456789', identifiant_fiscal:'IF003', type_bien:'Marchandises' },
     { code:'445520', label:'État TVA facturée 20%', type:'divisionnaire', parent:'4455' }
   ],
   // Données comptables propres à chaque dossier (client) — clé = id du dossier
@@ -319,8 +316,10 @@ DATA.dossiers.forEach(dossier => { dossier.isDemo = true; });
 const ACCOUNTS = {};
 // Comptes divisionnaires fournisseurs (parent 4411) used by the account popup
 const SUPPLIERS = [];
+const REMOVED_LEGACY_ACCOUNT_CODES = new Set(['44110001', '44110002', '44110003']);
 // Official CGNC codes (cgnc_standard_accounts.json + supplement), filled by loadCgncChart().
 const CGNC_CODES = new Set();
+let PCM_HIERARCHY = [];
 function cgncRoot(code) {
   const value = String(code).trim();
   if (!/^\d+$/.test(value)) return null;
@@ -330,17 +329,26 @@ function cgncRoot(code) {
 function rebuildAccountIndexes() {
   Object.keys(ACCOUNTS).forEach(code => delete ACCOUNTS[code]);
   DATA.accounts.forEach(a => { ACCOUNTS[a.code] = a.label; });
-  // window.PCM_MAROC backs the Plan Comptable table (pcmBaseAccounts/getAccountByCode/etc. all read it).
-  window.PCM_MAROC = DATA.accounts
-    .filter(a => a.type === 'parent')
+  // window.PCM_MAROC backs account lookups; PCM_HIERARCHY retains all tree nodes for the chart view.
+  window.PCM_MAROC = DATA.accounts.filter(a => a.standard)
     .map(a => ({ code:a.code, libelle:a.label, classe:a.classe || Number(String(a.code).charAt(0)) }));
   SUPPLIERS.splice(0, SUPPLIERS.length, ...DATA.accounts.filter(a => a.parent === CGNC.FOURNISSEURS));
 }
 rebuildAccountIndexes();
 function applyCgncChart(chart) {
+  PCM_HIERARCHY = chart.map(account => ({ ...account }));
   CGNC_CODES.clear();
-  chart.forEach(account => CGNC_CODES.add(account.code));
-  const standard = chart.map(a => ({ code:a.code, label:a.label, type:'parent', classe:a.class, standard:true, cgncStatus:a.status }));
+  chart.filter(account => account.level !== 'class').forEach(account => CGNC_CODES.add(account.code));
+  const standard = chart.filter(a => a.level !== 'class').map(a => ({
+    code:a.code,
+    label:a.label,
+    type:'parent',
+    classe:a.class,
+    standard:true,
+    cgncStatus:a.status,
+    parent:a.parent,
+    level:a.level
+  }));
   const local = DATA.accounts.filter(a => !a.standard && !CGNC_CODES.has(a.code) && cgncRoot(a.code));
   DATA.accounts.splice(0, DATA.accounts.length, ...standard, ...local);
   rebuildAccountIndexes();
@@ -356,7 +364,9 @@ async function loadCgncChart() {
     showToast(apiConnectionErrorMessage(error, 'Chargement du plan comptable CGNC'), 'error');
   }
 }
-function isStandardAccount(code) { return DATA.accounts.some(a => a.code === code && a.standard); }
+function isStandardAccount(code) {
+  return PCM_HIERARCHY.some(account => account.code === code) || DATA.accounts.some(a => a.code === code && a.standard);
+}
 function pcmBaseAccounts() {
   const byCode = new Map();
   DATA.accounts.forEach(a => { if (!byCode.has(a.code)) byCode.set(a.code, a); });
@@ -1145,14 +1155,19 @@ function mirrorLibelle() {
 
 const TVA_OPTIONS = ['0','7','10','14','20'];
 
-// Account lookup: if a parent account with divisionnaires is typed (e.g. 4411),
-// show a popup listing matching sub-accounts (suppliers). Otherwise resolve libellé.
+// Account lookup and autocomplete share the existing account popup.
 let popupTargetInput = null;
+const accountSearchTokens = new WeakMap();
+let accountSearchErrorShown = false;
 function lookupAccount(input) {
   const code = input.value.trim();
   const tr = input.closest('tr');
   const libCell = tr.querySelector('.lib-cell');
   if (!code) { input.classList.remove('acct-error'); hideAcctPopup(); return; }
+  if (input.readOnly && input.dataset.pcmSelected === 'true' && code !== '4411') {
+    hideAcctPopup();
+    return;
+  }
   // Parent account 4411 → show supplier divisionnaire popup
   if (code === '4411') {
     input.classList.remove('acct-error');
@@ -1171,12 +1186,14 @@ function lookupAccount(input) {
 function showAcctPopup(input) {
   popupTargetInput = input;
   const pop = document.getElementById('acct-popup');
+  document.querySelector('#acct-popup .ap-head').textContent = 'Comptes divisionnaires — sélectionnez un tiers';
   const body = document.getElementById('acct-popup-body');
   body.innerHTML = '';
   SUPPLIERS.forEach(s => {
     const div = document.createElement('div');
     div.className = 'ap-item';
     div.innerHTML = `<div class="ap-code">${s.code} — ${s.label}</div><div class="ap-sub">ICE: ${s.ice} · IF: ${s.identifiant_fiscal} · ${s.type_bien}</div>`;
+    div.onmousedown = event => event.preventDefault();
     div.onclick = () => selectSupplier(s);
     body.appendChild(div);
   });
@@ -1185,14 +1202,88 @@ function showAcctPopup(input) {
   pop.style.top = (r.bottom + window.scrollY + 2) + 'px';
   pop.style.display = 'block';
 }
+async function searchPcmAccounts(input) {
+  const query = input.value.trim();
+  const token = (accountSearchTokens.get(input) || 0) + 1;
+  accountSearchTokens.set(input, token);
+  if (!query) {
+    if (popupTargetInput === input) hideAcctPopup();
+    return;
+  }
+  try {
+    const params = new URLSearchParams({ q: query, limit: '10' });
+    const response = await fetch(`${KOMPTA_API_BASE}/api/accounts/pcge-general/search?${params}`);
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.detail?.message || 'Recherche PCGE impossible.');
+    if (accountSearchTokens.get(input) !== token || input.value.trim() !== query || document.activeElement !== input) return;
+    showPcmAccountSuggestions(input, result);
+  } catch (error) {
+    if (accountSearchTokens.get(input) !== token) return;
+    if (!accountSearchErrorShown) {
+      showToast(apiConnectionErrorMessage(error, 'Recherche dans le plan comptable'), 'error');
+      accountSearchErrorShown = true;
+      window.setTimeout(() => { accountSearchErrorShown = false; }, 5000);
+    }
+  }
+}
+function showPcmAccountSuggestions(input, accounts) {
+  const pop = document.getElementById('acct-popup');
+  const body = document.getElementById('acct-popup-body');
+  popupTargetInput = input;
+  document.querySelector('#acct-popup .ap-head').textContent = 'Plan comptable marocain — sélectionnez un compte';
+  body.innerHTML = '';
+  accounts.forEach(account => {
+    const item = document.createElement('div');
+    item.className = 'ap-item';
+    const codeLabel = document.createElement('div');
+    codeLabel.className = 'ap-code';
+    codeLabel.textContent = `${account.code} - ${account.label}`;
+    const detail = document.createElement('div');
+    detail.className = 'ap-sub';
+    detail.textContent = `Classe ${account.class}`;
+    item.append(codeLabel, detail);
+    item.onmousedown = event => event.preventDefault();
+    item.onclick = () => selectPcmAccount(account);
+    body.appendChild(item);
+  });
+  if (!accounts.length) {
+    const empty = document.createElement('div');
+    empty.className = 'ap-item';
+    empty.textContent = 'Aucun compte correspondant.';
+    body.appendChild(empty);
+  }
+  const bounds = input.getBoundingClientRect();
+  pop.style.left = (bounds.left + window.scrollX) + 'px';
+  pop.style.top = (bounds.bottom + window.scrollY + 2) + 'px';
+  pop.style.display = 'block';
+}
+function selectPcmAccount(account) {
+  const input = popupTargetInput;
+  if (!input) return;
+  input.value = account.code;
+  input.readOnly = true;
+  input.dataset.pcmSelected = 'true';
+  input.title = 'Compte sélectionné — appuyez sur Retour arrière pour le modifier';
+  input.classList.remove('acct-error');
+  const libCell = input.closest('tr').querySelector('.lib-cell');
+  if (libCell && !libCell.value) libCell.value = account.label;
+  hideAcctPopup();
+  updateGeneralAccountStyle(input);
+  computeTotals();
+}
 function hideAcctPopup() {
   const pop = document.getElementById('acct-popup');
   if (pop) pop.style.display = 'none';
+  const heading = document.querySelector('#acct-popup .ap-head');
+  if (heading) heading.textContent = 'Comptes divisionnaires — sélectionnez un tiers';
   popupTargetInput = null;
 }
 function selectSupplier(s) {
   if (popupTargetInput) {
     popupTargetInput.value = s.code;
+    popupTargetInput.readOnly = false;
+    delete popupTargetInput.dataset.pcmSelected;
+    popupTargetInput.title = '';
     popupTargetInput.classList.remove('acct-error');
     const libCell = popupTargetInput.closest('tr').querySelector('.lib-cell');
     if (libCell && libCell.value === '') libCell.value = s.label;
@@ -1206,6 +1297,17 @@ document.addEventListener('mousedown', e => {
   if (pop && pop.style.display === 'block' && !pop.contains(e.target) && e.target !== popupTargetInput) {
     hideAcctPopup();
   }
+});
+document.addEventListener('keydown', event => {
+  const input = event.target.closest?.('#lines-body .account-cell');
+  if (!input || !input.readOnly || event.key !== 'Backspace') return;
+  event.preventDefault();
+  input.readOnly = false;
+  delete input.dataset.pcmSelected;
+  input.title = '';
+  input.value = '';
+  input.focus();
+  input.dispatchEvent(new Event('input', { bubbles: true }));
 });
 
 // Track which account row is focused (for the "Compte" totals).
@@ -1402,7 +1504,7 @@ function addLine() {
   const tr = document.createElement('tr');
   tr.innerHTML =
     `<td><input type="text" class="facture-cell" value=""></td>` +
-    `<td><input type="text" class="account-cell account-general" value="" onblur="lookupAccount(this);updateGeneralAccountStyle(this)" onfocus="setFocusedAccount(this.closest('tr'), this)" oninput="updateGeneralAccountStyle(this)"></td>` +
+    `<td><input type="text" class="account-cell account-general" value="" onblur="lookupAccount(this);updateGeneralAccountStyle(this)" onfocus="setFocusedAccount(this.closest('tr'), this)" oninput="updateGeneralAccountStyle(this);searchPcmAccounts(this)"></td>` +
     `<td><input type="text" class="lib-cell" value=""><select class="tva-cell" hidden>${tvaOpts}</select></td>` +
     `<td><input type="date" class="due-date-cell"></td>` +
     `<td class="amount-cell"><input type="text" inputmode="decimal" class="debit-input" value="" oninput="computeTotals()" onblur="formatAmountInput(this)"></td>` +
@@ -1840,27 +1942,56 @@ function renderPlanComptable() {
   const searchEl = document.getElementById('pcm-search');
   const q = (searchEl ? searchEl.value : '').trim().toLowerCase();
   const classFilter = document.getElementById('pcm-class-filter')?.value || 'all';
-  const list = [...pcmBaseAccounts(), ...DATA.accounts.filter(a => a.type === 'divisionnaire')]
-    .filter(a => classFilter === 'all' || String(a.code).charAt(0) === classFilter)
-    .filter(a => !q || a.code.toLowerCase().includes(q) || (a.label || '').toLowerCase().includes(q))
-    .slice()
-    .sort((a, b) => a.code.localeCompare(b.code));
+  const source = PCM_HIERARCHY.length ? PCM_HIERARCHY : pcmBaseAccounts().map(a => ({
+    code:a.code, label:a.label, class:a.classe, level:a.level || 'account', parent:a.parent, type:a.type
+  }));
+  const matchingClasses = source.filter(a => a.level === 'class'
+    && (classFilter === 'all' || a.code === classFilter)
+    && (!q || a.code.toLowerCase().includes(q) || (a.label || '').toLowerCase().includes(q)));
+  const accountNodes = source.filter(a => a.level !== 'class');
+  const matchingNodes = accountNodes.filter(a =>
+    (classFilter === 'all' || String(a.class) === classFilter)
+    && (!q || a.code.toLowerCase().includes(q) || (a.label || '').toLowerCase().includes(q))
+  );
+  const visibleCodes = new Set(matchingNodes.map(a => a.code));
+  const byCode = new Map(source.map(a => [a.code, a]));
+  matchingNodes.forEach(node => {
+    let parent = node.parent;
+    while (parent) {
+      visibleCodes.add(parent);
+      parent = byCode.get(parent)?.parent;
+    }
+  });
+  matchingClasses.forEach(node => visibleCodes.add(node.code));
+  const list = source.filter(a => visibleCodes.has(a.code)
+    && (a.level !== 'class' || classFilter === 'all' || a.code === classFilter));
+  const levelLabels = {
+    class:'Classe',
+    rubrique:'Rubrique',
+    poste:'Poste',
+    principal:'Compte principal',
+    divisionnaire:'Compte divisionnaire'
+  };
   tb.innerHTML = '';
   if (!list.length) {
     tb.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:18px;">Aucun compte ne correspond à la recherche.</td></tr>`;
     return;
   }
   list.forEach(a => {
-    const cl = a.classe || Number(String(a.code).charAt(0));
-    const isDiv = a.type === 'divisionnaire';
+    const cl = a.class || a.classe || Number(String(a.code).charAt(0));
+    const isClass = a.level === 'class';
+    const level = levelLabels[a.level] || 'Compte';
+    const indent = isClass ? 0 : Math.max(1, String(a.code).length) * 8;
+    const bold = isClass || a.level === 'rubrique' || a.level === 'poste';
     const tr = document.createElement('tr');
+    if (isClass) tr.style.background = 'var(--bg)';
     tr.innerHTML = `
-      <td><input type="text" value="${a.code}" style="font-weight:${isDiv ? '400' : '700'};" onchange="editPcmCode('${a.code}', this.value, this)"></td>
-      <td><input type="text" value="${(a.label || '').replace(/"/g, '&quot;')}" onchange="editPcmLabel('${a.code}', this.value)"></td>
+      <td><input type="text" value="${escapeAux(a.code)}" style="font-weight:${bold ? '700' : '400'};" onchange="editPcmCode('${escapeAux(a.code)}', this.value, this)"></td>
+      <td><input type="text" value="${escapeAux(a.label || '')}" style="padding-left:${indent}px;font-weight:${bold ? '700' : '400'};" onchange="editPcmLabel('${escapeAux(a.code)}', this.value)"></td>
       <td style="text-align:center;color:var(--muted);">${cl}</td>
-      <td style="text-align:center;"><span class="status ${isDiv ? 's-gray' : 's-blue'}">${isDiv ? 'Division.' : 'Principal'}</span></td>
+      <td style="text-align:center;"><span class="status ${isClass ? 's-gray' : 's-blue'}">${level}</span></td>
       <td style="text-align:center;">${anNonBadge(a.code)}</td>
-      <td style="text-align:center;"><button class="btn btn-d btn-xs" data-action="deletePcmAccount('${a.code}')" title="Supprimer">✕</button></td>`;
+      <td style="text-align:center;"><button class="btn btn-d btn-xs" data-action="deletePcmAccount('${escapeAux(a.code)}')" title="Supprimer">✕</button></td>`;
     tb.appendChild(tr);
   });
   const auxBody = document.getElementById('aux-body');
@@ -1990,11 +2121,18 @@ function loadCustomizationState() {
     if (!saved) return;
     if (Array.isArray(saved.accounts)) {
       // Only local sub-accounts are kept; official accounts always come from the CGNC chart.
-      const local = saved.accounts.filter(a => a && a.code && a.type !== 'parent' && !a.standard);
+      const local = saved.accounts.filter(a => a && a.code && a.type !== 'parent' && !a.standard && !REMOVED_LEGACY_ACCOUNT_CODES.has(a.code));
       DATA.accounts.splice(0, DATA.accounts.length, ...DATA.accounts.filter(a => a.standard), ...local);
       rebuildAccountIndexes();
     }
-    if (saved.auxiliary && typeof saved.auxiliary === 'object') Object.assign(AUXILIARY_ACCOUNTS, saved.auxiliary);
+    if (saved.auxiliary && typeof saved.auxiliary === 'object') {
+      Object.entries(saved.auxiliary).forEach(([clientId, rows]) => {
+        if (!Array.isArray(rows)) return;
+        AUXILIARY_ACCOUNTS[clientId] = rows.filter(row =>
+          !REMOVED_LEGACY_ACCOUNT_CODES.has(row?.compte_auxiliaire || row?.code)
+        );
+      });
+    }
   } catch (error) {
     console.warn('Etat de personnalisation ignoré:', error);
     showToast('Personnalisation locale illisible; les paramètres par défaut sont utilisés.', 'error');

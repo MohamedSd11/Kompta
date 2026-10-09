@@ -13,7 +13,7 @@ from __future__ import annotations
 import io
 import sqlite3
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
 
 from core.excel_export import build_portfolio_tva_excel, build_tva_excel
@@ -25,7 +25,6 @@ from core.liasse_service import build_simpl_is_xml, compute_liasse, validate_sim
 from core.models import Etat9421, ExcelExportRequest, PortfolioExcelRequest, ReleveDeductions
 from core.journal_service import JournalEntryPost, JournalEntryPosted, JournalRepository
 from core.client_service import ClientRepository, ClientUpsert, FiscalYearUpsert
-from core.cgnc import chart_of_accounts
 from core.ocr_service import OcrDocumentStore
 from core.validators import validate_etat_9421, validate_releve_deductions
 
@@ -93,8 +92,21 @@ def save_fiscal_year(client_id: str, request: FiscalYearUpsert):
 
 @accounts_router.get("/cgnc")
 def list_cgnc_accounts():
-    """Official CGNC chart (standard dataset + documented supplement) used by every account lookup."""
-    return list(chart_of_accounts())
+    """The seeded PCGE catalog used by the chart view and account lookups."""
+    try:
+        return journal_repository.list_pcge_accounts()
+    except RuntimeError as error:
+        raise HTTPException(status_code=503, detail={"message": str(error)}) from error
+
+
+@accounts_router.get("/pcge-general/search")
+def search_pcge_accounts(q: str = Query(min_length=1, max_length=80), limit: int = Query(10, ge=1, le=50)):
+    try:
+        return journal_repository.search_pcge_accounts(q, limit)
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail={"message": str(error)}) from error
+    except RuntimeError as error:
+        raise HTTPException(status_code=503, detail={"message": str(error)}) from error
 
 
 @accounts_router.get("/pcge-general/preview")

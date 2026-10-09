@@ -26,6 +26,10 @@ and output formats have not been verified against official DGI materials.
    **"Exporter déclaration"**. The page calls the local Python engine.
    Generated XML files are not DGI-ready.
 
+On Windows, double-click `StartKompta.bat` in this `Kompta` folder to start
+the backend and open this folder's `index.html`. The older sibling
+`kompta1\StartKompta.bat` redirects to this launcher.
+
 ### VS Code Live Server
 
 The tested Live Server origin is `http://127.0.0.1:5500`; `python run.py`
@@ -51,6 +55,22 @@ and confirm `GET /api/journal-entries` returns `200` with a matching
 `Access-Control-Allow-Origin`. Then open a dossier, switch sections, try an
 Excel export, and upload an OCR document; JSON `POST` preflights should
 return `200` for this origin. A different origin or port must remain blocked.
+
+### Plan comptable marocain
+
+The chart view and account autocomplete read `pcm_accounts` from the local
+SQLite database. To rebuild it from the official class 1–8 PDF, run:
+
+```powershell
+python tools/seed_pcge.py --pdf "C:\path\to\Plan_Comptable_General_Marocain.pdf"
+```
+
+The reseed completely replaces `pcm_accounts`, inserts the eight class heading
+nodes and all account rows with their PCGE hierarchy levels, and removes stale
+dossier auxiliary-account rows. Journal entries are preserved. The Plan
+Comptable view groups the seeded rows by class and indents each hierarchy level;
+account autocomplete searches the same database and does not suggest class
+headings or local auxiliary codes.
 
 To stop the backend, go back to the terminal and press `Ctrl+C`. You need
 to restart it (`python run.py`) each time you want to use the export

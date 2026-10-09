@@ -103,6 +103,7 @@ class JournalRepository:
                     label TEXT NOT NULL,
                     parent TEXT,
                     account_type TEXT NOT NULL DEFAULT 'parent',
+                    hierarchy_level TEXT NOT NULL DEFAULT 'account',
                     catalog_source TEXT NOT NULL DEFAULT 'existing',
                     updated_at TEXT NOT NULL
                 );
@@ -165,6 +166,8 @@ class JournalRepository:
             columns = {row[1] for row in db.execute("PRAGMA table_info(pcm_accounts)").fetchall()}
             if "catalog_source" not in columns:
                 db.execute("ALTER TABLE pcm_accounts ADD COLUMN catalog_source TEXT NOT NULL DEFAULT 'existing'")
+            if "hierarchy_level" not in columns:
+                db.execute("ALTER TABLE pcm_accounts ADD COLUMN hierarchy_level TEXT NOT NULL DEFAULT 'account'")
             self._ensure_auxiliary_accounts_table(db)
 
     @staticmethod
@@ -192,21 +195,71 @@ class JournalRepository:
         return utc_now_iso()
 
     def _sync_catalog(self, db: sqlite3.Connection, catalog: list[dict[str, Any]]) -> None:
-        """Mirror catalog accounts accepted by the CGNC chart; listed codes keep their official label."""
+        """Mirror exact official PCGE codes, never local extensions, into the PCGE table."""
         now = self._now()
         for account in catalog:
             code = str(account.get("code", "")).strip()
-            label = official_label(code) or str(account.get("label", account.get("libelle", ""))).strip()
-            if not code or not label or not is_cgnc_account(code):
+            label = official_label(code)
+            if not label or not is_cgnc_account(code):
                 continue
             db.execute(
-                """INSERT INTO pcm_accounts(code, label, parent, account_type, updated_at)
-                   VALUES (?, ?, ?, ?, ?)
-                   ON CONFLICT(code) DO UPDATE SET label=excluded.label,
-                     parent=excluded.parent, account_type=excluded.account_type,
-                     updated_at=excluded.updated_at""",
-                (code, label, account.get("parent"), account.get("type", "parent"), now),
+                """INSERT OR IGNORE INTO pcm_accounts(code, label, parent, account_type, hierarchy_level, updated_at)
+                   VALUES (?, ?, ?, ?, ?, ?)
+                   """,
+                (
+                    code,
+                    label,
+                    account.get("parent"),
+                    account.get("type", "parent"),
+                    account.get("hierarchy_level", account.get("hierarchyLevel", "account")),
+                    now,
+                ),
             )
+
+    def list_pcge_accounts(self) -> list[dict[str, Any]]:
+        with closing(self._connect()) as db, db:
+            rows = db.execute(
+                """SELECT code, label, parent, account_type, hierarchy_level, catalog_source
+                   FROM pcm_accounts ORDER BY code"""
+            ).fetchall()
+        if not rows:
+            raise RuntimeError("PCGE database is empty; run tools/seed_pcge.py with the official PDF.")
+        return [
+            {
+                "code": row["code"],
+                "label": row["label"],
+                "class": int(row["code"][0]),
+                "classLabel": row["label"] if row["hierarchy_level"] == "class" else None,
+                "parent": row["parent"],
+                "level": row["hierarchy_level"],
+                "status": "standard",
+                "source": row["catalog_source"],
+                "type": row["account_type"],
+            }
+            for row in rows
+        ]
+
+    def search_pcge_accounts(self, query: str, limit: int = 10) -> list[dict[str, Any]]:
+        term = query.strip()
+        if not term:
+            raise ValueError("PCGE account search query cannot be empty")
+        escaped = term.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+        with closing(self._connect()) as db, db:
+            rows = db.execute(
+                """SELECT code, label FROM pcm_accounts
+                   WHERE hierarchy_level != 'class'
+                     AND (code LIKE ? ESCAPE '\\' OR lower(label) LIKE ? ESCAPE '\\')
+                   ORDER BY CASE WHEN code = ? THEN 0 WHEN code LIKE ? ESCAPE '\\' THEN 1 ELSE 2 END, code
+                   LIMIT ?""",
+                (escaped + "%", "%" + escaped.lower() + "%", term, escaped + "%", limit),
+            ).fetchall()
+            seeded = db.execute("SELECT EXISTS(SELECT 1 FROM pcm_accounts)").fetchone()[0]
+        if not seeded:
+            raise RuntimeError("PCGE database is empty; run tools/seed_pcge.py with the official PDF.")
+        return [
+            {"code": row["code"], "label": row["label"], "class": int(row["code"][0])}
+            for row in rows
+        ]
 
     def _sync_auxiliary_accounts(self, db: sqlite3.Connection, client_id: str, catalog: list[dict[str, Any]]) -> None:
         """Register client (3421...) and supplier (4411...) sub-accounts sent with the entry for this dossier."""
