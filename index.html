@@ -13,7 +13,6 @@
   <div class="ds-head">
     <h1>Kompta</h1>
     <p>Recherchez un client, ou faites défiler la liste pour ouvrir son dossier</p>
-    <div class="demo-notice" role="status">Mode démonstration : les clients et écritures d’exemple ne sont pas des données fiscales valides.</div>
   </div>
   <div class="ds-search-wrap">
     <div class="ds-search-row">
@@ -31,7 +30,7 @@
 </div>
 
 <aside class="sidebar">
-  <div class="logo"><h1>Kompta</h1><span>Espace Comptable</span><div class="demo-notice" role="status">Données d’exemple · exports à ne pas déposer à la DGI</div></div>
+  <div class="logo"><h1>Kompta</h1><span>Espace Comptable</span></div>
   <div class="autre-dossier">
     <button data-action="showDossierScreen()">← Autres dossiers</button>
     <button data-action="openClientManager()" style="margin-top:6px;">⚙ Clients & exercices</button>
@@ -148,7 +147,7 @@
         <div class="dd-item" data-action="showPanel('plancomptable');renderPlanComptable()">Plan Comptable <span class="shortcut">Ctrl+P</span></div>
         <div class="dd-sep"></div>
         <div class="dd-item" data-action="openModal('modalBalanceChoice')">Balance <span class="shortcut">Ctrl+B</span></div>
-        <div class="dd-item" data-action="handleMenuAction('aged-balance')">Balance Âgée <span class="shortcut">Ctrl+A</span></div>
+        <div class="dd-item" data-action="handleMenuAction('aged-balance')">La Balance Âgée <span class="shortcut">Ctrl+A</span></div>
         <div class="dd-item" data-action="handleMenuAction('report-ledger')">Grand Livre <span class="shortcut">Ctrl+G</span></div>
         <div class="dd-item" data-action="handleMenuAction('report-journals')">Journaux <span class="shortcut">Ctrl+J</span></div>
         <div class="dd-item" data-action="handleMenuAction('central-journal')">Journal Centralisateur <span class="shortcut">Ctrl+C</span></div>
@@ -434,7 +433,7 @@
     <div class="panel" id="panel-etats">
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
         <div class="ac" style="cursor:pointer;" data-action="openModal('modalBalanceChoice')"><h4>📊 Balance</h4><p>Balance générale des comptes avec À-nouveaux, mouvements et soldes.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
-        <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('aged-balance')"><h4>📊 Balance Âgée</h4><p>Analyse des soldes par ancienneté pour suivi des créances.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
+        <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('aged-balance')"><h4>📊 La Balance Âgée</h4><p>Analyse des soldes par ancienneté pour suivi des créances.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
         <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('report-ledger')"><h4>📖 Grand Livre</h4><p>Détail de toutes les écritures par compte PCM.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
         <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('report-journals')"><h4>📋 Journaux</h4><p>Listing des écritures par journal (Achats, Ventes, Banque...).</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
         <div class="ac" style="cursor:pointer;" data-action="handleMenuAction('central-journal')"><h4>📋 Journal Centralisateur</h4><p>Synthèse des totaux par journal pour la période.</p><button class="btn btn-s" style="width:100%;">Ouvrir</button></div>
@@ -614,15 +613,15 @@
     <p class="sub">Choisissez le type de balance que vous souhaitez consulter.</p>
     <div style="display:flex;flex-direction:column;gap:8px;">
       <button class="btn btn-s" style="width:100%;text-align:left;padding:12px 14px;" data-action="openCgncReport('balance-generale')">
-        <div style="font-weight:700;font-size:12px;">📊 Balance Générale</div>
+        <div style="font-weight:700;font-size:12px;">📊 BALANCE GÉNÉRALE</div>
         <div style="font-weight:400;font-size:11px;color:var(--muted);margin-top:2px;">Tous les comptes du plan comptable, classés BILAN (AN) et CPC (NON)</div>
       </button>
       <button class="btn btn-s" style="width:100%;text-align:left;padding:12px 14px;" data-action="openBalance('clients')">
-        <div style="font-weight:700;font-size:12px;">👥 Balance Aux Clients</div>
+        <div style="font-weight:700;font-size:12px;">👥 BALANCE AUXILIAIRE CLIENTS</div>
         <div style="font-weight:400;font-size:11px;color:var(--muted);margin-top:2px;">Comptes clients et leurs divisionnaires (3421...)</div>
       </button>
       <button class="btn btn-s" style="width:100%;text-align:left;padding:12px 14px;" data-action="openBalance('fournisseurs')">
-        <div style="font-weight:700;font-size:12px;">🚚 Balance Aux Fournisseurs</div>
+        <div style="font-weight:700;font-size:12px;">🚚 BALANCE AUXILIAIRE FOURNISSEURS</div>
         <div style="font-weight:400;font-size:11px;color:var(--muted);margin-top:2px;">Comptes fournisseurs et leurs divisionnaires (4411...)</div>
       </button>
     </div>
