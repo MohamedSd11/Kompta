@@ -2207,7 +2207,7 @@ function showAgedBalanceReport() {
   const groups = {};
   reportEntryLines().filter(x => isAccount(x.l.compte, CGNC.CLIENTS, CGNC.FOURNISSEURS)).forEach(x => { const code = x.l.compte; const g = groups[code] || (groups[code] = {code, label:ACCOUNTS[code] || x.l.libelle || '', amount:0}); g.amount += x.debit - x.credit; });
   const rows = Object.values(groups).map(g => { const age = Math.max(0, Math.floor((Date.now() - new Date(currentYear, Number(menuRows()[0]?.mois || 1) - 1, Number(menuRows()[0]?.jour || 1))) / 86400000)); const bucket = age > 90 ? '+90 jours' : age > 60 ? '61–90 jours' : age > 30 ? '31–60 jours' : '0–30 jours'; return [g.code, g.label, bucket, round2(Math.abs(g.amount))]; });
-  renderStructuredReport('Balance Âgée', ['Compte','Tiers','Ancienneté','Solde'], rows);
+  renderStructuredReport('LA BALANCE ÂGÉE', ['Compte','Tiers','Ancienneté','Solde'], rows);
 }
 function showCentralJournalReport() {
   const groups = {};
@@ -2384,28 +2384,51 @@ function cgncSet(title, subtitle, headers, exportRows, body) {
 function cgncTable(headers, rows, footer = '') {
   return `<table><thead><tr>${headers.map(h => `<th>${menuEscape(h)}</th>`).join('')}</tr></thead><tbody>${rows.length ? rows.map(r => `<tr>${r.map((v, i) => `<td style="${typeof v === 'number' ? 'text-align:right;' : ''}">${typeof v === 'number' ? cgncMoney(v) : (typeof v === 'string' && v.startsWith('<button') ? v : menuEscape(v))}</td>`).join('')}</tr>`).join('') : `<tr><td colspan="${headers.length}" style="text-align:center;color:var(--muted);padding:20px;">Aucune donnée</td></tr>`}${footer}</tbody></table>`;
 }
+function cgncGeneralBalanceTable(rows, footer = '') {
+  const body = rows.length
+    ? rows.map(row => `<tr>${row.map(value => `<td style="${typeof value === 'number' ? 'text-align:right;' : ''}">${typeof value === 'number' ? cgncMoney(value) : menuEscape(value)}</td>`).join('')}</tr>`).join('')
+    : '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px;">Aucune donnée</td></tr>';
+  return `<table class="cgnc-balance-table"><thead>
+    <tr><th rowspan="2">N° COMPTE</th><th rowspan="2">INTITULÉ</th><th colspan="2">SOLDES AU DÉBUT D'EXERCICE</th><th colspan="2">MOUVEMENTS DE L'EXERCICE</th><th colspan="2">SOLDES FINAUX</th></tr>
+    <tr><th>DÉBIT</th><th>CRÉDIT</th><th>DÉBIT</th><th>CRÉDIT</th><th>DÉBIT</th><th>CRÉDIT</th></tr>
+  </thead><tbody>${body}${footer}</tbody></table>`;
+}
+const CGNC_BALANCE_LABEL_FALLBACKS = {
+  '1111':'Capital social',
+  '3421':'Clients',
+  '5141':'Banque',
+  '7111':'Ventes de marchandises'
+};
 function openGeneralBalanceReport() {
   cgncReportState.type = 'balance-generale';
   cgncFilterBar(`<div class="fg"><label>Compte de</label><input id="cgnc-account-from" placeholder="1000" style="width:90px;" oninput="renderGeneralBalanceReport()"></div><div class="fg"><label>Compte à</label><input id="cgnc-account-to" placeholder="8999" style="width:90px;" oninput="renderGeneralBalanceReport()"></div><div class="fg"><label>Période</label><select id="cgnc-period" onchange="renderGeneralBalanceReport()"><option value="all">Exercice ${currentYear}</option>${Array.from({length:12}, (_, i) => `<option value="${i + 1}">Mois ${String(i + 1).padStart(2,'0')}</option>`).join('')}</select></div><div class="fg"><label>Classe</label><select id="cgnc-class" onchange="renderGeneralBalanceReport()"><option value="all">1 à 8</option>${[1,2,3,4,5,6,7,8].map(i => `<option>${i}</option>`).join('')}</select></div>`);
-  cgncSet('Balance Générale CGNC', 'Soldes initiaux, mouvements et soldes finaux', ['N° Compte','Intitulé','SI Débit','SI Crédit','Mvt Débit','Mvt Crédit','SF Débit','SF Crédit'], [], renderGeneralBalanceReport);
+  cgncSet('BALANCE GÉNÉRALE', 'Soldes initiaux, mouvements et soldes finaux', ['N° Compte','Intitulé','SI Débit','SI Crédit','Mvt Débit','Mvt Crédit','SF Débit','SF Crédit'], [], renderGeneralBalanceReport);
 }
 function renderGeneralBalanceReport() {
   const from = document.getElementById('cgnc-account-from')?.value.trim() || '';
   const to = document.getElementById('cgnc-account-to')?.value.trim() || '';
   const period = document.getElementById('cgnc-period')?.value || 'all';
   const cls = document.getElementById('cgnc-class')?.value || 'all';
-  const accounts = cgncAccounts().map(t => ({...t, label:ACCOUNTS[t.code] || ''})).filter(t => (!from || t.code >= from) && (!to || t.code <= to) && (cls === 'all' || t.code.startsWith(cls)));
-  let totals = [0,0,0,0,0,0,0,0];
+  const officialLabels = new Map(PCM_HIERARCHY.map(account => [account.code, account.label]));
+  const accounts = cgncAccounts().map(t => ({
+    ...t,
+    label: String(ACCOUNTS[t.code] || '').trim()
+      || String(DATA.accounts.find(account => account.code === t.code && account.standard)?.label || '').trim()
+      || String(officialLabels.get(t.code) || '').trim()
+      || CGNC_BALANCE_LABEL_FALLBACKS[t.code]
+      || ''
+  })).filter(t => (!from || t.code >= from) && (!to || t.code <= to) && (cls === 'all' || t.code.startsWith(cls)));
+  const totals = [0,0,0,0,0,0];
   const rows = accounts.map(t => { let mvD=t.mvD, mvC=t.mvC; if (period !== 'all') { mvD=mvC=0; clientEntries().filter(e => e.year === currentYear && Number(e.mois) === Number(period)).forEach(e => e.lines.filter(l => l.compte === t.code).forEach(l => { mvD += lineDebit(l); mvC += lineCredit(l); })); } const sfD=Math.max(0,t.anD+mvD-t.anC-mvC), sfC=Math.max(0,t.anC+mvC-t.anD-mvD); const vals=[t.code,t.label,t.anD,t.anC,mvD,mvC,sfD,sfC]; vals.slice(2).forEach((v,i) => totals[i] += v); return vals; });
-  const footer = `<tr class="total-row"><td colspan="2"><strong>TOTAUX</strong></td>${totals.map(v => `<td style="text-align:right;"><strong>${cgncMoney(round2(v))}</strong></td>`).join('')}</tr><tr><td colspan="2"><strong>Contrôle équilibre</strong></td><td colspan="3" style="text-align:right;">SI: ${cgncMoney(round2(totals[0]-totals[1]))}</td><td colspan="3" style="text-align:right;">SF: ${cgncMoney(round2(totals[6]-totals[7]))}</td></tr>`;
-  document.getElementById('cgnc-report-body').innerHTML = cgncTable(['N° Compte','Intitulé','SI Débit','SI Crédit','Mvt Débit','Mvt Crédit','SF Débit','SF Crédit'], rows, footer);
+  const footer = `<tr class="total-row"><td colspan="2"><strong>TOTAUX</strong></td>${totals.map(v => `<td style="text-align:right;"><strong>${cgncMoney(round2(v))}</strong></td>`).join('')}</tr><tr><td colspan="2"><strong>Contrôle équilibre</strong></td><td colspan="3" style="text-align:right;">SI: ${cgncMoney(round2(totals[0]-totals[1]))}</td><td colspan="3" style="text-align:right;">SF: ${cgncMoney(round2(totals[4]-totals[5]))}</td></tr>`;
+  document.getElementById('cgnc-report-body').innerHTML = cgncGeneralBalanceTable(rows, footer);
   cgncReportState.exportRows = rows;
 }
 function invoiceDate(e) { const raw = e.dueDate || e.echeance || e.date; if (raw) return new Date(raw); return new Date(currentYear, Number(e.mois || 1) - 1, Number(e.jour || 1) + 30); }
 function openAgedBalanceReport() {
   cgncReportState.type = 'aged-balance';
   cgncFilterBar(`<div class="fg"><label>Type de tiers</label><select id="cgnc-aging-type" onchange="renderAgedBalanceReport()"><option value="all">Clients + Fournisseurs</option><option value="client">Clients 3421</option><option value="supplier">Fournisseurs 4411</option></select></div><div class="fg"><label>Au</label><input id="cgnc-aging-date" type="date" value="${new Date().toISOString().slice(0,10)}" onchange="renderAgedBalanceReport()"></div>`);
-  cgncSet('Balance Âgée CGNC', 'Créances clients et dettes fournisseurs par échéance', ['Code Tiers','Nom / Raison Sociale','Non Échu','0-30 Jours','31-60 Jours','61-90 Jours','+90 Jours','Total Dû'], [], renderAgedBalanceReport);
+  cgncSet('LA BALANCE ÂGÉE', 'Créances clients et dettes fournisseurs par échéance', ['Code Tiers','Nom / Raison Sociale','Non Échu','0-30 Jours','31-60 Jours','61-90 Jours','+90 Jours','Total Dû'], [], renderAgedBalanceReport);
 }
 function renderAgedBalanceReport() {
   const type = document.getElementById('cgnc-aging-type')?.value || 'all'; const asOf = new Date(document.getElementById('cgnc-aging-date')?.value || new Date()); const groups = {};
@@ -2465,7 +2488,7 @@ function renderThirdPartyLedger() {
 }
 function menuSetting(label) { showPanel('parametrage'); showToast(label + ' : configuration disponible dans Paramètres', 'info'); }
 function handleMenuAction(action) {
-  const reports = {'aged-balance':'Balance Âgée','report-ledger':'Grand Livre','report-journals':'Journaux','central-journal':'Journal Centralisateur','balance-sheet':'Bilan','client-invoices':'Factures Clients','tax-determination':"Détermination d'impôt",'payment-delays':'Délais de Paiement','professional-tax':'Taxes Professionnel',fees:'Honoraires','lawyer-edi':'EDI des avocats'};
+  const reports = {'aged-balance':'LA BALANCE ÂGÉE','report-ledger':'Grand Livre','report-journals':'Journaux','central-journal':'Journal Centralisateur','balance-sheet':'Bilan','client-invoices':'Factures Clients','tax-determination':"Détermination d'impôt",'payment-delays':'Délais de Paiement','professional-tax':'Taxes Professionnel',fees:'Honoraires','lawyer-edi':'EDI des avocats'};
   if (action === 'new-dossier' || action === 'open-dossier') { showDossierScreen(); return; }
   if (action === 'quit') { if (window.confirm('Enregistrer l’état du dossier avant de quitter ?')) showToast('État du dossier conservé ✓', 'success'); showDossierScreen(); return; }
   if (action === 'guided-entry' || action === 'entry-template') { showPanel('saisie'); showToast(action === 'guided-entry' ? 'Saisie guidée activée' : 'Modèles de saisie prêts à utiliser', 'info'); return; }

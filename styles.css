@@ -286,6 +286,28 @@ table.saisie-table tbody tr:nth-child(even) td {
 table.saisie-table tbody tr:hover td {
   background-color:#f1f5f9 !important;
 }
+.cgnc-balance-table {
+  width:100%;
+  border-collapse:collapse;
+}
+.cgnc-balance-table th,
+.cgnc-balance-table td {
+  border:1px solid #d1d5db;
+  padding:7px 8px;
+}
+.cgnc-balance-table thead th {
+  background:#e2e8f0;
+  color:#1e293b;
+  font-weight:700;
+  text-align:center;
+  white-space:nowrap;
+}
+.cgnc-balance-table tbody tr:nth-child(even) td {
+  background:#f8fafc;
+}
+.cgnc-balance-table .total-row td {
+  background:#e2e8f0;
+}
 #entry-table input, table.saisie-table input {
   border:1px solid transparent !important;
   background:transparent !important;
