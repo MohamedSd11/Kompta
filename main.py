@@ -5,10 +5,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from api import accounts_router, clients_router, export_portfolio_tva_excel, export_tva_excel, ocr_router, router as exports_router
-from api import compute_liasse_endpoint, export_simpl_is, list_journal_entries, post_journal_entry, reverse_journal_entry
+from api import compute_liasse_endpoint, export_simpl_is, list_journal_audit, list_journal_entries, post_journal_entry, reverse_journal_entry, save_journal_draft
 
 app = FastAPI(title="Kompta - DGI SIMPL Export Engine")
 app.add_api_route("/api/journal-entries", list_journal_entries, methods=["GET"])
+app.add_api_route("/api/journal-audit", list_journal_audit, methods=["GET"], tags=["journal"])
+app.add_api_route("/api/journal-drafts", save_journal_draft, methods=["POST"], tags=["journal"])
 
 
 def local_development_origins() -> list[str]:

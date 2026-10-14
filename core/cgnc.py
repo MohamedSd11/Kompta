@@ -2,8 +2,8 @@
 
 `cgnc_standard_accounts.json` contains the complete class 1–8 chart extracted from
 the supplied PCGE. The supplement is retained for deployments whose chart has not
-yet been refreshed. An account is valid when its code is listed, or extends a
-listed code (e.g. 44110002 under 4411, 3455220 under 34552).
+yet been refreshed. General ledger account validation uses exact listed codes;
+third-party extensions are stored separately as auxiliary contacts.
 """
 from __future__ import annotations
 
@@ -86,4 +86,15 @@ def cgnc_root(code: str) -> str | None:
 
 
 def is_cgnc_account(code: str) -> bool:
-    return cgnc_root(code) is not None
+    return is_listed_cgnc_account(code)
+
+
+@lru_cache(maxsize=1)
+def listed_cgnc_codes() -> frozenset[str]:
+    """Return only account codes explicitly present in the CGNC datasets."""
+    return frozenset(account["code"] for account in chart_of_accounts())
+
+
+def is_listed_cgnc_account(code: str) -> bool:
+    """Check an exact chart entry, without accepting arbitrary extensions."""
+    return str(code).strip() in listed_cgnc_codes()

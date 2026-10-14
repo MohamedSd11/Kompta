@@ -69,8 +69,31 @@ The reseed completely replaces `pcm_accounts`, inserts the eight class heading
 nodes and all account rows with their PCGE hierarchy levels, and removes stale
 dossier auxiliary-account rows. Journal entries are preserved. The Plan
 Comptable view groups the seeded rows by class and indents each hierarchy level;
-account autocomplete searches the same database and does not suggest class
-headings or local auxiliary codes.
+account autocomplete searches only exact CGNC entries and does not suggest
+class headings or dossier auxiliary contacts.
+
+Account entry suggestions and posting validation accept exact official CGNC
+accounts with four or five digits. The purchase VAT calculator defaults to
+`34552`; the four-digit `3455` root remains available.
+
+Client and supplier contacts are stored in `auxiliary_accounts`, separate from
+the official `pcm_accounts` general ledger. On startup, a one-time migration
+converts legacy 8-digit client/supplier codes on posted lines into the 4-digit
+general account plus the original auxiliary code. Amounts, descriptions, entry
+records, and existing audit logs are retained; the conversion is recorded in
+`journal_account_migrations`.
+
+### Auxiliary journals
+
+The entry form supplies the fixed bank (`5141`) or cash (`5161`) account for
+bank and cash journals. Bank entries require a payment reference; supplier
+purchase entries require an invoice reference. Sales and purchase templates
+calculate balanced HT, VAT, and TTC lines from either an entered HT or TTC
+amount and the selected VAT rate. A cash disbursement that would make account
+`5161` negative is blocked. The Audit journal is read-only; saved drafts,
+validated entries, and reversals are shown with their current status.
+When a debit amount is entered, leaving the field fills the next empty row's
+credit with the same amount; credit rows are visually indented in the entry grid.
 
 To stop the backend, go back to the terminal and press `Ctrl+C`. You need
 to restart it (`python run.py`) each time you want to use the export

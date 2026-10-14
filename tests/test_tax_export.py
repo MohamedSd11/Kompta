@@ -9,6 +9,7 @@ from datetime import date
 from decimal import Decimal
 from io import BytesIO
 import asyncio
+import json
 
 import pytest
 import sqlite3
@@ -41,7 +42,7 @@ from core.models import (
 from core.validators import validate_releve_deductions
 from core.xml_builders import build_etat_9421_xml, build_releve_deductions_xml
 from core.xsd_validator import validate_against_schema
-from core.journal_service import JournalEntryPost, JournalRepository, JournalLine
+from core.journal_service import JournalDraftSave, JournalEntryPost, JournalRepository, JournalLine
 from core.ocr_service import OcrDocumentStore
 from core.export_safety import EXPORT_SAFETY_HEADER, EXPORT_SAFETY_LABEL
 from core.storage import PROJECT_ROOT, resolve_database_path
@@ -250,16 +251,23 @@ class TestAppendOnlyJournal:
         with repository._connect() as db:
             db.executemany(
                 "INSERT INTO pcm_accounts(code, label, updated_at) VALUES (?, ?, ?)",
-                [("6125", "Charges", "now"), ("4411", "Fournisseurs", "now")],
+                [("6125", "Charges", "now"), ("6111", "Achats", "now"),
+                 ("3421", "Clients", "now"),
+                 ("3455", "TVA récupérable", "now"), ("4455", "TVA facturée", "now"),
+                 ("7111", "Ventes", "now"), ("7121", "Services", "now"),
+                 ("4411", "Fournisseurs", "now")],
             )
             db.execute("INSERT INTO auxiliary_accounts(code, label, root_code, client_id, account_type, updated_at) VALUES ('44110001', 'Fournisseur', '4411', 'C001', 'Fournisseur', 'now')")
+            db.execute("INSERT INTO auxiliary_accounts(code, label, root_code, client_id, account_type, updated_at) VALUES ('34210001', 'Client', '3421', 'C001', 'Client', 'now')")
         return repository
 
     def _request(self):
         return JournalEntryPost(
             userId="user-1", clientId="C001", year=2026, journal="ACHATS", date="2026-09-10",
+            reference="FA-2026-001",
             lines=[
-                JournalLine(compte="6125", libelle="Achat", debit=100),
+                JournalLine(compte="6111", libelle="Achat", debit=80),
+                JournalLine(compte="3455", libelle="TVA", debit=20),
                 JournalLine(compte="4411", auxiliaire="44110001", libelle="Fournisseur", credit=100),
             ],
         )
@@ -269,17 +277,57 @@ class TestAppendOnlyJournal:
         first = repository.post(self._request())
         second = repository.post(self._request())
         assert (first.entry_number, second.entry_number) == (1, 2)
+        assert (first.piece_number, second.piece_number) == ("JA-001", "JA-002")
         with pytest.raises(sqlite3.IntegrityError):
             with repository._connect() as db:
                 db.execute("UPDATE journal_entries SET label='tampered' WHERE id=?", (first.entry_id,))
+
+    def test_piece_sequences_are_independent_per_journal(self, tmp_path):
+        repository = self._repository(tmp_path)
+        purchase = repository.post(self._request())
+        bank = repository.post(self._request().model_copy(update={
+            "journal": "BANQUE", "reference": "Virement 001",
+            "lines": [
+                JournalLine(compte="4411", auxiliaire="44110001", debit=100),
+                JournalLine(compte="5141", credit=100),
+            ],
+        }))
+        next_purchase = repository.post(
+            self._request().model_copy(update={"piece_number_hint": "JA-009"})
+        )
+
+        assert purchase.piece_number == "JA-001"
+        assert bank.piece_number == "JB-001"
+        assert next_purchase.piece_number == "JA-009"
+        assert (purchase.entry_number, bank.entry_number, next_purchase.entry_number) == (1, 2, 3)
 
     def test_reversal_creates_new_entry_without_editing_original(self, tmp_path):
         repository = self._repository(tmp_path)
         original = repository.post(self._request())
         reversal = repository.reverse(original.entry_id, "user-1")
         assert reversal.entry_id != original.entry_id
+        with pytest.raises(ValueError, match="déjà été contre-passée"):
+            repository.reverse(original.entry_id, "user-1")
         with repository._connect() as db:
             assert db.execute("SELECT COUNT(*) FROM audit_logs WHERE action_type='REVERSAL'").fetchone()[0] == 1
+
+    def test_audit_history_lists_creation_validation_and_reversal_scoped_to_year(self, tmp_path):
+        repository = self._repository(tmp_path)
+        original = repository.post(self._request())
+        repository.reverse(original.entry_id, "user-1")
+
+        events = repository.list_audit_logs("C001", 2026)
+        other_exercise = repository.list_audit_logs("C001", 2025)
+
+        assert [event["actionType"] for event in events] == [
+            "REVERSAL", "POST", "CREATE", "POST", "CREATE"
+        ]
+        assert events[0]["details"]["sourcePiece"] == "JA-001"
+        assert events[0]["status"] == "VALIDATED"
+        assert all(event["status"] == "REVERSED" for event in events[3:])
+        assert all(event["userId"] == "user-1" for event in events)
+        assert all(event["piece"] for event in events)
+        assert other_exercise == []
 
     def test_list_entries_is_scoped_to_client_and_exercise(self, tmp_path):
         repository = self._repository(tmp_path)
@@ -287,6 +335,7 @@ class TestAppendOnlyJournal:
         other_client = self._request().model_copy(update={
             "client_id": "C002",
             "year": 2025,
+            "journal": "OD",
             "lines": [
                 JournalLine(compte="6125", debit=100),
                 JournalLine(compte="6125", credit=100),
@@ -303,16 +352,22 @@ class TestAppendOnlyJournal:
     @staticmethod
     def _catalog_entry(client_id, supplier_code="44110002"):
         catalog = [
-            {"code": "6125", "label": "Électricité et eau", "type": "parent"},
+            {"code": "6111", "label": "Achats de marchandises", "type": "parent"},
+            {"code": "3455", "label": "TVA récupérable", "type": "parent"},
             {"code": "4411", "label": "Fournisseurs", "type": "parent"},
-            {"code": supplier_code, "label": "Rédal Tétouan", "type": "divisionnaire", "parent": "4411",
+        ]
+        auxiliary_catalog = [
+            {"compte_auxiliaire": supplier_code, "libelle": "Rédal Tétouan",
+             "compte_racine": "4411", "type_tiers": "Fournisseur",
              "ice": "000123456789012", "identifiant_fiscal": "12345678"},
         ]
         return JournalEntryPost(
-            clientId=client_id, year=2026, journal="ACHATS", date="2026-06-01", accountCatalog=catalog,
+            clientId=client_id, year=2026, journal="ACHATS", date="2026-06-01",
+            reference="FA-2026-002", accountCatalog=catalog, auxiliaryCatalog=auxiliary_catalog,
             lines=[
-                JournalLine(compte="6125", debit=6000),
-                JournalLine(compte=supplier_code, auxiliaire=supplier_code, credit=6000),
+                JournalLine(compte="6111", debit=5000),
+                JournalLine(compte="3455", debit=1000),
+                JournalLine(compte="4411", auxiliaire=supplier_code, credit=6000),
             ],
         )
 
@@ -321,10 +376,11 @@ class TestAppendOnlyJournal:
 
         posted = repository.post(self._catalog_entry("C001"))
 
-        assert posted.piece_number == "JA-000001"
+        assert posted.piece_number == "JA-001"
         with repository._connect() as db:
             row = db.execute("SELECT root_code, client_id, ice, tax_id, account_type FROM auxiliary_accounts").fetchone()
         assert tuple(row) == ("4411", "C001", "000123456789012", "12345678", "Fournisseur")
+        assert "44110002" not in {account["code"] for account in repository.list_pcge_accounts()}
 
     def test_shared_supplier_code_is_registered_per_dossier(self, tmp_path):
         repository = JournalRepository(tmp_path / "journal.sqlite3")
@@ -340,12 +396,112 @@ class TestAppendOnlyJournal:
     def test_unregistered_auxiliary_is_still_rejected(self, tmp_path):
         repository = self._repository(tmp_path)
         request = self._request().model_copy(update={"lines": [
-            JournalLine(compte="6125", debit=100),
+            JournalLine(compte="6111", debit=80),
+            JournalLine(compte="3455", debit=20),
             JournalLine(compte="4411", auxiliaire="44119999", credit=100),
         ]})
 
         with pytest.raises(ValueError, match="Invalid auxiliary account"):
             repository.post(request)
+
+    def test_legacy_tier_account_codes_are_migrated_without_losing_entry_data(self, tmp_path):
+        database = tmp_path / "legacy-tier.sqlite3"
+        with sqlite3.connect(database) as db:
+            db.executescript(
+                """CREATE TABLE pcm_accounts (
+                       code TEXT PRIMARY KEY, label TEXT NOT NULL, parent TEXT,
+                       account_type TEXT NOT NULL DEFAULT 'parent', updated_at TEXT NOT NULL
+                   );
+                   INSERT INTO pcm_accounts(code, label, updated_at)
+                       VALUES ('3421', 'Clients', 'old'), ('34210001', 'Client Karim', 'old');
+                   CREATE TABLE journal_entries (
+                       id INTEGER PRIMARY KEY, client_id TEXT NOT NULL, year INTEGER NOT NULL,
+                       entry_number INTEGER NOT NULL, piece_number TEXT NOT NULL, journal TEXT NOT NULL,
+                       entry_date TEXT NOT NULL, reference TEXT NOT NULL, label TEXT NOT NULL,
+                       user_id TEXT NOT NULL, posted_at TEXT NOT NULL
+                   );
+                   INSERT INTO journal_entries VALUES
+                       (1, 'C001', 2026, 1, 'JV-001', 'VENTES', '2026-02-01', 'FA-1',
+                        'Facture Karim', 'user-1', '2026-02-01T00:00:00Z');
+                   CREATE TABLE journal_lines (
+                       id INTEGER PRIMARY KEY, entry_id INTEGER NOT NULL, line_number INTEGER NOT NULL,
+                       account_code TEXT NOT NULL, auxiliary_code TEXT, label TEXT NOT NULL,
+                       debit NUMERIC NOT NULL, credit NUMERIC NOT NULL, invoice TEXT NOT NULL,
+                       vat_rate NUMERIC NOT NULL
+                   );
+                   INSERT INTO journal_lines VALUES
+                       (1, 1, 1, '34210001', NULL, 'Facture Karim', 120, 0, 'FA-1', 0);"""
+            )
+
+        repository = JournalRepository(database)
+
+        with repository._connect() as db:
+            line = db.execute(
+                "SELECT account_code, auxiliary_code, label, debit, credit FROM journal_lines WHERE id=1"
+            ).fetchone()
+            migration = db.execute(
+                "SELECT migrated_lines_json FROM journal_account_migrations "
+                "WHERE migration_key='tier_account_codes_to_auxiliary_v1'"
+            ).fetchone()
+            contact = db.execute(
+                "SELECT code, label, root_code FROM auxiliary_accounts WHERE client_id='C001'"
+            ).fetchone()
+            fake_account = db.execute(
+                "SELECT 1 FROM pcm_accounts WHERE code='34210001'"
+            ).fetchone()
+
+        assert tuple(line) == ("3421", "34210001", "Facture Karim", 120, 0)
+        assert json.loads(migration["migrated_lines_json"]) == [{
+            "lineId": 1, "entryId": 1, "oldAccount": "34210001",
+            "account": "3421", "auxiliary": "34210001",
+        }]
+        assert tuple(contact) == ("34210001", "Client Karim", "3421")
+        assert fake_account is None
+        assert repository.list_entries("C001", 2026)[0]["lines"][0]["compte"] == "3421"
+
+    def test_general_accounts_must_be_exact_cgnc_entries(self, tmp_path):
+        repository = self._repository(tmp_path)
+        request = self._request().model_copy(update={"lines": [
+            JournalLine(compte="34210001", auxiliaire="34210001", debit=100),
+            JournalLine(compte="6111", credit=100),
+        ]})
+
+        with pytest.raises(ValueError, match="absent du référentiel CGNC"):
+            repository.post(request)
+
+    def test_official_five_digit_account_is_valid_and_not_a_tier_account(self, tmp_path):
+        repository = self._repository(tmp_path)
+        with repository._connect() as db:
+            db.executemany(
+                "INSERT INTO pcm_accounts(code, label, updated_at) VALUES (?, ?, 'now')",
+                [("34211", "Clients catégorie A"), ("34210001", "Faux client")],
+            )
+        request = JournalEntryPost(
+            clientId="C001", year=2026, journal="OD", date="2026-09-10",
+            lines=[
+                JournalLine(compte="34211", debit=100),
+                JournalLine(compte="6111", credit=100),
+            ],
+        )
+
+        posted = repository.post(request)
+
+        assert repository.list_entries("C001", 2026)[0]["serverEntryId"] == posted.entry_id
+        suggestions = repository.search_pcge_accounts("3421")
+        assert "34211" in {account["code"] for account in suggestions}
+        assert "34210001" not in {account["code"] for account in suggestions}
+
+    def test_purchase_accepts_official_five_digit_vat_account(self, tmp_path):
+        repository = self._repository(tmp_path)
+        request = self._request().model_copy(update={"lines": [
+            JournalLine(compte="6111", debit=80),
+            JournalLine(compte="34552", debit=20),
+            JournalLine(compte="4411", auxiliaire="44110001", credit=100),
+        ]})
+
+        posted = repository.post(request)
+
+        assert posted.piece_number == "JA-001"
 
     def test_legacy_auxiliary_table_is_migrated_to_per_dossier_key(self, tmp_path):
         database = tmp_path / "legacy.sqlite3"
@@ -380,6 +536,147 @@ class TestAppendOnlyJournal:
             repository.reverse(original.entry_id, "local-owner", "C001", 2025)
 
         assert repository.list_entries("C001", 2026)[0]["serverEntryId"] == original.entry_id
+
+    def test_auxiliary_journal_aliases_are_normalized(self):
+        request = JournalEntryPost.model_validate({
+            **self._request().model_dump(by_alias=True), "journal": "AC",
+        })
+
+        assert request.journal == "ACHATS"
+
+    def test_bank_posting_requires_fixed_account_and_payment_reference(self, tmp_path):
+        repository = self._repository(tmp_path)
+        bank_lines = [
+            JournalLine(compte="4411", auxiliaire="44110001", debit=100),
+            JournalLine(compte="5141", credit=100),
+        ]
+
+        with pytest.raises(ValueError, match="5141 doit apparaître exactement une fois"):
+            repository.post(self._request().model_copy(update={
+                "journal": "BANQUE", "reference": "Virement", "lines": self._request().lines,
+            }))
+        with pytest.raises(ValueError, match="Référence / Mode de règlement obligatoire"):
+            repository.post(self._request().model_copy(update={
+                "journal": "BANQUE", "reference": "", "lines": bank_lines,
+            }))
+
+    def test_cash_disbursement_cannot_make_cash_balance_negative(self, tmp_path):
+        repository = self._repository(tmp_path)
+        request = self._request().model_copy(update={
+            "journal": "CAISSE",
+            "cash_opening_balance": 20,
+            "lines": [
+                JournalLine(compte="4411", auxiliaire="44110001", debit=30),
+                JournalLine(compte="5161", credit=30),
+            ],
+        })
+
+        with pytest.raises(ValueError, match="Solde de caisse insuffisant"):
+            repository.post(request)
+        assert repository.list_entries("C001", 2026) == []
+
+    def test_cash_disbursement_is_allowed_with_sufficient_opening_cash(self, tmp_path):
+        repository = self._repository(tmp_path)
+        request = self._request().model_copy(update={
+            "journal": "CAISSE",
+            "cash_opening_balance": 100,
+            "lines": [
+                JournalLine(compte="4411", auxiliaire="44110001", debit=30),
+                JournalLine(compte="5161", credit=30),
+            ],
+        })
+
+        posted = repository.post(request)
+
+        assert posted.piece_number == "JC-001"
+        assert repository.list_entries("C001", 2026)[0]["journal"] == "CAISSE"
+
+    def test_sale_and_purchase_templates_require_reference_and_template_accounts(self, tmp_path):
+        repository = self._repository(tmp_path)
+        sales = JournalEntryPost(
+            clientId="C001", year=2026, journal="VENTES", date="2026-09-10",
+            lines=[
+                JournalLine(compte="3421", auxiliaire="34210001", debit=120),
+                JournalLine(compte="7111", credit=100),
+                JournalLine(compte="4455", credit=20),
+            ],
+        )
+
+        with pytest.raises(ValueError, match="N° facture client obligatoire"):
+            repository.post(sales)
+        with pytest.raises(ValueError, match="N° Facture Fournisseur obligatoire"):
+            repository.post(self._request().model_copy(update={"reference": ""}))
+
+    def test_purchase_accepts_any_four_digit_class_six_account(self, tmp_path):
+        repository = self._repository(tmp_path)
+        request = self._request().model_copy(update={"lines": [
+            JournalLine(compte="6125", debit=80),
+            JournalLine(compte="3455", debit=20),
+            JournalLine(compte="4411", auxiliaire="44110001", credit=100),
+        ]})
+
+        posted = repository.post(request)
+
+        assert posted.piece_number == "JA-001"
+
+    def test_sales_accepts_any_four_digit_class_seven_account(self, tmp_path):
+        repository = self._repository(tmp_path)
+        request = JournalEntryPost(
+            clientId="C001", year=2026, journal="VENTES", date="2026-09-10",
+            reference="FA-2026-001",
+            lines=[
+                JournalLine(compte="3421", auxiliaire="34210001", debit=120),
+                JournalLine(compte="7121", credit=100),
+                JournalLine(compte="4455", credit=20),
+            ],
+        )
+
+        posted = repository.post(request)
+
+        assert posted.piece_number == "JV-001"
+
+    def test_posting_rejects_general_account_codes_longer_than_four_digits(self, tmp_path):
+        repository = self._repository(tmp_path)
+        request = self._request().model_copy(update={"lines": [
+            JournalLine(compte="61111", debit=80),
+            JournalLine(compte="3455", debit=20),
+            JournalLine(compte="4411", auxiliaire="44110001", credit=100),
+        ]})
+
+        with pytest.raises(ValueError, match="absent du référentiel CGNC"):
+            repository.post(request)
+
+    def test_saved_draft_appears_in_audit_and_becomes_validated_when_posted(self, tmp_path):
+        repository = self._repository(tmp_path)
+        draft_id = repository.save_draft(JournalDraftSave(
+            clientId="C001", year=2026, journal="ACHATS", date="2026-09-10",
+            reference="FA-2026-001", libelle="Brouillon achat",
+            lines=[{"compte": "6111", "debit": 80}],
+        ))
+
+        draft_events = repository.list_audit_logs("C001", 2026)
+        assert len(draft_events) == 1
+        assert draft_events[0]["status"] == "DRAFT"
+        assert draft_events[0]["details"]["lines"] == [{"compte": "6111", "debit": 80}]
+
+        repository.post(self._request().model_copy(update={"draft_id": draft_id}))
+
+        assert repository.list_audit_logs("C001", 2026)[0]["status"] == "VALIDATED"
+        with repository._connect() as db:
+            status, posted_entry_id = db.execute(
+                "SELECT status, posted_entry_id FROM journal_drafts WHERE draft_id=?",
+                (draft_id,),
+            ).fetchone()
+        assert status == "VALIDATED"
+        assert posted_entry_id == 1
+
+    def test_audit_journal_cannot_be_saved_as_a_draft(self, tmp_path):
+        repository = self._repository(tmp_path)
+
+        with pytest.raises(ValueError, match="lecture seule"):
+            repository.save_draft(JournalDraftSave(
+                clientId="C001", year=2026, journal="AUDIT", date="2026-09-10",
+            ))
 
 
 class TestLiasseMappingSchema:

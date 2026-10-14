@@ -23,7 +23,7 @@ from core.export_service_types import ExportOutcome
 from core.liasse_models import LiasseComputeRequest
 from core.liasse_service import build_simpl_is_xml, compute_liasse, validate_simpl_is_xml
 from core.models import Etat9421, ExcelExportRequest, PortfolioExcelRequest, ReleveDeductions
-from core.journal_service import JournalEntryPost, JournalEntryPosted, JournalRepository
+from core.journal_service import JournalDraftSave, JournalEntryPost, JournalEntryPosted, JournalRepository
 from core.client_service import ClientRepository, ClientUpsert, FiscalYearUpsert
 from core.ocr_service import OcrDocumentStore
 from core.validators import validate_etat_9421, validate_releve_deductions
@@ -167,9 +167,25 @@ def post_journal_entry(request: JournalEntryPost):
         raise HTTPException(status_code=422, detail={"message": str(error)}) from error
 
 
+def save_journal_draft(request: JournalDraftSave):
+    """Persist an editable journal draft for the audit register."""
+    try:
+        draft_id = journal_repository.save_draft(
+            request.model_copy(update={"user_id": LOCAL_ACTOR})
+        )
+        return {"draftId": draft_id}
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail={"message": str(error)}) from error
+
+
 def list_journal_entries(client_id: str, year: int):
     """Read only entries matching the active local dossier and fiscal year."""
     return journal_repository.list_entries(client_id, year)
+
+
+def list_journal_audit(client_id: str, year: int):
+    """Read immutable audit events for the active local dossier and fiscal year."""
+    return journal_repository.list_audit_logs(client_id, year)
 
 
 @router.post("/journal-entries/{entry_id}/reversal", response_model=JournalEntryPosted)

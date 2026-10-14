@@ -48,6 +48,7 @@
     <div class="ns">Navigation</div>
     <button class="ni active" data-action="showPanel('home')">🏠 Tableau de bord</button>
     <button class="ni" data-action="showPanel('saisie')">✏️ Saisie</button>
+    <button class="ni" data-action="showPanel('audit')">📋 Journal Audit</button>
     <button class="ni" data-action="showPanel('consultation')">📖 Consultation</button>
     <button class="ni" data-action="showPanel('traitement')">⚙️ Traitements</button>
     <button class="ni" data-action="showPanel('etats')">📊 États</button>
@@ -84,6 +85,7 @@
       <button class="mb-btn" data-action="showPanel('saisie')">Saisie</button>
       <div class="dropdown">
         <div class="dd-item" data-action="showPanel('saisie')">Saisie libre</div>
+        <div class="dd-item" data-action="showPanel('audit')">Journal Audit</div>
         <div class="dd-item" data-action="handleMenuAction('guided-entry')">Saisie guidée</div>
         <div class="dd-item" data-action="handleMenuAction('entry-template')">Modèles de saisie</div>
       </div>
@@ -323,37 +325,44 @@
     <div class="panel" id="panel-saisie">
       <div class="jh">
         <div class="fg"><label>Journal</label>
-          <select id="saisie-journal" style="min-width:180px;" onchange="suggestPiece()">
-            <option value="A ENCAISSER">A ENCAISSER</option>
-            <option value="A NOUVEAU">A NOUVEAU</option>
-            <option value="ACHATS" selected>ACHATS</option>
-            <option value="AMORTISSEMENT">AMORTISSEMENT</option>
-            <option value="AVOIRS">AVOIRS</option>
-            <option value="CAISSE">CAISSE</option>
-            <option value="DECLARATION TVA">DECLARATION TVA</option>
-            <option value="EFFETS">EFFETS</option>
-            <option value="BANQUE">BANQUE</option>
-            <option value="VENTES">VENTES</option>
+          <select id="saisie-journal" style="min-width:180px;" onchange="handleSaisieJournalChange()">
+            <option value="VENTES">Journal des Ventes (VT)</option>
+            <option value="ACHATS" selected>Journal des Achats (AC)</option>
+            <option value="BANQUE">Journal de Banque (BQ)</option>
+            <option value="CAISSE">Journal de Caisse (CA)</option>
+            <option value="OD">Journal Audit (OD)</option>
           </select>
         </div>
-        <div class="fg"><label>Date</label><input type="date" id="saisie-date" value="2026-06-11"></div>
-        <div class="fg"><label>N° Pièce</label><input type="text" id="saisie-piece" placeholder="Auto" style="width:90px;"></div>
-        <div class="fg"><label>Référence</label><input type="text" id="saisie-ref" placeholder="FAC-2026-001" style="width:130px;"></div>
-        <div class="fg"><label>Libellé général</label><input type="text" id="saisie-libelle" placeholder="Description..." style="width:200px;" oninput="mirrorLibelle()"></div>
-        <button class="btn btn-s" data-action="calcHtTva()" style="align-self:flex-end;">🧮 Calculer HT+TVA</button>
-        <button class="btn btn-s" data-action="openModal('modalOCR')" style="align-self:flex-end;">📎 OCR</button>
+        <div class="fg saisie-entry-control"><label>Date</label><input type="date" id="saisie-date" value="2026-06-11"></div>
+        <div class="fg saisie-entry-control"><label>N° Pièce</label><input type="text" id="saisie-piece" placeholder="Auto" style="width:90px;"></div>
+        <div class="fg saisie-entry-control"><label id="saisie-ref-label">Référence</label><input type="text" id="saisie-ref" placeholder="FAC-2026-001" style="width:150px;" oninput="computeTotals()"></div>
+        <div class="fg saisie-entry-control" id="saisie-operation-control" style="display:none;"><label>Opération</label>
+          <select id="saisie-operation" onchange="configureJournalForm(true)">
+            <option value="RECEIPT">Règlement client reçu</option>
+            <option value="PAYMENT">Paiement fournisseur</option>
+          </select>
+        </div>
+        <div class="fg saisie-entry-control" id="saisie-amount-type-control" style="display:none;"><label>Montant saisi</label>
+          <select id="saisie-amount-type"><option value="TTC">TTC</option><option value="HT">HT</option></select>
+        </div>
+        <div class="fg saisie-entry-control" id="saisie-vat-rate-control" style="display:none;"><label>Taux de TVA</label>
+          <select id="saisie-vat-rate"><option value="0">0%</option><option value="7">7%</option><option value="10">10%</option><option value="14">14%</option><option value="20" selected>20%</option></select>
+        </div>
+        <div class="fg saisie-entry-control"><label>Libellé général</label><input type="text" id="saisie-libelle" placeholder="Description..." style="width:200px;" oninput="mirrorLibelle()"></div>
+        <button class="btn btn-s saisie-entry-control" data-action="calcHtTva()" style="align-self:flex-end;">🧮 Calculer HT+TVA</button>
+        <button class="btn btn-s saisie-entry-control" data-action="openModal('modalOCR')" style="align-self:flex-end;">📎 OCR</button>
       </div>
+      <div id="saisie-entry-workspace">
       <div class="card">
         <div class="ch"><h3>Lignes d'écriture</h3><div style="display:flex;gap:6px;"><button class="btn btn-s btn-xs" data-action="addLine()">+ Ligne</button><button class="btn btn-s btn-xs" data-action="removeRow()">- Ligne</button></div></div>
         <div class="table-container">
         <table id="entry-table">
           <thead><tr>
-            <th style="width:112px;">N° facture</th>
-            <th style="width:142px;">N° compte</th>
-            <th class="libelle-header">Libellé écriture</th>
-            <th style="width:112px;">Date</th>
-            <th style="width:112px;text-align:right;">Débit</th>
-            <th style="width:112px;text-align:right;">Crédit</th>
+            <th style="width:16%;">N° COMPTE</th>
+            <th style="width:35%;">INTITULÉ</th>
+            <th style="width:16%;">DATE</th>
+            <th style="width:16%;text-align:right;">DÉBIT</th>
+            <th style="width:17%;text-align:right;">CRÉDIT</th>
           </tr></thead>
           <tbody id="lines-body"></tbody>
         </table>
@@ -364,17 +373,32 @@
           <div class="ti"><span class="tl">Solde</span><span class="tv balanced" id="total-ecart">0</span></div>
         </div>
       </div>
+      <div id="cash-balance-warning" class="warn" style="display:none;margin-top:10px;">Solde de caisse insuffisant</div>
       <div style="display:flex;gap:8px;justify-content:flex-end;">
         <button class="btn btn-s">Annuler</button>
+        <button class="btn btn-s" id="save-journal-draft" data-action="saveJournalDraft()">Enregistrer comme brouillon</button>
         <button class="btn btn-p" id="validate-entry" data-action="validerEcriture()" disabled>Valider l'écriture</button>
       </div>
       <div class="card" style="margin-top:16px;">
-        <div class="ch"><h3>Dernières écritures — <span id="recent-entries-year">Juin 2026</span></h3><button class="btn btn-s btn-xs">Num. Pièce Auto</button></div>
+        <div class="ch"><h3>Dernières écritures — <span id="recent-entries-year">Juin 2026</span></h3><button class="btn btn-s btn-xs" data-action="suggestPiece()">Num. Pièce Auto</button></div>
         <table>
           <thead><tr><th>N° Pièce</th><th>Date</th><th>Journal</th><th>N° Facture</th><th>Compte</th><th>Lettrage</th><th>Libellé</th><th style="text-align:right;">Débit</th><th style="text-align:right;">Crédit</th><th style="text-align:center;">Action</th></tr></thead>
           <tbody id="recent-entries-body">
           </tbody>
         </table>
+      </div>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-audit">
+      <div class="card">
+        <div class="ch"><h3>Registre d’audit / Piste d’audit</h3></div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>Date et heure</th><th>Date écriture</th><th>Utilisateur</th><th>Action</th><th>Statut</th><th>N° Pièce</th><th>Journal</th><th>Libellé / Détail</th></tr></thead>
+            <tbody id="journal-audit-body"><tr><td colspan="8" class="empty">Chargement du registre d’audit…</td></tr></tbody>
+          </table>
+        </div>
       </div>
     </div>
 

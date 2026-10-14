@@ -182,14 +182,8 @@ const DATA = {
     { id:'C009', name:'Traiteur Doha Events', ice:'009012345000011', forme:'Auto-entrepreneur', exercice:2026, tva_regime:'Encaissement', tva_periodicite:'Trimestrielle', status:'actif', balanceStatus:'ok', demoTresorerie:12750, demoChiffreAffaires:22000, demoTvaRate:20 },
     { id:'C010', name:'Transport Salim & Co', ice:'010123456000022', forme:'SARL', exercice:2026, tva_regime:'Débit', tva_periodicite:'Mensuelle', status:'actif', balanceStatus:'ok', demoTresorerie:38900, demoChiffreAffaires:48000, demoTvaRate:20 }
   ],
-  // Dossier-level sub-accounts only. The official chart is loaded from
-  // GET /api/accounts/cgnc (cgnc_standard_accounts.json) by loadCgncChart().
-  accounts: [
-    { code:'34210001', label:'Client Karim', type:'divisionnaire', parent:'3421' },
-    { code:'34210002', label:'Client Maroine', type:'divisionnaire', parent:'3421' },
-    { code:'3455220', label:'État TVA récupérable 20%', type:'divisionnaire', parent:'3455' },
-    { code:'445520', label:'État TVA facturée 20%', type:'divisionnaire', parent:'4455' }
-  ],
+  // Only verified CGNC accounts belong in this collection.
+  accounts: [],
   // Données comptables propres à chaque dossier (client) — clé = id du dossier
   clientData: {
     // ===== C001 — SARL Brahim & Fils (2026 actif, 2025 clôturé) =====
@@ -212,31 +206,31 @@ const DATA = {
         { piece:'JA-001', journal:'ACHATS', jour:'01', mois:'06', year:2026, libelle:'Facture Rédal électricité', n_facture:'FN2026-0541', n_mvt:262041, lines:[
           { compte:'6125', libelle:'Facture Rédal électricité', dbcr:'D', montant:5000, tva:0, code:0 },
           { compte:'3455220', libelle:'TVA récupérable 20%', dbcr:'D', montant:1000, tva:20, code:140 },
-          { compte:'44110002', libelle:'Rédal Tétouan', dbcr:'C', montant:6000, tva:0, code:0 }
+          { compte:'4411', auxiliaire:'44110002', libelle:'Rédal Tétouan', dbcr:'C', montant:6000, tva:0, code:0 }
         ]},
         { piece:'JV-001', journal:'VENTES', jour:'03', mois:'06', year:2026, libelle:'FAC-045 Client Karim', n_facture:'FA2026-045', n_mvt:262042, lines:[
-          { compte:'34210001', libelle:'FAC-045 Karim', dbcr:'D', montant:12000, tva:0, code:0 },
+          { compte:'3421', auxiliaire:'34210001', libelle:'FAC-045 Karim', dbcr:'D', montant:12000, tva:0, code:0 },
           { compte:'7111', libelle:'FAC-045 Karim', dbcr:'C', montant:10000, tva:0, code:0 },
           { compte:'445520', libelle:'TVA facturée 20%', dbcr:'C', montant:2000, tva:20, code:140 }
         ]},
         { piece:'JB-001', journal:'BANQUE', jour:'10', mois:'06', year:2026, libelle:'Règlement Karim', n_facture:'', n_mvt:262043, lines:[
           { compte:'5141', libelle:'Règlement Karim', dbcr:'D', montant:12000, tva:0, code:0 },
-          { compte:'34210001', libelle:'Règlement Karim', dbcr:'C', montant:12000, tva:0, code:0 }
+          { compte:'3421', auxiliaire:'34210001', libelle:'Règlement Karim', dbcr:'C', montant:12000, tva:0, code:0 }
         ]},
         // ----- Exercice 2025 (clôturé le 31/01/2026) — lecture seule -----
         { piece:'JA-001', journal:'ACHATS', jour:'05', mois:'03', year:2025, libelle:'Facture Orange Maroc', n_facture:'FN2025-0112', n_mvt:251001, lines:[
           { compte:'6125', libelle:'Facture Orange Maroc', dbcr:'D', montant:3000, tva:0, code:0 },
           { compte:'3455220', libelle:'TVA récupérable 20%', dbcr:'D', montant:600, tva:20, code:140 },
-          { compte:'44110001', libelle:'Orange Maroc', dbcr:'C', montant:3600, tva:0, code:0 }
+          { compte:'4411', auxiliaire:'44110001', libelle:'Orange Maroc', dbcr:'C', montant:3600, tva:0, code:0 }
         ]},
         { piece:'JV-001', journal:'VENTES', jour:'12', mois:'04', year:2025, libelle:'FAC-2025-032 Client Maroine', n_facture:'FA2025-032', n_mvt:251002, lines:[
-          { compte:'34210002', libelle:'FAC-032 Maroine', dbcr:'D', montant:9600, tva:0, code:0 },
+          { compte:'3421', auxiliaire:'34210002', libelle:'FAC-032 Maroine', dbcr:'D', montant:9600, tva:0, code:0 },
           { compte:'7111', libelle:'FAC-032 Maroine', dbcr:'C', montant:8000, tva:0, code:0 },
           { compte:'445520', libelle:'TVA facturée 20%', dbcr:'C', montant:1600, tva:20, code:140 }
         ]},
         { piece:'JB-001', journal:'BANQUE', jour:'20', mois:'04', year:2025, libelle:'Règlement Maroine', n_facture:'', n_mvt:251003, lines:[
           { compte:'5141', libelle:'Règlement Maroine', dbcr:'D', montant:9600, tva:0, code:0 },
-          { compte:'34210002', libelle:'Règlement Maroine', dbcr:'C', montant:9600, tva:0, code:0 }
+          { compte:'3421', auxiliaire:'34210002', libelle:'Règlement Maroine', dbcr:'C', montant:9600, tva:0, code:0 }
         ]}
       ]
     },
@@ -251,13 +245,13 @@ const DATA = {
       },
       journal_entries: [
         { piece:'JV-001', journal:'VENTES', jour:'08', mois:'02', year:2026, libelle:'Prestation design', n_facture:'AE2026-001', n_mvt:120001, lines:[
-          { compte:'34210001', libelle:'Prestation design', dbcr:'D', montant:6000, tva:0, code:0 },
+          { compte:'3421', auxiliaire:'34210001', libelle:'Prestation design', dbcr:'D', montant:6000, tva:0, code:0 },
           { compte:'7111', libelle:'Prestation design', dbcr:'C', montant:5000, tva:0, code:0 },
           { compte:'445520', libelle:'TVA facturée 20%', dbcr:'C', montant:1000, tva:20, code:140 }
         ]},
         { piece:'JB-001', journal:'BANQUE', jour:'15', mois:'02', year:2026, libelle:'Encaissement client', n_facture:'', n_mvt:120002, lines:[
           { compte:'5141', libelle:'Encaissement client', dbcr:'D', montant:6000, tva:0, code:0 },
-          { compte:'34210001', libelle:'Encaissement client', dbcr:'C', montant:6000, tva:0, code:0 }
+          { compte:'3421', auxiliaire:'34210001', libelle:'Encaissement client', dbcr:'C', montant:6000, tva:0, code:0 }
         ]}
       ]
     },
@@ -293,13 +287,13 @@ const DATA = {
       },
       journal_entries: [
         { piece:'JV-001', journal:'VENTES', jour:'06', mois:'01', year:2026, libelle:'Soins dentaires', n_facture:'CD2026-007', n_mvt:140001, lines:[
-          { compte:'34210002', libelle:'Soins dentaires', dbcr:'D', montant:3600, tva:0, code:0 },
+          { compte:'3421', auxiliaire:'34210002', libelle:'Soins dentaires', dbcr:'D', montant:3600, tva:0, code:0 },
           { compte:'7111', libelle:'Soins dentaires', dbcr:'C', montant:3000, tva:0, code:0 },
           { compte:'445520', libelle:'TVA facturée 20%', dbcr:'C', montant:600, tva:20, code:140 }
         ]},
         { piece:'JC-001', journal:'CAISSE', jour:'06', mois:'01', year:2026, libelle:'Encaissement espèces', n_facture:'', n_mvt:140002, lines:[
           { compte:'5161', libelle:'Encaissement espèces', dbcr:'D', montant:3600, tva:0, code:0 },
-          { compte:'34210002', libelle:'Encaissement espèces', dbcr:'C', montant:3600, tva:0, code:0 }
+          { compte:'3421', auxiliaire:'34210002', libelle:'Encaissement espèces', dbcr:'C', montant:3600, tva:0, code:0 }
         ]}
       ]
     }
@@ -315,8 +309,6 @@ DATA.dossiers.forEach(dossier => { dossier.isDemo = true; });
 // code → label map for quick resolution
 const ACCOUNTS = {};
 // Comptes divisionnaires fournisseurs (parent 4411) used by the account popup
-const SUPPLIERS = [];
-const REMOVED_LEGACY_ACCOUNT_CODES = new Set(['44110001', '44110002', '44110003']);
 // Official CGNC codes (cgnc_standard_accounts.json + supplement), filled by loadCgncChart().
 const CGNC_CODES = new Set();
 let PCM_HIERARCHY = [];
@@ -328,11 +320,10 @@ function cgncRoot(code) {
 }
 function rebuildAccountIndexes() {
   Object.keys(ACCOUNTS).forEach(code => delete ACCOUNTS[code]);
-  DATA.accounts.forEach(a => { ACCOUNTS[a.code] = a.label; });
+  DATA.accounts.filter(a => a.standard).forEach(a => { ACCOUNTS[a.code] = a.label; });
   // window.PCM_MAROC backs account lookups; PCM_HIERARCHY retains all tree nodes for the chart view.
   window.PCM_MAROC = DATA.accounts.filter(a => a.standard)
     .map(a => ({ code:a.code, libelle:a.label, classe:a.classe || Number(String(a.code).charAt(0)) }));
-  SUPPLIERS.splice(0, SUPPLIERS.length, ...DATA.accounts.filter(a => a.parent === CGNC.FOURNISSEURS));
 }
 rebuildAccountIndexes();
 function applyCgncChart(chart) {
@@ -349,8 +340,7 @@ function applyCgncChart(chart) {
     parent:a.parent,
     level:a.level
   }));
-  const local = DATA.accounts.filter(a => !a.standard && !CGNC_CODES.has(a.code) && cgncRoot(a.code));
-  DATA.accounts.splice(0, DATA.accounts.length, ...standard, ...local);
+  DATA.accounts.splice(0, DATA.accounts.length, ...standard);
   rebuildAccountIndexes();
 }
 async function loadCgncChart() {
@@ -384,16 +374,11 @@ function getAccountsByClass(classNumber) { return pcmBaseAccounts().map(pcmAccou
 
 // Journal definitions: display name + pièce prefix used for auto-numbering
 const JOURNALS = [
-  { name:'A ENCAISSER', prefix:'AE' },
-  { name:'A NOUVEAU', prefix:'AN' },
-  { name:'ACHATS', prefix:'JA' },
-  { name:'AMORTISSEMENT', prefix:'AM' },
-  { name:'AVOIRS', prefix:'AV' },
-  { name:'CAISSE', prefix:'JC' },
-  { name:'DECLARATION TVA', prefix:'DT' },
-  { name:'EFFETS', prefix:'EF' },
-  { name:'BANQUE', prefix:'JB' },
-  { name:'VENTES', prefix:'JV' }
+  { name:'VENTES', code:'VT', prefix:'JV' },
+  { name:'ACHATS', code:'AC', prefix:'JA' },
+  { name:'BANQUE', code:'BQ', prefix:'JB' },
+  { name:'CAISSE', code:'CA', prefix:'JC' },
+  { name:'OD', code:'OD', prefix:'OD' }
 ];
 function journalPrefix(name) { const j = JOURNALS.find(j => j.name === name); return j ? j.prefix : 'OD'; }
 
@@ -410,6 +395,28 @@ let pendingAuxImport = [];
 const AUX_FIELDS = ['compte_auxiliaire', 'libelle', 'compte_racine', 'ice', 'identifiant_fiscal', 'type_tiers'];
 const AUX_TYPES = ['Fournisseur', 'Client', 'Banque', 'Autre'];
 function activeAuxiliaryAccounts() { return AUXILIARY_ACCOUNTS[currentClientId] || (AUXILIARY_ACCOUNTS[currentClientId] = []); }
+function auxiliaryContact(code, clientId = currentClientId) {
+  return (AUXILIARY_ACCOUNTS[clientId] || []).find(account => account.compte_auxiliaire === code) || null;
+}
+function seedDemoAuxiliaryAccounts() {
+  const demoContacts = {
+    '34210001': { libelle:'Client Karim', ice:'002345678000012', identifiant_fiscal:'', type_tiers:'Client' },
+    '34210002': { libelle:'Client Maroine', ice:'', identifiant_fiscal:'', type_tiers:'Client' },
+    '44110001': { libelle:'Orange Maroc', ice:'', identifiant_fiscal:'', type_tiers:'Fournisseur' },
+    '44110002': { libelle:'Rédal Tétouan', ice:'', identifiant_fiscal:'', type_tiers:'Fournisseur' }
+  };
+  Object.entries(DATA.clientData).forEach(([clientId, data]) => {
+    const contacts = AUXILIARY_ACCOUNTS[clientId] || (AUXILIARY_ACCOUNTS[clientId] = []);
+    (data.journal_entries || []).forEach(entry => entry.lines.forEach(line => {
+      const code = line.auxiliaire;
+      const contact = demoContacts[code];
+      if (!contact || contacts.some(account => account.compte_auxiliaire === code)) return;
+      contacts.push({
+        ...contact, compte_auxiliaire:code, compte_racine:code.slice(0, 4)
+      });
+    }));
+  });
+}
 function currentClient() { return DATA.clientData[AppState.activeClientId] || { a_nouveaux_by_year:{}, journal_entries:[] }; }
 // Écritures du dossier actif.
 function clientEntries() { return currentClient().journal_entries || []; }
@@ -513,9 +520,9 @@ function renderSaisieHistory() {
       const d = lineDebit(l), c = lineCredit(l);
       const lineFact = l.facture || fact || '—';
       const tr = document.createElement('tr');
-      const action = li === 0
+      const action = li === 0 && e.status !== 'REVERSED'
         ? `<td rowspan="${e.lines.length}" style="text-align:center;white-space:nowrap;"><button class="btn btn-s btn-xs" style="color:var(--warning);" data-action="contrepasser('${e.piece}')">Contre-passer</button></td>`
-        : '';
+        : li === 0 ? `<td rowspan="${e.lines.length}" style="text-align:center;">REVERSED</td>` : '';
       const lettrage = l.lettre ? `<span class="badge-lettrage">${menuEscape(l.lettre)}</span>` : '<span style="color:var(--muted);">—</span>';
       tr.innerHTML = `<td>${e.piece}</td><td>${entryDate(e)}</td><td>${e.journal}</td><td>${factBadge(lineFact)}</td><td>${l.compte}</td><td>${lettrage}</td><td>${l.libelle||''}</td><td style="text-align:right;">${d ? fmtFR(d) : '—'}</td><td style="text-align:right;">${c ? fmtFR(c) : '—'}</td>${action}`;
       tb.appendChild(tr);
@@ -524,6 +531,49 @@ function renderSaisieHistory() {
 }
 // Backward-compat alias for existing callers.
 function renderRecentEntries() { renderSaisieHistory(); }
+
+let journalAuditRequest = 0;
+async function renderJournalAudit() {
+  const body = document.getElementById('journal-audit-body');
+  if (!body) return;
+  const request = ++journalAuditRequest;
+  body.innerHTML = '<tr><td colspan="8" class="empty">Chargement du registre d’audit…</td></tr>';
+  try {
+    const query = new URLSearchParams({ client_id:currentClientId, year:String(currentYear) });
+    const response = await fetch(`${KOMPTA_API_BASE}/api/journal-audit?${query}`);
+    if (!response.ok) throw new Error(`Lecture du registre d’audit impossible (HTTP ${response.status}).`);
+    const events = await response.json();
+    if (request !== journalAuditRequest || !document.getElementById('panel-audit')?.classList.contains('active')) return;
+    if (!events.length) {
+      body.innerHTML = '<tr><td colspan="8" class="empty">Aucun événement d’audit pour cet exercice.</td></tr>';
+      return;
+    }
+    const latestEventByEntry = new Map();
+    events.forEach(event => {
+      const entryKey = event.entryId ?? event.id;
+      if (!latestEventByEntry.has(entryKey)) latestEventByEntry.set(entryKey, event);
+    });
+    const actionLabels = { DRAFT:'Brouillon', CREATE:'Création', POST:'Validation', REVERSAL:'Contre-passation' };
+    body.innerHTML = [...latestEventByEntry.values()].map(event => {
+      const timestamp = new Date(event.timestamp);
+      const dateHeure = Number.isNaN(timestamp.getTime()) ? event.timestamp : timestamp.toLocaleString('fr-FR');
+      const action = event.status === 'REVERSED' ? 'Contre-passation' : actionLabels[event.actionType] || event.actionType;
+      const reversalSource = event.details?.sourcePiece ? ` — Contre-passation de ${event.details.sourcePiece}` : '';
+      return `<tr><td>${menuEscape(dateHeure)}</td><td>${menuEscape(event.entryDate || '')}</td><td>${menuEscape(event.userId || '')}</td><td>${menuEscape(action)}</td><td>${menuEscape(event.status || 'VALIDATED')}</td><td>${menuEscape(event.piece || '')}</td><td>${menuEscape(event.journal || '')}</td><td>${menuEscape((event.label || '') + reversalSource)}</td></tr>`;
+    }).join('');
+  } catch (error) {
+    if (request !== journalAuditRequest) return;
+    body.innerHTML = '<tr><td colspan="8" class="empty">Le registre d’audit est indisponible.</td></tr>';
+    showToast(apiConnectionErrorMessage(error, 'Chargement du registre d’audit'), 'error');
+  }
+}
+
+function handleSaisieJournalChange() {
+  const journal = document.getElementById('saisie-journal')?.value;
+  configureJournalForm(journal !== activeSaisieJournal);
+  activeSaisieJournal = journal;
+  suggestPiece();
+}
 
 // ===== CONTRE-PASSATION (mirror an entry to cancel it) =====
 async function contrepasser(piece) {
@@ -535,6 +585,7 @@ async function contrepasser(piece) {
     const response = await fetch(`${KOMPTA_API_BASE}/api/journal-entries/${orig.serverEntryId}/reversal?${scope}` , { method:'POST' });
     if (!response.ok) throw new Error((await response.json()).detail?.message || 'Reversal refusée');
     const posted = await response.json();
+    await loadPersistedJournalEntries(currentClientId, currentYear);
     showToast(`Contre-passation ${posted.pieceNumber} créée et auditée ✓`, 'success');
   } catch (error) {
     showToast(apiConnectionErrorMessage(error, 'Contre-passation'), 'error');
@@ -548,8 +599,14 @@ async function loadPersistedJournalEntries(clientId, year) {
     if (!response.ok) throw new Error(`Lecture des écritures impossible (HTTP ${response.status}).`);
     const persisted = await response.json();
     const client = DATA.clientData[clientId] || (DATA.clientData[clientId] = { a_nouveaux_by_year:{}, journal_entries:[] });
-    const knownIds = new Set(client.journal_entries.map(entry => entry.serverEntryId).filter(Boolean));
-    persisted.forEach(entry => { if (!knownIds.has(entry.serverEntryId)) client.journal_entries.push(entry); });
+    const knownEntries = new Map(client.journal_entries
+      .filter(entry => entry.serverEntryId)
+      .map(entry => [entry.serverEntryId, entry]));
+    persisted.forEach(entry => {
+      const existing = knownEntries.get(entry.serverEntryId);
+      if (existing) existing.status = entry.status;
+      else client.journal_entries.push(entry);
+    });
     if (clientId === currentClientId && year === currentYear) renderAll();
   } catch (error) {
     showToast(apiConnectionErrorMessage(error, 'Chargement des écritures sauvegardées'), 'error');
@@ -825,18 +882,14 @@ function buildReleveDeductionsPayload(clientId = currentClientId, includeAllYear
     const ttcLine = e.lines.find(l => l !== tvaLine && /^(34|44)/.test(String(l.compte)));
     if (!htLine || !ttcLine) return;
 
-    // Supplier-specific accounts (like "Rédal Tétouan") only live in
-    // DATA.accounts, not in the standard chart of accounts that
-    // getAccountByCode()/pcmBaseAccounts() looks through — so we look
-    // them up directly by code here.
-    const supplier = DATA.accounts.find(a => a.code === String(ttcLine.compte).trim());
+    const supplier = auxiliaryContact(ttcLine.auxiliaire, clientId);
     const dateFacture = `${e.year}-${String(e.mois).padStart(2, '0')}-${String(e.jour).padStart(2, '0')}`;
 
     lines.push({
       ord: ord++,
       numFacture: e.n_facture || e.piece,
       designation: htLine.libelle || e.libelle,
-      fournisseur: supplier?.label || '',
+      fournisseur: supplier?.libelle || '',
       montantHT: htLine.montant,
       tauxTVA: tvaLine.tva || 20,
       montantTVA: tvaLine.montant,
@@ -877,13 +930,13 @@ function buildTvaCollecteePayload(clientId = currentClientId, includeAllYears = 
     const clientLine = e.lines.find(l => isAccount(l.compte, CGNC.CLIENTS));
     if (!tvaLine || !htLine || !clientLine) return;
 
-    const client = DATA.accounts.find(a => a.code === String(clientLine.compte).trim());
+    const client = auxiliaryContact(clientLine.auxiliaire, clientId);
     const dateFacture = `${e.year}-${String(e.mois).padStart(2, '0')}-${String(e.jour).padStart(2, '0')}`;
     lines.push({
       ord: ord++,
       numFacture: e.n_facture || e.piece,
       dateFacture: dateFacture,
-      client: client?.label || clientLine.libelle || '',
+      client: client?.libelle || clientLine.libelle || '',
       identifiantFiscal: client?.identifiant_fiscal || null,
       ice: client?.ice || null,
       montantHT: Math.abs(htLine.montant || 0),
@@ -1011,13 +1064,13 @@ function portfolioClientPayload(dossier) {
       const htLine = e.lines.find(l => isAccount(l.compte, CGNC.CHARGES));
       const supplierLine = e.lines.find(l => isAccount(l.compte, CGNC.FOURNISSEURS));
       if (tvaLine && htLine && supplierLine) {
-        const supplier = DATA.accounts.find(a => a.code === String(supplierLine.compte).trim());
+        const supplier = auxiliaryContact(supplierLine.auxiliaire, dossier.id);
         purchases.push({
           companyName: dossier.name,
           ord: purchaseOrd++,
           numFacture: e.n_facture || e.piece,
           designation: htLine.libelle || e.libelle || '',
-          fournisseur: supplier?.label || supplierLine.libelle || '',
+          fournisseur: supplier?.libelle || supplierLine.libelle || '',
           identifiantFiscal: supplier?.identifiant_fiscal || '',
           ice: supplier?.ice || '',
           montantHT: Math.abs(htLine.montant || 0),
@@ -1036,12 +1089,12 @@ function portfolioClientPayload(dossier) {
       const htLine = e.lines.find(l => isAccount(l.compte, CGNC.PRODUITS));
       const clientLine = e.lines.find(l => isAccount(l.compte, CGNC.CLIENTS));
       if (tvaLine && htLine && clientLine) {
-        const client = DATA.accounts.find(a => a.code === String(clientLine.compte).trim());
+        const client = auxiliaryContact(clientLine.auxiliaire, dossier.id);
         ventes.push({
           ord: salesOrd++,
           numFacture: e.n_facture || e.piece,
           dateFacture: dateFacture,
-          client: client?.label || clientLine.libelle || '',
+          client: client?.libelle || clientLine.libelle || '',
           identifiantFiscal: /^\d{8}$/.test(client?.identifiant_fiscal || '') ? client.identifiant_fiscal : null,
           ice: /^\d{15}$/.test(client?.ice || '') ? client.ice : null,
           montantHT: Math.abs(htLine.montant || 0),
@@ -1130,6 +1183,7 @@ function showExportErrors(detail) {
 // ===== SAISIE WIRING =====
 function suggestPiece() {
   const jname = document.getElementById('saisie-journal').value;
+  if (jname === 'AUDIT') return;
   const prefix = journalPrefix(jname);
   let max = 0;
   clientEntries().forEach(e => {
@@ -1145,15 +1199,127 @@ function suggestPiece() {
 let prevHeaderLib = '';
 function mirrorLibelle() {
   const val = document.getElementById('saisie-libelle').value;
-  document.querySelectorAll('#lines-body .lib-cell').forEach(c => {
+  document.querySelectorAll('#lines-body tr').forEach(row => {
     // Only mirror into cells that are empty or still match the previous header
     // value, so manually-edited line labels are preserved.
-    if (c.value === '' || c.value === prevHeaderLib) c.value = val;
+    if (!row.dataset.lineLabel || row.dataset.lineLabel === prevHeaderLib) {
+      row.dataset.lineLabel = val;
+    }
   });
   prevHeaderLib = val;
 }
 
-const TVA_OPTIONS = ['0','7','10','14','20'];
+let activeSaisieJournal = null;
+let activeJournalDraftId = null;
+
+function firstAuxiliaryAccount(root) {
+  return activeAuxiliaryAccounts().find(account => account.compte_racine === root)?.compte_auxiliaire || '';
+}
+
+function setEntryRow(row, { account, auxiliary = '', label, side, amount = '', rate = '0', fixed = false }) {
+  const accountInput = row.querySelector('.account-cell');
+  const intituleInput = row.querySelector('.intitule-cell');
+  accountInput.value = account;
+  accountInput.readOnly = fixed;
+  accountInput.dataset.fixedAccount = fixed ? 'true' : '';
+  accountInput.dataset.auxiliaryCode = auxiliary;
+  accountInput.dataset.tierAccount = [CGNC.CLIENTS, CGNC.FOURNISSEURS].includes(account) ? 'true' : '';
+  accountInput.dataset.templateCode = '';
+  const officialLabel = ACCOUNTS[account] || getAccountByCode(account)?.label || '';
+  intituleInput.value = officialLabel;
+  intituleInput.readOnly = true;
+  intituleInput.dataset.accountCode = account;
+  row.dataset.lineLabel = label || document.getElementById('saisie-libelle')?.value || '';
+  row.dataset.vatRate = rate;
+  row.dataset.defaultSide = side;
+  const debit = row.querySelector('.debit-input');
+  const credit = row.querySelector('.credit-input');
+  row.dataset.fixedSide = fixed ? side : '';
+  debit.value = side === 'D' ? amount : '';
+  credit.value = side === 'C' ? amount : '';
+  debit.disabled = fixed ? side !== 'D' : side === 'C' && Boolean(amount);
+  credit.disabled = fixed ? side !== 'C' : side === 'D' && Boolean(amount);
+  updateEntryRowIndentation(row);
+  updateGeneralAccountStyle(accountInput);
+}
+
+function updateEntryRowIndentation(row) {
+  const debit = parseAmount(row.querySelector('.debit-input')?.value);
+  const credit = parseAmount(row.querySelector('.credit-input')?.value);
+  row.classList.toggle('entry-credit-line', credit > 0 && debit === 0);
+}
+
+function configureJournalForm(reset = true) {
+  const journal = document.getElementById('saisie-journal')?.value;
+  const operationControl = document.getElementById('saisie-operation-control');
+  const amountTypeControl = document.getElementById('saisie-amount-type-control');
+  const vatRateControl = document.getElementById('saisie-vat-rate-control');
+  const calcButton = document.querySelector('[data-action="calcHtTva()"]');
+  const operation = document.getElementById('saisie-operation')?.value || 'RECEIPT';
+  const hasOperation = journal === 'BANQUE' || journal === 'CAISSE';
+  const hasVatTemplate = journal === 'VENTES' || journal === 'ACHATS';
+  if (operationControl) operationControl.style.display = hasOperation ? '' : 'none';
+  if (amountTypeControl) amountTypeControl.style.display = hasVatTemplate ? '' : 'none';
+  if (vatRateControl) vatRateControl.style.display = hasVatTemplate ? '' : 'none';
+  if (calcButton) calcButton.style.display = hasVatTemplate ? '' : 'none';
+  const operationSelect = document.getElementById('saisie-operation');
+  if (operationSelect) {
+    operationSelect.options[0].textContent = journal === 'CAISSE' ? 'Encaissement' : 'Règlement client reçu';
+    operationSelect.options[1].textContent = journal === 'CAISSE' ? 'Décaissement' : 'Paiement fournisseur / Décaissement';
+  }
+  const referenceLabel = document.getElementById('saisie-ref-label');
+  if (referenceLabel) {
+    referenceLabel.textContent = journal === 'BANQUE' ? 'Référence / Mode de règlement *'
+      : journal === 'ACHATS' ? 'N° Facture Fournisseur *' : 'Référence';
+  }
+  if (!reset) return;
+  const body = document.getElementById('lines-body');
+  if (!body) return;
+  body.innerHTML = '';
+  activeJournalDraftId = null;
+  document.getElementById('saisie-ref').value = '';
+  if (journal === 'BANQUE' || journal === 'CAISSE') {
+    const fixedAccount = journal === 'BANQUE' ? '5141' : '5161';
+    const fixedLabel = journal === 'BANQUE' ? 'Banque' : 'Caisse';
+    const isReceipt = operation === 'RECEIPT';
+    const fixedSide = isReceipt ? 'D' : 'C';
+    const counterpartyRoot = isReceipt ? '3421' : '4411';
+    const counterpartySide = isReceipt ? 'C' : 'D';
+    const fixedRow = addLine();
+    const counterparty = addLine();
+    const auxiliary = firstAuxiliaryAccount(counterpartyRoot);
+    setEntryRow(counterparty, {
+      account:counterpartyRoot, auxiliary,
+      label:auxiliaryContact(auxiliary)?.libelle || (isReceipt ? 'Client' : 'Fournisseur'),
+      side:counterpartySide
+    });
+    setEntryRow(fixedRow, { account:fixedAccount, label:fixedLabel, side:fixedSide, fixed:true });
+    if (!isReceipt) {
+      body.append(counterparty, fixedRow);
+    }
+    return;
+  }
+
+  if (journal === 'OD') {
+    addLine();
+    addLine();
+    return;
+  }
+
+  const rows = [addLine(), addLine(), addLine()];
+  if (journal === 'VENTES') {
+    const customer = firstAuxiliaryAccount('3421');
+    setEntryRow(rows[0], { account:'3421', auxiliary:customer, label:auxiliaryContact(customer)?.libelle || 'Client', side:'D', fixed:true });
+    setEntryRow(rows[1], { account:'7111', label:ACCOUNTS['7111'] || 'Ventes de marchandises', side:'C', rate:'20' });
+    setEntryRow(rows[2], { account:'4455', label:ACCOUNTS['4455'] || 'État TVA facturée', side:'C' });
+  } else {
+    setEntryRow(rows[0], { account:'6111', label:ACCOUNTS['6111'] || 'Achats de marchandises', side:'D', rate:'20' });
+    setEntryRow(rows[1], { account:'34552', label:ACCOUNTS['34552'] || 'État TVA récupérable sur charges', side:'D' });
+    const supplier = firstAuxiliaryAccount('4411');
+    setEntryRow(rows[2], { account:'4411', auxiliary:supplier, label:auxiliaryContact(supplier)?.libelle || 'Fournisseur', side:'C', fixed:true });
+  }
+  computeTotals();
+}
 
 // Account lookup and autocomplete share the existing account popup.
 let popupTargetInput = null;
@@ -1162,23 +1328,33 @@ let accountSearchErrorShown = false;
 function lookupAccount(input) {
   const code = input.value.trim();
   const tr = input.closest('tr');
-  const libCell = tr.querySelector('.lib-cell');
-  if (!code) { input.classList.remove('acct-error'); hideAcctPopup(); return; }
+  const intituleCell = tr.querySelector('.intitule-cell');
+  if (input.dataset.fixedAccount === 'true') {
+    input.classList.remove('acct-error');
+    const officialLabel = ACCOUNTS[code] || getAccountByCode(code)?.label || '';
+    if (intituleCell) intituleCell.value = officialLabel;
+    hideAcctPopup();
+    return;
+  }
+  if (!code) { input.classList.remove('acct-error'); if (intituleCell) intituleCell.value = ''; hideAcctPopup(); return; }
   if (input.readOnly && input.dataset.pcmSelected === 'true' && code !== '4411') {
     hideAcctPopup();
     return;
   }
-  // Parent account 4411 → show supplier divisionnaire popup
-  if (code === '4411') {
+  // Tier accounts select a contact from the separate auxiliary ledger.
+  if ([CGNC.CLIENTS, CGNC.FOURNISSEURS].includes(code)) {
     input.classList.remove('acct-error');
+    input.dataset.tierAccount = 'true';
+    if (intituleCell) intituleCell.value = ACCOUNTS[code] || getAccountByCode(code)?.label || '';
     showAcctPopup(input);
     return;
   }
   hideAcctPopup();
-  if (ACCOUNTS[code]) {
+  if (CGNC_CODES.has(code) && ACCOUNTS[code]) {
     input.classList.remove('acct-error');
-    if (libCell && (libCell.value === '' )) libCell.value = ACCOUNTS[code];
+    if (intituleCell) intituleCell.value = ACCOUNTS[code];
   } else {
+    if (intituleCell) intituleCell.value = '';
     input.classList.add('acct-error');
   }
 }
@@ -1186,17 +1362,31 @@ function lookupAccount(input) {
 function showAcctPopup(input) {
   popupTargetInput = input;
   const pop = document.getElementById('acct-popup');
-  document.querySelector('#acct-popup .ap-head').textContent = 'Comptes divisionnaires — sélectionnez un tiers';
+  const root = input.value.trim().slice(0, 4);
+  const parties = activeAuxiliaryAccounts().filter(account => account.compte_racine === root);
+  document.querySelector('#acct-popup .ap-head').textContent = `${root === '3421' ? 'Clients' : 'Fournisseurs'} divisionnaires — sélectionnez un tiers`;
   const body = document.getElementById('acct-popup-body');
   body.innerHTML = '';
-  SUPPLIERS.forEach(s => {
+  parties.forEach(s => {
     const div = document.createElement('div');
     div.className = 'ap-item';
-    div.innerHTML = `<div class="ap-code">${s.code} — ${s.label}</div><div class="ap-sub">ICE: ${s.ice} · IF: ${s.identifiant_fiscal} · ${s.type_bien}</div>`;
+    const code = document.createElement('div');
+    code.className = 'ap-code';
+    code.textContent = `${s.compte_auxiliaire} — ${s.libelle}`;
+    const details = document.createElement('div');
+    details.className = 'ap-sub';
+    details.textContent = `ICE: ${s.ice || '—'} · IF: ${s.identifiant_fiscal || '—'} · ${s.type_tiers || ''}`;
+    div.append(code, details);
     div.onmousedown = event => event.preventDefault();
     div.onclick = () => selectSupplier(s);
     body.appendChild(div);
   });
+  if (!parties.length) {
+    const empty = document.createElement('div');
+    empty.className = 'ap-item';
+    empty.textContent = 'Aucun tiers auxiliaire importé pour ce dossier.';
+    body.appendChild(empty);
+  }
   const r = input.getBoundingClientRect();
   pop.style.left = (r.left + window.scrollX) + 'px';
   pop.style.top = (r.bottom + window.scrollY + 2) + 'px';
@@ -1232,7 +1422,8 @@ function showPcmAccountSuggestions(input, accounts) {
   popupTargetInput = input;
   document.querySelector('#acct-popup .ap-head').textContent = 'Plan comptable marocain — sélectionnez un compte';
   body.innerHTML = '';
-  accounts.forEach(account => {
+  const selectableAccounts = accounts.filter(account => CGNC_CODES.has(account.code) && /^\d{4,5}$/.test(account.code));
+  selectableAccounts.forEach(account => {
     const item = document.createElement('div');
     item.className = 'ap-item';
     const codeLabel = document.createElement('div');
@@ -1246,7 +1437,7 @@ function showPcmAccountSuggestions(input, accounts) {
     item.onclick = () => selectPcmAccount(account);
     body.appendChild(item);
   });
-  if (!accounts.length) {
+  if (!selectableAccounts.length) {
     const empty = document.createElement('div');
     empty.className = 'ap-item';
     empty.textContent = 'Aucun compte correspondant.';
@@ -1263,10 +1454,12 @@ function selectPcmAccount(account) {
   input.value = account.code;
   input.readOnly = true;
   input.dataset.pcmSelected = 'true';
+  input.dataset.tierAccount = [CGNC.CLIENTS, CGNC.FOURNISSEURS].includes(account.code) ? 'true' : '';
   input.title = 'Compte sélectionné — appuyez sur Retour arrière pour le modifier';
   input.classList.remove('acct-error');
-  const libCell = input.closest('tr').querySelector('.lib-cell');
-  if (libCell && !libCell.value) libCell.value = account.label;
+  const row = input.closest('tr');
+  const intituleCell = row.querySelector('.intitule-cell');
+  if (intituleCell) intituleCell.value = account.label;
   hideAcctPopup();
   updateGeneralAccountStyle(input);
   computeTotals();
@@ -1280,13 +1473,17 @@ function hideAcctPopup() {
 }
 function selectSupplier(s) {
   if (popupTargetInput) {
-    popupTargetInput.value = s.code;
-    popupTargetInput.readOnly = false;
+    const row = popupTargetInput.closest('tr');
+    if (row && (!row.dataset.lineLabel || ['Client', 'Clients', 'Fournisseur', 'Fournisseurs'].includes(row.dataset.lineLabel))) {
+      row.dataset.lineLabel = s.libelle;
+    }
+    popupTargetInput.dataset.auxiliaryCode = s.compte_auxiliaire;
     delete popupTargetInput.dataset.pcmSelected;
     popupTargetInput.title = '';
     popupTargetInput.classList.remove('acct-error');
-    const libCell = popupTargetInput.closest('tr').querySelector('.lib-cell');
-    if (libCell && libCell.value === '') libCell.value = s.label;
+    popupTargetInput.dataset.auxiliaryLabel = s.libelle;
+    const intituleCell = row?.querySelector('.intitule-cell');
+    if (intituleCell) intituleCell.value = ACCOUNTS[popupTargetInput.value.trim()] || getAccountByCode(popupTargetInput.value.trim())?.label || '';
   }
   hideAcctPopup();
   computeTotals();
@@ -1301,6 +1498,7 @@ document.addEventListener('mousedown', e => {
 document.addEventListener('keydown', event => {
   const input = event.target.closest?.('#lines-body .account-cell');
   if (!input || !input.readOnly || event.key !== 'Backspace') return;
+  if (input.dataset.fixedAccount === 'true') return;
   event.preventDefault();
   input.readOnly = false;
   delete input.dataset.pcmSelected;
@@ -1326,6 +1524,7 @@ function computeTotals() {
     const account = tr.querySelector('.account-cell')?.value.trim() || '';
     const debit = parseAmount(tr.querySelector('.debit-input')?.value);
     const credit = parseAmount(tr.querySelector('.credit-input')?.value);
+    updateEntryRowIndentation(tr);
     jd += debit; jc += credit;
     if (account === focusedAccount) { cd += debit; cc += credit; }
   });
@@ -1340,28 +1539,64 @@ function computeTotals() {
     ? '0'
     : `${fmtFR(Math.abs(solde))} ${solde > 0 ? 'Débiteur' : 'Créditeur'}`;
   el.className = solde === 0 ? 'tv balanced' : 'tv unbalanced';
-  updateEntryValidationState(jd, jc);
+  const cashBalance = round2(cashOpeningBalance() + clientEntries()
+    .filter(entry => entry.year === currentYear && entry.serverEntryId)
+    .flatMap(entry => entry.lines)
+    .filter(line => line.compte === '5161')
+    .reduce((balance, line) => balance + lineDebit(line) - lineCredit(line), 0));
+  const currentCashPayment = document.getElementById('saisie-journal')?.value === 'CAISSE'
+    && document.getElementById('saisie-operation')?.value === 'PAYMENT'
+    ? [...document.querySelectorAll('#lines-body tr')]
+      .filter(row => row.querySelector('.account-cell')?.value.trim() === '5161')
+      .reduce((amount, row) => amount + parseAmount(row.querySelector('.credit-input')?.value), 0)
+    : 0;
+  const cashInsufficient = cashBalance - currentCashPayment < -0.005;
+  const cashWarning = document.getElementById('cash-balance-warning');
+  if (cashWarning) cashWarning.style.display = cashInsufficient ? '' : 'none';
+  updateEntryValidationState(jd, jc, cashInsufficient);
   return { jd, jc };
+}
+
+function cashOpeningBalance() {
+  return round2(aNouveauxFor(currentYear)
+    .filter(account => String(account.code) === '5161')
+    .reduce((balance, account) => balance + (account.debit || 0) - (account.credit || 0), 0));
 }
 
 document.addEventListener('input', event => {
   if (!event.target.closest('#lines-body')) return;
-  if (event.target.matches('.debit-input, .credit-input')) handleAmountInput(event.target);
+  if (event.target.matches('.debit-input, .credit-input')) {
+    handleAmountInput(event.target);
+    updateEntryRowIndentation(event.target.closest('tr'));
+  }
   activeEntryRow = event.target.closest('tr');
   computeTotals();
 });
 document.addEventListener('focusin', event => {
   if (!event.target.closest('#lines-body')) return;
+  if (event.target.matches('.debit-input, .credit-input')) {
+    amountAtFocus.set(event.target, parseAmount(event.target.value));
+  }
   activeEntryRow = event.target.closest('tr');
   computeTotals();
 });
 
-function updateEntryValidationState(debit, credit) {
+function updateEntryValidationState(debit, credit, cashInsufficient = false) {
   const button = document.getElementById('validate-entry');
   if (!button) return;
   const balanced = debit > 0 && Math.abs(debit - credit) < 0.005;
-  button.disabled = !balanced;
-  button.title = balanced ? '' : 'Le total débit doit être égal au total crédit';
+  const journal = document.getElementById('saisie-journal')?.value;
+  const referenceRequired = ['BANQUE', 'ACHATS'].includes(journal);
+  const referencePresent = !referenceRequired || Boolean(document.getElementById('saisie-ref')?.value.trim());
+  const hasFixedAccount = journal === 'BANQUE'
+    ? [...document.querySelectorAll('#lines-body .account-cell')].filter(input => input.value.trim() === '5141').length === 1
+    : journal === 'CAISSE'
+      ? [...document.querySelectorAll('#lines-body .account-cell')].filter(input => input.value.trim() === '5161').length === 1
+      : true;
+  button.disabled = !balanced || !referencePresent || !hasFixedAccount || cashInsufficient;
+  button.title = !balanced ? 'Le total débit doit être égal au total crédit'
+    : !referencePresent ? 'Une référence / facture est obligatoire'
+      : cashInsufficient ? 'Solde de caisse insuffisant' : '';
 }
 
 function renumberLines() {
@@ -1383,8 +1618,9 @@ function handleAmountInput(input) {
   const credit = row.querySelector('.credit-input');
   if (!debit || !credit) return;
   if (input.value.trim() === '') {
-    debit.disabled = false;
-    credit.disabled = false;
+    const fixedSide = row.dataset.fixedSide;
+    debit.disabled = fixedSide ? fixedSide !== 'D' : false;
+    credit.disabled = fixedSide ? fixedSide !== 'C' : false;
     debit.style.backgroundColor = '';
     credit.style.backgroundColor = '';
     return;
@@ -1392,9 +1628,40 @@ function handleAmountInput(input) {
   const opposite = input === debit ? credit : debit;
   opposite.value = '';
   opposite.disabled = true;
+  if (row.dataset.fixedSide) {
+    const fixedInput = row.querySelector(row.dataset.fixedSide === 'D' ? '.debit-input' : '.credit-input');
+    const lockedInput = row.querySelector(row.dataset.fixedSide === 'D' ? '.credit-input' : '.debit-input');
+    if (fixedInput) fixedInput.disabled = false;
+    if (lockedInput) lockedInput.disabled = true;
+  }
   opposite.style.backgroundColor = '#f8fafc';
   input.disabled = false;
   input.style.backgroundColor = '';
+}
+
+const amountAtFocus = new WeakMap();
+function autoBalanceDebit(input) {
+  const row = input.closest('tr');
+  const amount = parseAmount(input.value);
+  const initialAmount = amountAtFocus.get(input);
+  amountAtFocus.delete(input);
+  if (!row || amount <= 0 || amount === initialAmount) return;
+
+  const rows = [...row.parentElement.rows];
+  let targetRow = rows
+    .slice(rows.indexOf(row) + 1)
+    .find(candidate =>
+      parseAmount(candidate.querySelector('.debit-input')?.value) === 0
+      && parseAmount(candidate.querySelector('.credit-input')?.value) === 0
+      && candidate.dataset.defaultSide !== 'D'
+      && !candidate.querySelector('.credit-input')?.disabled
+    );
+  if (!targetRow) targetRow = addLine();
+  const credit = targetRow.querySelector('.credit-input');
+  credit.value = fmtFR(amount);
+  handleAmountInput(credit);
+  updateEntryRowIndentation(targetRow);
+  computeTotals();
 }
 
 function removeRow() {
@@ -1413,29 +1680,42 @@ async function validerEcriture() {
     return;
   }
   const jname = document.getElementById('saisie-journal').value;
+  if (['BANQUE', 'ACHATS'].includes(jname) && !document.getElementById('saisie-ref').value.trim()) {
+    showToast(jname === 'BANQUE' ? 'Référence / Mode de règlement obligatoire' : 'N° Facture Fournisseur obligatoire', 'error');
+    return;
+  }
+  if (jname === 'CAISSE' && document.getElementById('cash-balance-warning')?.style.display !== 'none') {
+    showToast('Solde de caisse insuffisant', 'error');
+    return;
+  }
   const dateVal = document.getElementById('saisie-date').value;
   const [, mo, d] = dateVal.split('-');
   const headerFacture = document.getElementById('saisie-ref').value.trim();
   const lines = [];
   const errors = [];
   document.querySelectorAll('#lines-body tr').forEach((tr) => {
-    const account = tr.querySelector('.account-cell').value.trim();
-    const lib = tr.querySelector('.lib-cell').value.trim();
+    const accountInput = tr.querySelector('.account-cell');
+    const enteredAccount = accountInput.value.trim();
+    const account = enteredAccount.length > 5 && !CGNC_CODES.has(enteredAccount)
+      && isAccount(enteredAccount, CGNC.CLIENTS, CGNC.FOURNISSEURS)
+      ? enteredAccount.slice(0, 4) : enteredAccount;
+    const lib = tr.dataset.lineLabel || document.getElementById('saisie-libelle').value.trim();
     const debit = parseAmount(tr.querySelector('.debit-input').value);
     const credit = parseAmount(tr.querySelector('.credit-input').value);
-    const facture = tr.querySelector('.facture-cell').value.trim();
-    const lettre = tr.querySelector('.lettre-cell')?.value.trim().toUpperCase() || '';
-    const tva = parseFloat(tr.querySelector('.tva-cell').value) || 0;
-    const isTiers = isAccount(account, CGNC.CLIENTS, CGNC.FOURNISSEURS);
-    const auxiliary = isTiers ? account : '';
+    const tva = parseFloat(tr.dataset.vatRate || '0') || 0;
+    const isTiers = [CGNC.CLIENTS, CGNC.FOURNISSEURS].includes(account);
+    const auxiliary = isTiers
+      ? accountInput.dataset.auxiliaryCode || (enteredAccount !== account ? enteredAccount : '')
+      : '';
     if (!account && debit === 0 && credit === 0) return;
-    if (account && !ACCOUNTS[account]) errors.push(`Compte inexistant: ${account}`);
+    if (account && (!/^\d{4,5}$/.test(account) || !CGNC_CODES.has(account))) errors.push(`Compte général absent du référentiel CGNC: ${account}`);
+    if (account && !ACCOUNTS[account] && !['3421', '4411', '6111', '3455', '34552', '4455', '7111', '5141', '5161'].includes(account)) errors.push(`Compte inexistant: ${account}`);
     if (isTiers) {
-      const known = ACCOUNTS[auxiliary] || activeAuxiliaryAccounts().some(a => a.compte_auxiliaire === auxiliary);
+      const known = activeAuxiliaryAccounts().some(a => a.compte_auxiliaire === auxiliary);
       if (!known) errors.push(`Auxiliaire obligatoire et connu pour ${account}`);
     }
-    if (account && debit > 0) lines.push({ compte:account, auxiliaire:auxiliary || null, libelle:lib, dbcr:'D', montant:debit, tva, facture, lettre });
-    if (account && credit > 0) lines.push({ compte:account, auxiliaire:auxiliary || null, libelle:lib, dbcr:'C', montant:credit, tva, facture, lettre });
+    if (account && debit > 0) lines.push({ compte:account, auxiliaire:auxiliary || null, libelle:lib, dbcr:'D', montant:debit, tva });
+    if (account && credit > 0) lines.push({ compte:account, auxiliaire:auxiliary || null, libelle:lib, dbcr:'C', montant:credit, tva });
   });
   if (errors.length) { showToast(errors[0], 'error'); return; }
   let response;
@@ -1443,11 +1723,15 @@ async function validerEcriture() {
     response = await fetch(`${KOMPTA_API_BASE}/api/journal-entries`, {
       method:'POST', headers:{'Content-Type':'application/json'},
       body:JSON.stringify({ clientId:currentClientId, year:currentYear,
-        journal:jname, date:dateVal, reference:headerFacture,
+        journal:jname, date:dateVal, pieceNumber:document.getElementById('saisie-piece').value.trim(), reference:headerFacture,
+        cashOpeningBalance:cashOpeningBalance(),
+        draftId:activeJournalDraftId,
         libelle:document.getElementById('saisie-libelle').value.trim(),
         lines:lines.map(l => ({ compte:l.compte, auxiliaire:l.auxiliaire, libelle:l.libelle,
           debit:l.dbcr === 'D' ? l.montant : 0, credit:l.dbcr === 'C' ? l.montant : 0,
-          facture:l.facture, tva:l.tva, lettre:l.lettre })), accountCatalog:DATA.accounts })
+          tva:l.tva })),
+        accountCatalog:DATA.accounts.filter(account => account.standard),
+        auxiliaryCatalog:activeAuxiliaryAccounts() })
     });
     if (!response.ok) throw new Error(await responseErrorMessage(response, 'Écriture refusée.'));
   } catch (error) {
@@ -1471,6 +1755,7 @@ async function validerEcriture() {
 function clearForm() {
   document.getElementById('saisie-libelle').value = '';
   document.getElementById('saisie-ref').value = '';
+  activeJournalDraftId = null;
   prevHeaderLib = '';
   const tb = document.getElementById('lines-body');
   tb.innerHTML = '';
@@ -1480,12 +1765,58 @@ function clearForm() {
   computeTotals();
 }
 
+async function saveJournalDraft() {
+  const journal = document.getElementById('saisie-journal').value;
+  if (journal === 'AUDIT') {
+    showToast('Le journal Audit est en lecture seule', 'error');
+    return;
+  }
+  const date = document.getElementById('saisie-date').value;
+  if (!date) {
+    showToast('La date de l’écriture est obligatoire', 'error');
+    return;
+  }
+  const lines = [...document.querySelectorAll('#lines-body tr')].map(row => ({
+    compte:row.querySelector('.account-cell').value.trim(),
+    auxiliaire:row.querySelector('.account-cell').dataset.auxiliaryCode || '',
+    libelle:row.dataset.lineLabel || document.getElementById('saisie-libelle').value.trim(),
+    debit:parseAmount(row.querySelector('.debit-input').value),
+    credit:parseAmount(row.querySelector('.credit-input').value),
+    tva:parseFloat(row.dataset.vatRate || '0') || 0
+  }));
+  try {
+    const response = await fetch(`${KOMPTA_API_BASE}/api/journal-drafts`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        draftId:activeJournalDraftId,
+        clientId:currentClientId,
+        year:currentYear,
+        journal,
+        date,
+        reference:document.getElementById('saisie-ref').value.trim(),
+        libelle:document.getElementById('saisie-libelle').value.trim(),
+        operation:document.getElementById('saisie-operation')?.value || '',
+        lines
+      })
+    });
+    if (!response.ok) throw new Error(await responseErrorMessage(response, 'Brouillon non enregistré.'));
+    const saved = await response.json();
+    activeJournalDraftId = saved.draftId;
+    showToast('Brouillon enregistré dans le journal Audit', 'success');
+  } catch (error) {
+    showToast(apiConnectionErrorMessage(error, 'Enregistrement du brouillon'), 'error');
+  }
+}
+
 function showPanel(name) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
   document.getElementById('panel-' + name).classList.add('active');
-  const map = {home:'🏠 Tableau de bord',saisie:'✏️ Saisie',consultation:'📖 Consultation',traitement:'⚙️ Traitements',etats:'📊 États',plancomptable:'📄 Plan Comptable',parametrage:'🔧 Paramètres'};
+  const map = {home:'🏠 Tableau de bord',saisie:'✏️ Saisie',audit:'📋 Journal Audit',consultation:'📖 Consultation',traitement:'⚙️ Traitements',etats:'📊 États',plancomptable:'📄 Plan Comptable',parametrage:'🔧 Paramètres'};
   document.querySelectorAll('.ni').forEach(n => { if(n.textContent.trim() === map[name]) n.classList.add('active'); });
+  if (name === 'saisie') handleSaisieJournalChange();
+  if (name === 'audit') renderJournalAudit();
 }
 function toggleSidebar() {
   const sidebar = document.querySelector('.sidebar');
@@ -1500,65 +1831,79 @@ function closeModal(id) { document.getElementById(id).classList.remove('open'); 
 document.querySelectorAll('.mo').forEach(m => m.addEventListener('click', e => { if(e.target === m) m.classList.remove('open'); }));
 function addLine() {
   const tb = document.getElementById('lines-body');
-  const tvaOpts = TVA_OPTIONS.map(t => `<option value="${t}">${t === '0' ? '0%' : t + '%'}</option>`).join('');
   const tr = document.createElement('tr');
+  const entryDate = document.getElementById('saisie-date')?.value || '';
   tr.innerHTML =
-    `<td><input type="text" class="facture-cell" value=""></td>` +
-    `<td><input type="text" class="account-cell account-general" value="" onblur="lookupAccount(this);updateGeneralAccountStyle(this)" onfocus="setFocusedAccount(this.closest('tr'), this)" oninput="updateGeneralAccountStyle(this);searchPcmAccounts(this)"></td>` +
-    `<td><input type="text" class="lib-cell" value=""><select class="tva-cell" hidden>${tvaOpts}</select></td>` +
-    `<td><input type="date" class="due-date-cell"></td>` +
-    `<td class="amount-cell"><input type="text" inputmode="decimal" class="debit-input" value="" oninput="computeTotals()" onblur="formatAmountInput(this)"></td>` +
+    `<td><input type="text" class="account-cell account-general" value="" onblur="lookupAccount(this);updateGeneralAccountStyle(this)" onfocus="focusEntryAccount(this)" oninput="updateGeneralAccountStyle(this);searchPcmAccounts(this)"></td>` +
+    `<td><input type="text" class="intitule-cell" value="" readonly tabindex="-1"></td>` +
+    `<td><input type="date" class="entry-date-cell" value="${entryDate}"></td>` +
+    `<td class="amount-cell"><input type="text" inputmode="decimal" class="debit-input" value="" oninput="computeTotals()" onblur="autoBalanceDebit(this);formatAmountInput(this)"></td>` +
     `<td class="amount-cell"><input type="text" inputmode="decimal" class="credit-input" value="" oninput="computeTotals()" onblur="formatAmountInput(this)"></td>`;
   tb.appendChild(tr);
-  tr.querySelector('.account-cell').focus();
   computeTotals();
+  return tr;
 }
 
-// ===== AUTO HT + TVA (from a TTC amount on the first line) =====
-const TVA_ACCOUNTS = {
-  7:  { code:'3455207', label:'TVA récupérable 7%' },
-  10: { code:'3455210', label:'TVA récupérable 10%' },
-  14: { code:'3455214', label:'TVA récupérable 14%' },
-  20: { code:'3455220', label:'TVA récupérable 20%' }
-};
+function focusEntryAccount(input) {
+  setFocusedAccount(input.closest('tr'), input);
+  if (input.dataset.tierAccount === 'true') showAcctPopup(input);
+}
+
+document.addEventListener('change', event => {
+  if (event.target.matches('#saisie-date')) {
+    document.querySelectorAll('#lines-body .entry-date-cell').forEach(input => {
+      input.value = event.target.value;
+    });
+  } else if (event.target.matches('#lines-body .entry-date-cell')) {
+    const date = event.target.value;
+    document.getElementById('saisie-date').value = date;
+    document.querySelectorAll('#lines-body .entry-date-cell').forEach(input => {
+      input.value = date;
+    });
+  }
+});
+
+// ===== AUTO HT + TVA =====
 function calcHtTva() {
   const rows = document.querySelectorAll('#lines-body tr');
-  if (!rows.length) return;
-  const first = rows[0];
-  const ttc = parseAmount(first.querySelector('.debit-input').value);
-  const rate = parseFloat(first.querySelector('.tva-cell').value) || 0;
-  if (ttc === 0 || rate === 0) {
-    showToast("Entrez un montant TTC et un taux TVA d'abord", 'error');
+  const journal = document.getElementById('saisie-journal').value;
+  if (rows.length < 3 || !['VENTES', 'ACHATS'].includes(journal)) return;
+  const [clientOrChargeRow, productOrVatRow, vatOrSupplierRow] = rows;
+  const taxableRow = journal === 'VENTES' ? productOrVatRow : clientOrChargeRow;
+  const entered = parseAmount(taxableRow.querySelector(journal === 'VENTES' ? '.credit-input' : '.debit-input').value);
+  const rate = parseFloat(document.getElementById('saisie-vat-rate').value) || 0;
+  if (!entered) {
+    showToast("Entrez un montant HT/TTC et un taux de TVA d'abord", 'error');
     return;
   }
-  const ht = round2(ttc / (1 + rate / 100));
+  const amountType = document.getElementById('saisie-amount-type').value;
+  const ht = amountType === 'HT' ? round2(entered) : round2(entered / (1 + rate / 100));
+  const ttc = amountType === 'TTC' ? round2(entered) : round2(ht * (1 + rate / 100));
   const tvaAmount = round2(ttc - ht);
-  const tvaAcct = TVA_ACCOUNTS[rate];
-  // 1) First line becomes the HT charge line.
-  first.querySelector('.debit-input').value = ht;
-  first.querySelector('.credit-input').value = '';
-  first.querySelector('.tva-cell').value = '0';
-  // 2) Add the TVA récupérable line.
-  addLine();
-  const rows2 = document.querySelectorAll('#lines-body tr');
-  const tvaRow = rows2[rows2.length - 1];
-  tvaRow.querySelector('.account-cell').value = tvaAcct.code;
-  tvaRow.querySelector('.lib-cell').value = tvaAcct.label;
-  tvaRow.querySelector('.debit-input').value = tvaAmount;
-  tvaRow.querySelector('.credit-input').value = '';
-  // 3) Fournisseur credit line = TTC (update existing 44110* line or create one).
-  let fourRow = null;
-  document.querySelectorAll('#lines-body tr').forEach(tr => {
-    const code = tr.querySelector('.account-cell').value.trim();
-    if (code.startsWith('44110')) fourRow = tr;
-  });
-  if (!fourRow) {
-    addLine();
-    const rows3 = document.querySelectorAll('#lines-body tr');
-    fourRow = rows3[rows3.length - 1];
+  if (journal === 'VENTES') {
+    setEntryRow(clientOrChargeRow, {
+      account:clientOrChargeRow.querySelector('.account-cell').value,
+      auxiliary:clientOrChargeRow.querySelector('.account-cell').dataset.auxiliaryCode || '',
+      label:clientOrChargeRow.dataset.lineLabel, side:'D', amount:ttc, fixed:true
+    });
+    setEntryRow(productOrVatRow, {
+      account:productOrVatRow.querySelector('.account-cell').value,
+      label:productOrVatRow.dataset.lineLabel, side:'C', amount:ht, rate:String(rate)
+    });
+    setEntryRow(vatOrSupplierRow, { account:'4455', label:`État TVA facturée ${rate}%`, side:'C', amount:tvaAmount });
+  } else {
+    setEntryRow(clientOrChargeRow, {
+      account:clientOrChargeRow.querySelector('.account-cell').value,
+      label:clientOrChargeRow.dataset.lineLabel,
+      side:'D', amount:ht, rate:String(rate)
+    });
+    setEntryRow(productOrVatRow, { account:'34552', label:`État TVA récupérable ${rate}%`, side:'D', amount:tvaAmount });
+    setEntryRow(vatOrSupplierRow, {
+      account:vatOrSupplierRow.querySelector('.account-cell').value,
+      auxiliary:vatOrSupplierRow.querySelector('.account-cell').dataset.auxiliaryCode || '',
+      label:vatOrSupplierRow.dataset.lineLabel, side:'C', amount:ttc, fixed:true
+    });
   }
-  fourRow.querySelector('.debit-input').value = '';
-  fourRow.querySelector('.credit-input').value = ttc;
   computeTotals();
   showToast('HT + TVA calculés ✓', 'success');
 }
@@ -2003,7 +2348,7 @@ function renderPlanComptable() {
 function escapeAux(value) { return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 async function previewPcgeGeneral() {
   try {
-    const response = await fetch(`${KOMPTA_API_BASE}/api/accounts/pcge-general/preview`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({accountCatalog: DATA.accounts}) });
+    const response = await fetch(`${KOMPTA_API_BASE}/api/accounts/pcge-general/preview`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({accountCatalog: DATA.accounts.filter(account => account.standard)}) });
     const body = await response.json();
     if (!response.ok) throw new Error(body.detail?.message || 'Source PCGE indisponible.');
     const rows = body.added || [];
@@ -2017,7 +2362,7 @@ async function previewPcgeGeneral() {
 async function importPcgeGeneral() {
   const button = document.getElementById('pcge-import-confirm'); button.disabled = true;
   try {
-    const response = await fetch(`${KOMPTA_API_BASE}/api/accounts/pcge-general/import`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({accountCatalog: DATA.accounts}) });
+    const response = await fetch(`${KOMPTA_API_BASE}/api/accounts/pcge-general/import`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({accountCatalog: DATA.accounts.filter(account => account.standard)}) });
     const report = await response.json();
     if (!response.ok) throw new Error(report.detail?.message || 'Import PCGE impossible.');
     (report.imported || []).forEach(account => {
@@ -2077,7 +2422,7 @@ function validateAuxRows(rows) {
     if (data.ice && !/^\d{15}$/.test(data.ice)) errors.push('ICE invalide : 15 chiffres exactement');
     if (!AUX_TYPES.includes(data.type_tiers)) errors.push('Type tiers invalide');
     const pair = `${data.ice}|${data.identifiant_fiscal}`;
-    if (DATA.accounts.some(a => a.code === data.compte_auxiliaire) || codes.has(data.compte_auxiliaire) || fileCodes.has(data.compte_auxiliaire)) errors.push('Compte auxiliaire déjà existant ou dupliqué');
+    if (codes.has(data.compte_auxiliaire) || fileCodes.has(data.compte_auxiliaire)) errors.push('Compte auxiliaire déjà existant ou dupliqué');
     if ((data.ice || data.identifiant_fiscal) && (legalIds.has(pair) || fileIds.has(pair))) errors.push('Duo ICE + IF déjà existant ou dupliqué');
     fileCodes.add(data.compte_auxiliaire); if (data.ice || data.identifiant_fiscal) fileIds.add(pair);
     return { data, errors, row: index + 2 };
@@ -2093,7 +2438,7 @@ function showAuxPreview(rows) {
 }
 function importValidAuxAccounts() {
   const valid = pendingAuxImport.filter(r => !r.errors.length).map(r => r.data); if (!valid.length) return;
-  const target = activeAuxiliaryAccounts(); valid.forEach(data => { target.push(data); const account = { code:data.compte_auxiliaire, label:data.libelle, type:'divisionnaire', parent:data.compte_racine, ice:data.ice, identifiant_fiscal:data.identifiant_fiscal, type_tiers:data.type_tiers, classe:Number(data.compte_racine.charAt(0)) }; DATA.accounts.push(account); if (data.type_tiers === 'Fournisseur') SUPPLIERS.push(account); ACCOUNTS[data.compte_auxiliaire] = data.libelle; });
+  const target = activeAuxiliaryAccounts(); valid.forEach(data => target.push(data));
   persistCustomizationState(); renderPlanComptable(); closeModal('modalAuxImport'); showToast(`${valid.length} compte(s) complémentaire(s) importé(s) ✓`, 'success');
 }
 function downloadAuxTemplate() { exportAuxRows([{ compte_auxiliaire:'44110004', libelle:'Nouveau fournisseur SARL', compte_racine:'4411', ice:'001234567890004', identifiant_fiscal:'40123456', type_tiers:'Fournisseur' }, { compte_auxiliaire:'34210003', libelle:'Nouveau client', compte_racine:'3421', ice:'001234567890005', identifiant_fiscal:'40123457', type_tiers:'Client' }], 'modele_plan_complementaire.xlsx'); }
@@ -2108,7 +2453,7 @@ function exportAuxRows(rows, filename) {
 const CUSTOMIZATION_KEY = 'kompta_customization_v1';
 function persistCustomizationState() {
   try {
-    localStorage.setItem(CUSTOMIZATION_KEY, JSON.stringify({ accounts: DATA.accounts.filter(a => !a.standard), auxiliary: AUXILIARY_ACCOUNTS }));
+    localStorage.setItem(CUSTOMIZATION_KEY, JSON.stringify({ auxiliary: AUXILIARY_ACCOUNTS }));
     return true;
   } catch (error) {
     showToast('Enregistrement navigateur impossible. Les changements restent en mémoire pour cette session.', 'error');
@@ -2118,28 +2463,24 @@ function persistCustomizationState() {
 function loadCustomizationState() {
   try {
     const saved = JSON.parse(localStorage.getItem(CUSTOMIZATION_KEY) || 'null');
-    if (!saved) return;
-    if (Array.isArray(saved.accounts)) {
-      // Only local sub-accounts are kept; official accounts always come from the CGNC chart.
-      const local = saved.accounts.filter(a => a && a.code && a.type !== 'parent' && !a.standard && !REMOVED_LEGACY_ACCOUNT_CODES.has(a.code));
-      DATA.accounts.splice(0, DATA.accounts.length, ...DATA.accounts.filter(a => a.standard), ...local);
-      rebuildAccountIndexes();
+    if (!saved) {
+      seedDemoAuxiliaryAccounts();
+      return;
     }
     if (saved.auxiliary && typeof saved.auxiliary === 'object') {
       Object.entries(saved.auxiliary).forEach(([clientId, rows]) => {
         if (!Array.isArray(rows)) return;
-        AUXILIARY_ACCOUNTS[clientId] = rows.filter(row =>
-          !REMOVED_LEGACY_ACCOUNT_CODES.has(row?.compte_auxiliaire || row?.code)
-        );
+        AUXILIARY_ACCOUNTS[clientId] = rows;
       });
     }
+    seedDemoAuxiliaryAccounts();
   } catch (error) {
     console.warn('Etat de personnalisation ignoré:', error);
     showToast('Personnalisation locale illisible; les paramètres par défaut sont utilisés.', 'error');
   }
 }
 
-const ENTRY_NAV_FIELDS = ['.account-cell', '.lib-cell', '.debit-input', '.credit-input'];
+const ENTRY_NAV_FIELDS = ['.account-cell', '.debit-input', '.credit-input'];
 function moveEntryFocus(current, backwards = false) {
   const row = current.closest('tr');
   if (!backwards && current.matches('.debit-input') && row?.classList.contains('entry-debit-row') && parseAmount(current.value) > 0) {
@@ -2418,23 +2759,202 @@ function renderGeneralBalanceReport() {
       || CGNC_BALANCE_LABEL_FALLBACKS[t.code]
       || ''
   })).filter(t => (!from || t.code >= from) && (!to || t.code <= to) && (cls === 'all' || t.code.startsWith(cls)));
-  const totals = [0,0,0,0,0,0];
-  const rows = accounts.map(t => { let mvD=t.mvD, mvC=t.mvC; if (period !== 'all') { mvD=mvC=0; clientEntries().filter(e => e.year === currentYear && Number(e.mois) === Number(period)).forEach(e => e.lines.filter(l => l.compte === t.code).forEach(l => { mvD += lineDebit(l); mvC += lineCredit(l); })); } const sfD=Math.max(0,t.anD+mvD-t.anC-mvC), sfC=Math.max(0,t.anC+mvC-t.anD-mvD); const vals=[t.code,t.label,t.anD,t.anC,mvD,mvC,sfD,sfC]; vals.slice(2).forEach((v,i) => totals[i] += v); return vals; });
-  const footer = `<tr class="total-row"><td colspan="2"><strong>TOTAUX</strong></td>${totals.map(v => `<td style="text-align:right;"><strong>${cgncMoney(round2(v))}</strong></td>`).join('')}</tr><tr><td colspan="2"><strong>Contrôle équilibre</strong></td><td colspan="3" style="text-align:right;">SI: ${cgncMoney(round2(totals[0]-totals[1]))}</td><td colspan="3" style="text-align:right;">SF: ${cgncMoney(round2(totals[4]-totals[5]))}</td></tr>`;
+  const rows = accounts.map(account => {
+    const openingDebit = Number(account.anD) || 0;
+    const openingCredit = Number(account.anC) || 0;
+    let movementDebit = Number(account.mvD) || 0;
+    let movementCredit = Number(account.mvC) || 0;
+    if (period !== 'all') {
+      movementDebit = 0;
+      movementCredit = 0;
+      clientEntries()
+        .filter(entry => entry.year === currentYear && Number(entry.mois) === Number(period))
+        .forEach(entry => entry.lines
+          .filter(line => line.compte === account.code)
+          .forEach(line => {
+            movementDebit += lineDebit(line);
+            movementCredit += lineCredit(line);
+          }));
+    }
+    const net = round2(
+      (openingDebit - openingCredit) + (movementDebit - movementCredit)
+    );
+    const finalDebit = net > 0 ? net : 0;
+    const finalCredit = net < 0 ? Math.abs(net) : 0;
+    return [
+      account.code,
+      account.label,
+      openingDebit,
+      openingCredit,
+      movementDebit,
+      movementCredit,
+      finalDebit,
+      finalCredit
+    ];
+  });
+  const totals = rows.reduce((sums, row) => {
+    for (let index = 0; index < sums.length; index++) {
+      sums[index] += Number(row[index + 2]) || 0;
+    }
+    return sums;
+  }, [0,0,0,0,0,0]).map(round2);
+  const siDifference = round2(totals[0] - totals[1]);
+  const sfDifference = round2(totals[4] - totals[5]);
+  const footer = `<tr class="total-row"><td colspan="2"><strong>TOTAUX</strong></td>${totals.map(value => `<td style="text-align:right;"><strong>${cgncMoney(value)}</strong></td>`).join('')}</tr><tr><td colspan="2"><strong>Contrôle équilibre</strong></td><td colspan="3" style="text-align:right;">SI: ${cgncMoney(siDifference)}</td><td colspan="3" style="text-align:right;">SF: ${cgncMoney(sfDifference)}</td></tr>`;
   document.getElementById('cgnc-report-body').innerHTML = cgncGeneralBalanceTable(rows, footer);
   cgncReportState.exportRows = rows;
 }
 function invoiceDate(e) { const raw = e.dueDate || e.echeance || e.date; if (raw) return new Date(raw); return new Date(currentYear, Number(e.mois || 1) - 1, Number(e.jour || 1) + 30); }
 function openAgedBalanceReport() {
   cgncReportState.type = 'aged-balance';
-  cgncFilterBar(`<div class="fg"><label>Type de tiers</label><select id="cgnc-aging-type" onchange="renderAgedBalanceReport()"><option value="all">Clients + Fournisseurs</option><option value="client">Clients 3421</option><option value="supplier">Fournisseurs 4411</option></select></div><div class="fg"><label>Au</label><input id="cgnc-aging-date" type="date" value="${new Date().toISOString().slice(0,10)}" onchange="renderAgedBalanceReport()"></div>`);
+  const today = new Date();
+  const localDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  cgncFilterBar(`<div class="fg"><label>Type de tiers</label><select id="cgnc-aging-type" onchange="renderAgedBalanceReport()"><option value="all">Clients + Fournisseurs</option><option value="client">Clients 3421</option><option value="supplier">Fournisseurs 4411</option></select></div><div class="fg"><label>Au</label><input id="cgnc-aging-date" type="date" value="${localDate}" onchange="renderAgedBalanceReport()"></div>`);
   cgncSet('LA BALANCE ÂGÉE', 'Créances clients et dettes fournisseurs par échéance', ['Code Tiers','Nom / Raison Sociale','Non Échu','0-30 Jours','31-60 Jours','61-90 Jours','+90 Jours','Total Dû'], [], renderAgedBalanceReport);
 }
 function renderAgedBalanceReport() {
-  const type = document.getElementById('cgnc-aging-type')?.value || 'all'; const asOf = new Date(document.getElementById('cgnc-aging-date')?.value || new Date()); const groups = {};
-  clientEntries().filter(e => e.year === currentYear).forEach(e => { const invoice = e.n_facture || e.lines.find(l => l.facture)?.facture; if (!invoice) return; e.lines.filter(l => isAccount(l.compte, CGNC.CLIENTS, CGNC.FOURNISSEURS)).forEach(l => { const client = isAccount(l.compte, CGNC.CLIENTS); if ((type === 'client' && !client) || (type === 'supplier' && client)) return; const g=groups[l.compte] || (groups[l.compte]={code:l.compte,name:ACCOUNTS[l.compte] || l.libelle || '',amount:0,due:invoiceDate(e)}); g.amount += lineDebit(l)-lineCredit(l); }); });
-  const rows=Object.values(groups).map(g => { const due=Math.floor((asOf-g.due)/86400000), amount=Math.abs(g.amount), bucket=due<0?[amount,0,0,0,0]:due<=30?[0,amount,0,0,0]:due<=60?[0,0,amount,0,0]:due<=90?[0,0,0,amount,0]:[0,0,0,0,amount]; return [g.code,g.name,...bucket,round2(amount)]; });
-  document.getElementById('cgnc-report-body').innerHTML=cgncTable(['Code Tiers','Nom / Raison Sociale','Non Échu','0-30 Jours','31-60 Jours','61-90 Jours','+90 Jours','Total Dû'],rows); cgncReportState.exportRows=rows;
+  const type = document.getElementById('cgnc-aging-type')?.value || 'all';
+  const dateInput = document.getElementById('cgnc-aging-date')?.value || '';
+  const invoices = new Map();
+  const payments = [];
+  const isSettlementJournal = journal => /^(BANQUE|CAISSE|EFFETS|A ENCAISSER)$/i.test(String(journal || '').trim());
+  const dayNumber = value => {
+    const datePart = typeof value === 'string' && value.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (datePart) return Date.UTC(Number(datePart[1]), Number(datePart[2]) - 1, Number(datePart[3])) / 86400000;
+    const date = value instanceof Date ? value : new Date(value);
+    return Number.isNaN(date.getTime())
+      ? null
+      : Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86400000;
+  };
+  const asOfDay = dayNumber(dateInput || new Date());
+  const entryDay = entry => entry.date
+    ? dayNumber(entry.date)
+    : dayNumber(`${entry.year}-${String(entry.mois || '').padStart(2, '0')}-${String(entry.jour || '').padStart(2, '0')}`);
+  const entries = clientEntries()
+    .map(entry => ({entry, day:entryDay(entry)}))
+    .filter(item => item.day !== null && item.day <= asOfDay)
+    .sort((left, right) => left.day - right.day)
+    .map(item => item.entry);
+  entries.forEach(entry => {
+    entry.lines.forEach(line => {
+      const code = String(line.compte || '').trim();
+      const isClient = isAccount(code, CGNC.CLIENTS);
+      const isSupplier = isAccount(code, CGNC.FOURNISSEURS);
+      if ((!isClient && !isSupplier) || (type === 'client' && !isClient) || (type === 'supplier' && !isSupplier)) return;
+      const reference = String(line.facture || entry.n_facture || '').trim();
+      const normalizedAmount = isClient
+        ? lineDebit(line) - lineCredit(line)
+        : lineCredit(line) - lineDebit(line);
+      const isInvoice = normalizedAmount > 0
+        && !isSettlementJournal(entry.journal)
+        && (Boolean(reference) || /^(ACHATS|VENTES)$/i.test(String(entry.journal || '').trim()));
+      if (isInvoice) {
+        const invoiceReference = reference || String(entry.piece || '').trim();
+        if (!invoiceReference) return;
+        const key = `${code}\u0000${invoiceReference}`;
+        let invoice = invoices.get(key);
+        if (!invoice) {
+          const rawDueDate = line.dueDate || line.echeance || entry.dueDate || entry.echeance;
+          const dueDate = rawDueDate || invoiceDate(entry);
+          invoice = {
+            code,
+            name:ACCOUNTS[code] || line.libelle || '',
+            reference:invoiceReference,
+            issueDay:entryDay(entry),
+            dueDay:dayNumber(dueDate),
+            amount:0,
+            outstanding:0,
+            letters:new Set()
+          };
+          invoices.set(key, invoice);
+        }
+        invoice.amount += normalizedAmount;
+        if (line.lettre) invoice.letters.add(String(line.lettre));
+      } else {
+        payments.push({
+          code,
+          reference,
+          letter:line.lettre ? String(line.lettre) : '',
+          day:entryDay(entry),
+          amount:-normalizedAmount
+        });
+      }
+    });
+  });
+
+  const byCode = new Map();
+  const byReference = new Map();
+  const byLetter = new Map();
+  invoices.forEach(invoice => {
+    invoice.amount = round2(invoice.amount);
+    invoice.outstanding = Math.max(0, invoice.amount);
+    if (invoice.outstanding <= 0) return;
+    if (!byCode.has(invoice.code)) byCode.set(invoice.code, []);
+    byCode.get(invoice.code).push(invoice);
+    byReference.set(`${invoice.code}\u0000${invoice.reference}`, invoice);
+    invoice.letters.forEach(letter => {
+      const key = `${invoice.code}\u0000${letter}`;
+      if (!byLetter.has(key)) byLetter.set(key, []);
+      byLetter.get(key).push(invoice);
+    });
+  });
+  const applyPayment = (amount, candidates) => {
+    let remaining = Math.max(0, round2(amount));
+    for (const invoice of candidates) {
+      if (remaining <= 0) break;
+      const applied = Math.min(invoice.outstanding, remaining);
+      invoice.outstanding = round2(invoice.outstanding - applied);
+      remaining = round2(remaining - applied);
+    }
+  };
+  const invoiceOrder = (left, right) => left.issueDay - right.issueDay || left.reference.localeCompare(right.reference);
+  byCode.forEach(list => list.sort(invoiceOrder));
+  byLetter.forEach(list => list.sort(invoiceOrder));
+  payments.forEach(payment => {
+    if (payment.amount <= 0) return;
+    const invoice = payment.reference
+      ? byReference.get(`${payment.code}\u0000${payment.reference}`)
+      : null;
+    if (invoice) {
+      applyPayment(payment.amount, [invoice]);
+    } else if (payment.letter) {
+      applyPayment(payment.amount, byLetter.get(`${payment.code}\u0000${payment.letter}`) || []);
+    } else if (!payment.reference) {
+      applyPayment(payment.amount, (byCode.get(payment.code) || []).filter(invoice => invoice.issueDay <= payment.day));
+    }
+  });
+
+  const groups = new Map();
+  byCode.forEach(list => list.forEach(invoice => {
+    const amount = round2(invoice.outstanding);
+    if (amount <= 0) return;
+    const daysOverdue = asOfDay - invoice.dueDay;
+    const bucket = daysOverdue <= 0 ? 0
+      : daysOverdue <= 30 ? 1
+      : daysOverdue <= 60 ? 2
+      : daysOverdue <= 90 ? 3
+      : 4;
+    let group = groups.get(invoice.code);
+    if (!group) {
+      group = {code:invoice.code,name:invoice.name,buckets:[0,0,0,0,0]};
+      groups.set(invoice.code, group);
+    }
+    group.buckets[bucket] = round2(group.buckets[bucket] + amount);
+  }));
+  const rows = [...groups.values()].map(group => [
+    group.code,
+    group.name,
+    ...group.buckets,
+    round2(group.buckets.reduce((sum, amount) => sum + amount, 0))
+  ]);
+  const headers = ['Code Tiers','Nom / Raison Sociale','Non Échu','0-30 Jours','31-60 Jours','61-90 Jours','+90 Jours','Total Dû'];
+  const totals = headers.slice(2).map((_, index) => round2(rows.reduce((sum, row) => sum + (Number(row[index + 2]) || 0), 0)));
+  const body = rows.length
+    ? rows.map(row => `<tr>${row.map((value, index) => `<td${index >= 2 ? ' class="amount"' : ''}>${index >= 2 ? cgncMoney(Number(value) || 0) : menuEscape(value)}</td>`).join('')}</tr>`).join('')
+    : `<tr><td colspan="${headers.length}" class="empty">Aucune donnée</td></tr>`;
+  const footer = `<tfoot><tr class="total-row"><td colspan="2">TOTAUX</td>${totals.map(value => `<td class="amount">${cgncMoney(value)}</td>`).join('')}</tr></tfoot>`;
+  document.getElementById('cgnc-report-body').innerHTML = `<table class="cgnc-aged-balance-table"><thead><tr>${headers.map(header => `<th>${menuEscape(header)}</th>`).join('')}</tr></thead><tbody>${body}</tbody>${footer}</table>`;
+  cgncReportState.exportRows=rows;
 }
 function openJournalCgncReport(central) { cgncReportState.type=central?'journal-central':'journals'; cgncFilterBar(`<div class="fg"><label>Journal</label><select id="cgnc-journal-code" onchange="renderJournalCgncReport(${central})"><option value="all">Tous</option><option value="ACH">ACH</option><option value="VTE">VTE</option><option value="BQ">BQ</option><option value="CA">CA</option><option value="OD">OD</option></select></div>${central ? `<div class="fg"><label>Mois</label><select id="cgnc-journal-month" onchange="renderJournalCgncReport(true)"><option value="all">Tous les mois</option>${Array.from({length:12},(_,i)=>`<option value="${i+1}">${String(i+1).padStart(2,'0')}</option>`).join('')}</select></div>` : ''}`); cgncSet(central?'Journal Centralisateur CGNC':'Journaux CGNC',central?'Synthèse mensuelle et cumul annuel':'Détail chronologique des écritures',central?['Code Journal','Libellé','Total Débit Mois','Total Crédit Mois','Cumul Annuel']:['Date','Code Journal','Pièce','Libellé','Débit','Crédit'],[],() => renderJournalCgncReport(central)); }
 function journalCode(name) { const n=String(name||'').toUpperCase(); return n.startsWith('ACH')?'ACH':n.startsWith('VEN')?'VTE':n.startsWith('BAN')?'BQ':n.startsWith('CAI')?'CA':'OD'; }
@@ -2956,9 +3476,8 @@ function createOcrEntry() {
     const accountInput = tr.querySelector('.account-cell');
     accountInput.value = account;
     lookupAccount(accountInput);
-    tr.querySelector('.lib-cell').value = `Facture ${supplier}`;
+    tr.dataset.lineLabel = `Facture ${supplier}`;
     tr.querySelector(credit ? '.credit-input' : '.debit-input').value = amount.toFixed(2);
-    tr.querySelector('.facture-cell').value = invoice;
   });
   computeTotals();
   setOcrState('Brouillon préparé dans la saisie. Validez-le via le workflow comptable existant.');

@@ -233,13 +233,16 @@ input.acct-error { border-color:var(--danger) !important; background:#FEE2E2 !im
 .cp-section-title { font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; margin:14px 0 6px; }
 
 /* SAISIE LINE TABLE */
-#entry-table { min-width:1180px; table-layout:fixed; }
+#entry-table { width:100% !important; min-width:0 !important; table-layout:fixed; }
 #entry-table th { background:#383838; color:#fff; border-right:1px solid #555; border-bottom:1px solid #555; padding:4px 6px; height:28px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 #entry-table td { height:24px; padding:1px 4px; border-right:1px solid #D5D5D5; border-bottom:1px solid #D5D5D5; background:#F7F7F7; }
 #entry-table tbody tr:nth-child(even) td { background:#ECECEC; }
 #entry-table input, #entry-table select { width:100%; height:22px; border:1px solid transparent; border-radius:0; padding:1px 4px; font-size:11px; background:transparent; }
 #entry-table input:focus, #entry-table select:focus { border-color:var(--primary); background:#fff; outline:none; }
 #entry-table .account-general { font-weight:600; }
+#entry-table .intitule-cell { background:#f4f4f5 !important; color:#374151; cursor:default; }
+#entry-table tr.entry-credit-line .account-cell,
+#entry-table tr.entry-credit-line .intitule-cell { padding-left:2rem !important; }
 #entry-table .amount-cell { text-align:right; font-variant-numeric:tabular-nums; }
 #entry-table .row-action { width:28px; text-align:center; }
 #entry-table .row-action button { padding:1px 4px; }
@@ -267,8 +270,7 @@ input.acct-error { border-color:var(--danger) !important; background:#FEE2E2 !im
   border-right:1px solid rgba(255,255,255,0.2) !important;
   border-bottom:none !important;
 }
-#entry-table th { position:relative; resize:horizontal; overflow:hidden; white-space:nowrap; }
-#entry-table th.libelle-header { width:300px !important; min-width:250px !important; }
+#entry-table th { position:relative; resize:none; overflow:hidden; white-space:nowrap; }
 .table-container { width:100%; overflow-x:auto; }
 #entry-table td, table.saisie-table td {
   padding:6px 8px !important;
@@ -307,6 +309,34 @@ table.saisie-table tbody tr:hover td {
 }
 .cgnc-balance-table .total-row td {
   background:#e2e8f0;
+}
+.cgnc-aged-balance-table {
+  width:100%;
+  border-collapse:collapse;
+}
+.cgnc-aged-balance-table th,
+.cgnc-aged-balance-table td {
+  border:1px solid #d1d5db;
+  padding:7px 8px;
+}
+.cgnc-aged-balance-table thead th {
+  background:#e2e8f0;
+  color:#1e293b;
+  font-weight:700;
+}
+.cgnc-aged-balance-table .amount {
+  text-align:right;
+  white-space:nowrap;
+}
+.cgnc-aged-balance-table .empty {
+  padding:20px;
+  text-align:center;
+  color:var(--muted);
+}
+.cgnc-aged-balance-table tfoot .total-row td {
+  border-top:2px solid #64748b;
+  background:#e2e8f0;
+  font-weight:700;
 }
 #entry-table input, table.saisie-table input {
   border:1px solid transparent !important;

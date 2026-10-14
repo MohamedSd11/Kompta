@@ -59,7 +59,7 @@ def test_posting_rejects_accounts_outside_the_cgnc_chart(tmp_path):
         lines=[JournalLine(compte="6125", debit=10), JournalLine(compte="9998", credit=10)],
     )
 
-    with pytest.raises(ValueError, match="Unknown PCM account: 9998"):
+    with pytest.raises(ValueError, match="absent du référentiel CGNC: 9998"):
         repository.post(request)
     repository.post(request.model_copy(update={"lines": [JournalLine(compte="6125", debit=10), JournalLine(compte="5141", credit=10)]}))
     with repository._connect() as db:
