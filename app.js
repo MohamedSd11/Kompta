@@ -2,7 +2,8 @@
 // ===== KOMPTA TAX ENGINE (Python/FastAPI backend) CONNECTION =====
 // Start the backend first: `python run.py` inside kompta_tax_export/
 // It must be running at this address for export buttons to work.
-const KOMPTA_API_BASE = 'http://127.0.0.1:8000';
+// The backend serves index.html with this meta emptied (same-origin); file:// and Live Server keep the loopback default.
+const KOMPTA_API_BASE = (document.querySelector('meta[name="kompta-api-base"]')?.content ?? 'http://127.0.0.1:8000').replace(/\/+$/, '');
 // CGNC account roots shared by every prefix check in the UI.
 const CGNC = Object.freeze({ CLIENTS:'3421', FOURNISSEURS:'4411', TVA_RECUPERABLE:'3455', TVA_FACTUREE:'4455', CHARGES:'6', PRODUITS:'7', CAISSE:'516' });
 function isAccount(code, ...roots) { const value = String(code); return roots.some(root => value.startsWith(root)); }

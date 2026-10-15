@@ -1,8 +1,11 @@
 import os
+from pathlib import Path
 from urllib.parse import urlsplit
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
 
 from api import accounts_router, clients_router, export_portfolio_tva_excel, export_tva_excel, ocr_router, router as exports_router
 from api import compute_liasse_endpoint, export_simpl_is, list_journal_audit, list_journal_entries, post_journal_entry, reverse_journal_entry, save_journal_draft
@@ -69,3 +72,26 @@ app.add_api_route("/api/journal-entries/{entry_id}/reversal", reverse_journal_en
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+# Explicit routes only: mounting the project root would expose kompta.sqlite3.
+WEB_ROOT = Path(__file__).resolve().parent
+
+
+@app.get("/", include_in_schema=False)
+def index():
+    html = (WEB_ROOT / "index.html").read_text(encoding="utf-8")
+    return HTMLResponse(html.replace('name="kompta-api-base" content="http://127.0.0.1:8000"', 'name="kompta-api-base" content=""'))
+
+
+@app.get("/app.js", include_in_schema=False)
+def app_js():
+    return FileResponse(WEB_ROOT / "app.js", media_type="text/javascript")
+
+
+@app.get("/styles.css", include_in_schema=False)
+def styles_css():
+    return FileResponse(WEB_ROOT / "styles.css", media_type="text/css")
+
+
+app.mount("/vendor", StaticFiles(directory=WEB_ROOT / "vendor"), name="vendor")

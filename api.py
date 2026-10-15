@@ -26,12 +26,14 @@ from core.models import Etat9421, ExcelExportRequest, PortfolioExcelRequest, Rel
 from core.journal_service import JournalDraftSave, JournalEntryPost, JournalEntryPosted, JournalRepository
 from core.client_service import ClientRepository, ClientUpsert, FiscalYearUpsert
 from core.ocr_service import OcrDocumentStore
+from core.pcge_import import seed_catalog_if_empty
 from core.validators import validate_etat_9421, validate_releve_deductions
 
 
 journal_repository = JournalRepository()
 client_repository = ClientRepository()
 ocr_store = OcrDocumentStore()
+seed_catalog_if_empty(journal_repository.database)
 
 router = APIRouter(prefix="/api/exports", tags=["dgi-exports"])
 clients_router = APIRouter(prefix="/api/clients", tags=["clients"])

@@ -7,4 +7,9 @@ __pycache__/
 .vscode/settings.json
 .DS_Store
 
+# Local accounting data; the PCGE catalog is re-seeded from cgnc_standard_accounts.json
+kompta.sqlite3
+kompta.sqlite3-shm
+kompta.sqlite3-wal
+
 

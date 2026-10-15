@@ -6,7 +6,7 @@ and output formats have not been verified against official DGI materials.
 
 ## How to run this (no coding needed)
 
-1. **Install Python** if you don't have it: [python.org/downloads](https://www.python.org/downloads/)
+1. **Install Python 3.10 or newer** if you don't have it: [python.org/downloads](https://www.python.org/downloads/)
    (on Windows, tick "Add Python to PATH" during install).
 2. **Open a terminal in this folder** (`kompta_tax_export/`):
    - Windows: open the folder in File Explorer, type `cmd` in the address bar, press Enter.
